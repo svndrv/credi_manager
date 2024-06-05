@@ -282,22 +282,20 @@ footer{
   
 @keyframes scroll {
     0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-250px * 10)); }
+    100% { transform: translateX(calc(-150px * 10)); }
   }
   
   .slider {
     background: white;
-    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, .125);
-    height: 100px;
+    height: auto;
     margin: auto;
     overflow: hidden;
     position: relative;
-    width: 960px;
+    width: 95%;
   }
   
   .slider::before,
   .slider::after {
-    background: linear-gradient(to right, rgb(218, 212, 212) 0%, rgba(255,255,255,0) 100%);
     content: "";
     height: 100px;
     position: absolute;
@@ -322,19 +320,35 @@ footer{
     width: calc(250px * 14);
   }
   
-  .slide {
-    height: 100px;
+  .slide, .slide2 {
+    height: 8.5rem;
     width: 250px;
-    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     filter: grayscale(100%); /* Convierte las imágenes en escala de grises */
-    transition: filter 0.1s; /* Agrega una transición para suavizar el cambio */
+    transition: filter 0.60s; /* Agrega una transición para suavizar el cambio */
   }
   .slide:hover {
+    filter: grayscale(0%); 
+  }
+
+  .slide2:hover{
     filter: grayscale(0%);
   }
-  .slide img {
-    width: 55%; /* Ajusta el ancho de la imagen para que ocupe todo el espacio disponible */
-    height: 100%; /* Altura automática para mantener la relación de aspecto */
-  }
-  
 
+  .slide img {
+    width: 5rem; /* Ajusta el ancho de la imagen para que ocupe todo el espacio disponible */ /* Altura automática para mantener la relación de aspecto */
+    opacity: 50%;
+    padding: auto;
+}
+
+.slide2 img{
+    width: 12rem; 
+    opacity: 50%;
+    padding: auto;
+}
+
+
+  

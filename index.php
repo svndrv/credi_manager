@@ -20,9 +20,9 @@
 
 <body>
 
-    <?php require "includes/float-iconos.php" ?>
     <?php require "includes/navbar.php" ?>
     <?php require "views/inicio.php" ?>
+    <?php require "includes/float-iconos.php" ?>
    <!-- VIEW DE CONSULTA -->
     <?php //require "views/consulta.php" ?>
     <!-- VIEW DE FUTURAS CAMPAÑAS -->
