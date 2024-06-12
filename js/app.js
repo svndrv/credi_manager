@@ -50,19 +50,23 @@ const listar_fucampanas = function() {
             const data = JSON.parse(response);
             
             let html = ``;
+            let html2 = ``;
 
             if(data.length > 0){
                 data.map(x => {
                     const {id,dni,celular,campana} = x;
-                    html = html + `<tr><td>${id}</td><td>${dni}</td><td>${celular}</td><td>${campana}</td><td>
-                    <button class="btn btn-danger" onclick="eliminar_campana(${id})">Eliminar</button>
-                    <button class="btn btn-warning">Actualizar</button></td></tr>`;
+                    html = html + `<tr><td>${id}</td><td>${dni}</td><td>${celular}</td><td>${campana}</td></tr>`;
+
+                    html2 = html2 + `<button class="btn btn-danger" onclick="eliminar_campana(${id})">Eliminar</button>
+                    <button class="btn btn-warning">Actualizar</button><br>`;
+
                 });
             }else{
                 html = html + `<tr><td class='text-center' colspan='5'>No se encontraron resultados</td>`;
             }
 
             $("#listar_fucampanas").html(html);
+            $("#pruebaexcel").html(html2);
         }
     })
 }
@@ -183,41 +187,91 @@ const crear_campanas = function (){
 }
 
 
-function sendMail(){
-
+function sendMail() {
     var sendername = document.getElementById("sendername").value.trim();
     var to = document.getElementById("to").value.trim();
     var message = document.getElementById("message").value.trim();
+    var subject = document.getElementById("subject").value.trim();
+    var replyto = document.getElementById("replyto").value.trim();
+    
+    // Limpiar los contenedores de alertas antes de agregar nuevas alertas
+    document.getElementById("sendername-alert").innerHTML = "";
+    document.getElementById("subject-alert").innerHTML = "";
+    document.getElementById("message-alert").innerHTML = "";
 
-    if(sendername.length == 0 || to.length == 0 || message.length == 0){
-        alert("ingresa contenido a las casillas.")
-        // hacer que se haga una alerta con html
-    }else{
-        (function(){
-            emailjs.init("SZdN821G8VoZ8ZKF9"); // Llave publica de la cuenta
-        })();
-    
-        var params = {
-            sendername : document.querySelector("#sendername").value,
-            to : document.querySelector("#to").value,
-            subject : document.querySelector("#subject").value,
-            replyto : document.querySelector("#replyto").value,
-            message : document.querySelector("#message").value,
-        };
-    
-        var serviceID = "service_9omv6zk"; //email service id
-        var templateID = "template_1nlut2o"; // email template id
-    
-        emailjs.send(serviceID, templateID, params)
+    var hasError = false;
+
+    if (sendername.length == 0) {
+        document.getElementById("sendername-alert").innerHTML = `<div class="alert alert-danger" role="alert">
+        Por favor, ingresa tu nombre.
+        </div>`;
+        hasError = true;
+    }
+
+    if (to.length == 0) {
+        document.getElementById("subject-alert").innerHTML = `<div class="alert alert-danger" role="alert">
+        Por favor, ingresa un destinatario.
+        </div>`;
+        hasError = true;
+    }
+
+    if (subject.length == 0) {
+        document.getElementById("subject-alert").innerHTML = `<div class="alert alert-danger" role="alert">
+        Por favor, ingresa un asunto.
+        </div>`;
+        hasError = true;
+    }
+
+    if (replyto.length == 0) {
+        document.getElementById("subject-alert").innerHTML = `<div class="alert alert-danger" role="alert">
+        Por favor, ingresa un correo de respuesta.
+        </div>`;
+        hasError = true;
+    }
+
+    if (message.length == 0) {
+        document.getElementById("message-alert").innerHTML = `<div class="alert alert-danger" role="alert">
+        Por favor, ingresa un mensaje.
+        </div>`;
+        hasError = true;
+    }
+
+    // Si hay algún error, detener la ejecución
+    if (hasError) {
+        return;
+    }
+
+    (function() {
+        emailjs.init("SZdN821G8VoZ8ZKF9"); // Llave pública de la cuenta
+    })();
+
+    var params = {
+        sendername: sendername,
+        to: to,
+        subject: subject,
+        replyto: replyto,
+        message: message,
+    };
+
+    var serviceID = "service_9omv6zk"; // email service id
+    var templateID = "template_1nlut2o"; // email template id
+
+    emailjs.send(serviceID, templateID, params)
         .then(res => {
             Swal.fire({
-                title: "Se envio",
-                text: "Se envio correctamente el correo.",
+                title: "Enviado",
+                text: "El correo se envió correctamente.",
                 icon: "success"
-              });
+            });
         })
-        .catch();
-    }
+        .catch(error => {
+            Swal.fire({
+                title: "Error",
+                text: "Hubo un problema al enviar el correo. Por favor, intenta nuevamente.",
+                icon: "error"
+            });
+        });
 }
+
 
 

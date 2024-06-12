@@ -19,6 +19,7 @@ session_start()
     <?php require "views/consulta.php"?>
     <?php //require "includes/footer.php" ?>
     <?php  require "includes/float-iconos.php" ?>
+    <?php require "views/campana.php" ?>
 </body>
 
 <!-- BOOSTRAP -->

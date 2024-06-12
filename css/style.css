@@ -59,6 +59,9 @@ header {
 #arti-home{
     background: url('../img/cover-principal.jpg') no-repeat;
     color: white;
+    background-size: cover;
+    background-position: center; 
+
     
 
 }
