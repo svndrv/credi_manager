@@ -1,0 +1,125 @@
+<main class="content mt-3 px-5 py-4">
+    <section class="container-fluid">
+        <article class="card border-0">
+            <div class="card-header">
+                <h5 class="card-title fw-bold">
+                    Lista de consultas
+                </h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="row">
+                    <div class="col-lg-5 mb-4">
+                        <form id="form_filtro_base">
+                            <input type="text" class="form-control" id="dni" name="dni" placeholder="Ingrese un DNI">
+                    </div>
+                    <div class="col-lg-2 mb-3">
+                        <button type="submit" class="btn btn-dark w-100"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+                        </form>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nombres</th>
+                                        <th scope="col">Dni</th>
+                                        <th scope="col">Tipo de Cliente</th>
+                                        <th scope="col">Dirección</th>
+                                        <th scope="col">Distrito</th>
+                                        <th scope="col">Credito Max</th>
+                                        <th scope="col">Linea Max</th>
+                                        <th scope="col">Plazo</th>
+                                        <th scope="col">TEM</th>
+                                        <th scope="col">Celular 1</th>
+                                        <th scope="col">Celular 2</th>
+                                        <th scope="col">Celular 3</th>
+                                        <th scope="col">Producto</th>
+                                        <th scope="col">Combo</th>
+                                        <th scope="col">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listar_base">
+                                    <tr>
+                                        <td colspan="14" class="text-center">No hay datos...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <nav aria-label="Navegación de páginas">
+                                <ul id="paginacion" class="pagination justify-content-center">
+                                    <!-- Aquí se agregarán dinámicamente los enlaces de paginación -->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+</main>
+
+<div class="modal fade" id="obtener-base" tabindex="-1" aria-labelledby="obtener-baseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="obtener-baseLabel">Obtener Base</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form id="formObtenerEmpleado">
+                    <input type="hidden" name="opcion" value="base_x_id">
+                    <input type="hidden" name="option" value="agregar_ventas">
+                    <input type="hidden" name="id" id="id">
+                    <input type="text" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
+                    <input type="text" id="estado" name="estado" value="Pendiente">
+                    <div class="mb-3">
+                        <label for="nombres" class="form-label">Nombres:</label>
+                        <input type="text" class="form-control" id="nombres" name="nombres">
+                    </div>
+                    <div class="mb-3">
+                        <label for="dni" class="form-label">Dni:</label>
+                        <input type="text" class="form-control" id="dni2" name="dni">
+                    </div>
+                    <div class="mb-3">
+                        <label for="celular_1" class="form-label">Celular:</label>
+                        <input type="text" class="form-control" id="celular_1" name="celular">
+                    </div>
+                    <div class="mb-3">
+                        <label for="credito_max" class="form-label">Credito:</label>
+                        <input type="text" class="form-control" id="credito_max" name="credito">
+                    </div>  
+                    <div class="mb-3">
+                        <label for="plazo_max" class="form-label">Plazo:</label>
+                        <select class="form-select" name="plazo" id="plazo_max">
+                            <option value="0">Plazo</option>
+                            <option value="12">12</option>
+                            <option value="24">24</option>
+                            <option value="36">36</option>
+                            <option value="48">48</option>
+                            <option value="72">72</option>
+                        </select>
+                    </div>   
+                    <div class="mb-3">
+                        <label for="tipo_producto" class="form-label">Producto:</label>
+                        <select class="form-select" name="tipo_producto" id="tipo_producto">
+                            <option value="0">Producto</option>
+                            <option value="LD">LD</option>
+                            <option value="TC">TC</option>
+                            <option value="LD/TC">LD/TC</option>
+                        </select>
+                    </div>   
+                    <div class="mb-3">
+                        <label for="tem" class="form-label">TEM:</label>
+                        <input type="text" class="form-control" id="tem" name="tem">
+                    </div>
+                    
+                     
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
