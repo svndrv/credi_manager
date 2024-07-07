@@ -6,7 +6,7 @@
         </div>
         <div class="col-lg-4">
             <div class="card shadow" style="width: 23rem;">
-                <img src="img/consulta/ld-cover.jpg" class="card-img-top" alt="...">
+                <img src="img/inicio/ld-cover.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Prestamos Personales</h5>
                     <p class="card-text">Préstamo personal en efectivo que te permite, mediante el pago de cuotas fijas al mes, utilizarlo para lo que desees.</p>
@@ -15,7 +15,7 @@
         </div>
         <div class="col-lg-4">
             <div class="card shadow" style="width: 23rem;">
-                <img src="img/consulta/unica-cover.png" class="card-img-top" alt="...">
+                <img src="img/inicio/unica-cover.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Tarjeta de Crédito</h5>
                     <p class="card-text">Bono de bienvenida HASTA S/ 100 de devolución en tu primer consumo dentro de los 30 primeros días de activada la tarjeta.</p>
@@ -24,7 +24,7 @@
         </div>
         <div class="col-lg-4 mb-4">
             <div class="card shadow" style="width: 23rem;">
-                <img src="img/consulta/aseso-cover.png" class="card-img-top" alt="...">
+                <img src="img/inicio/aseso-cover.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Asesoria Financiera</h5>
                     <p class="card-text">Contactenos y le brindaremos ayuda para resolver cualquier duda acerca del rubro financiero y servicios que ofrecemos. </p>
@@ -40,10 +40,10 @@
             <h1>Consulta tu Campaña</h1>
             <hr>
         </div>
-        <div class="col-lg-4 col-sm-4 mb-3 text-center">
-            <img src="img/consulta-img.png" class="card-img-top" style="width: 11rem;">
+        <div class="col-lg-5 col-sm-4 mb-3 text-center">
+            <img src="img/inicio/consulta-img.png" class="card-img-top" style="width: 14rem;">
         </div>
-        <div class="col-lg-8 col-sm-8 d-flex align-items-center">
+        <div class="col-lg-7 col-sm-8 d-flex align-items-center">
             <form id="form_consulta" class="row" style="width: 30rem;">
                 <input type="hidden" name="option" value="crear_consulta">
                 <input type="hidden" id="campana"  name="campana">
@@ -81,32 +81,32 @@
         </div>
         <div class="col-lg-4">
             <div class="card shadow" style="width: 20rem;">
-                <img src="img/guia-img1.png" class="card-img-top" alt="...">
+                <img src="img/inicio/guia-img1.png" class="card-img-top" alt="...">
             </div>
         </div>
         <div class="col-lg-4">
             <div class="card shadow" style="width: 20rem;">
-                <img src="img/guia-img6.jpg" class="card-img-top" alt="...">
+                <img src="img/inicio/guia-img6.jpg" class="card-img-top" alt="...">
             </div>
         </div>
         <div class="col-lg-4 mb-4">
             <div class="card shadow" style="width: 20rem;">
-                <img src="img/guia-img2.png" class="card-img-top" alt="...">
+                <img src="img/inicio/guia-img2.png" class="card-img-top" alt="...">
             </div>
         </div>
         <div class="col-lg-4 mb-4">
             <div class="card shadow" style="width: 20rem;">
-                <img src="img/guia-img5.jpg" class="card-img-top" alt="...">
+                <img src="img/inicio/guia-img5.jpg" class="card-img-top" alt="...">
             </div>
         </div>
         <div class="col-lg-4 mb-4">
             <div class="card shadow" style="width: 20rem;">
-                <img src="img/guia-img3.png" class="card-img-top" alt="...">
+                <img src="img/inicio/guia-img3.png" class="card-img-top" alt="...">
             </div>
         </div>
         <div class="col-lg-4 mb-4">
             <div class="card shadow" style="width: 20rem;">
-                <img src="img/guia-img4.jpg" class="card-img-top" alt="...">
+                <img src="img/inicio/guia-img4.jpg" class="card-img-top" alt="...">
             </div>
         </div>
     </div>
@@ -121,7 +121,7 @@
         </div>
         <div class="col-lg-3 mb-2">
             <div class="card shadow" style="width: 17rem;">
-                <img src="img/acerca-img2.jpg" class="card-img-top" alt="...">
+                <img src="img/inicio/acerca-img2.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Ética</h5>
                 </div>
@@ -129,7 +129,7 @@
         </div>
         <div class="col-lg-3 mb-2">
             <div class="card shadow" style="width: 17rem;">
-                <img src="img/acerca-img1.jpg" class="card-img-top" alt="...">
+                <img src="img/inicio/acerca-img1.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Compromiso</h5>
                 </div>
@@ -137,7 +137,7 @@
         </div>
         <div class="col-lg-3 mb-2">
             <div class="card shadow" style="width: 17rem;">
-                <img src="img/acerca-img3.jpg" class="card-img-top" alt="...">
+                <img src="img/inicio/acerca-img3.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Compañerismo</h5>
                 </div>
@@ -145,7 +145,7 @@
         </div>
         <div class="col-lg-3 mb-2">
             <div class="card shadow" style="width: 17rem;">
-                <img src="img/acerca-img4.jpg" class="card-img-top" alt="...">
+                <img src="img/inicio/acerca-img4.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Perseverancia</h5>
                 </div>

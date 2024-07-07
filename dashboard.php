@@ -1,13 +1,9 @@
 <?php
-
 session_start();
 if (!isset($_SESSION['id'])) {
     header("Location:index.php");
 };
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +13,6 @@ if (!isset($_SESSION['id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrapcss/bootstrap.css">
     <link rel="stylesheet" href="css/dashboard.css">
-    <!-- <link rel="stylesheet" href="css/style.css"> -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <title>CrediManager | Dashboard</title>
     <link rel="icon" href="img/icolo-burogroup-b-white.ico">
@@ -31,8 +26,7 @@ if (!isset($_SESSION['id'])) {
         <!-- NAVEGADOR -->
         <?php require "includes/navbardb.php" ?>
         <!-- VIEWS -->
-        <?php require "views/base.php" ?>
-        <?php require "views/ventas.php" ?>
+        <?php require "views/usuarios.php" ?>
         <!-- FOOTER -->
         <?php require "includes/footerdb.php" ?>
     </div>

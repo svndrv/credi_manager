@@ -15,6 +15,8 @@ $nombres = '';
 $apellidos = '';
 $estado = '';
 $rol = '';
+$foto = '';
+$archivoFoto = '';
 
 
 if (isset($_POST['opcion']))
@@ -33,6 +35,10 @@ if (isset($_POST['rol']))
     $rol = $_POST['rol'];
 if (isset($_POST['estado']))
     $estado = $_POST['estado'];
+if (isset($_POST['foto']))
+    $foto = $_POST['foto'];
+if (isset($_POST['archivoFoto']))
+    $archivoFoto = $_POST['archivoFoto'];
 
 
 switch ($opcion) {
@@ -52,7 +58,7 @@ switch ($opcion) {
         $usuarios->actualizar_usuario($id,$usuario,$contrasena,$nombres,$apellidos,$rol,$estado);
     break;
     case 'agregar_usuario':
-        $usuarios->agregar_usuario($usuario,$contrasena,$nombres,$apellidos,$rol,$estado);
+        echo json_encode($usuarios->agregar_usuario($usuario,$contrasena,$nombres,$apellidos,$rol,$estado, $foto));
     break;
     default:
         echo json_encode($usuarios->obtener_usuarios());       

@@ -26,9 +26,6 @@ $(function () {
 });
 
 
-
-
-
 const base_x_dni = function (){
   $("#form_filtro_base").submit(function (e){
     e.preventDefault();
@@ -602,7 +599,6 @@ const obtener_usuarios = function(id){
     },
     success: function (response){
       data = JSON.parse(response);
-      console.log(data)
       $.each(data, function(i, e){
         $("#id").val(data[i]["id"]);
         $("#usuario").val(data[i]["usuario"]);
@@ -611,6 +607,8 @@ const obtener_usuarios = function(id){
         $("#apellidos").val(data[i]["apellidos"]);
         $("#estado2").val(data[i]["estado"]);
         $("#rol2").val(data[i]["rol"]);
+        
+        $(".fotoPerfil2").html(`<img src="./img/fotos/` + data[i]["foto"] +`" alt="" class='fotoPerfil rounded' style="width: 15rem;">`);
       })
     }
   })
@@ -653,19 +651,36 @@ const actualizar_usuarios = function (id){
 const crear_usuarios = function () {
   $("#formAgregarEmpleado").submit(function (e) {
     e.preventDefault();
-    var data = $(this).serialize();
+    const data = new FormData($("#formAgregarEmpleado")[0])
 
       $.ajax({
         url: "controller/usuario.php",
         method: "POST",
         data: data,
-        success: function (response) {
-          if (response == "ok") {
+        contentType: false,
+        cache: false,
+        processData: false,    
+        success: function (data) {
+          
+          
+          const response = JSON.parse(data);
+          console.log(response);
+          if (response.status == 'error') {
+            Swal.fire({
+              icon: "error",
+              title: "Lo sentimos",
+              text: response.message,
+            });
+            
+          }else{
+            Swal.fire({
+              title: "Felicidades",
+              text: response.message,
+              icon: "success",
+            });
             listar_empleados();
             $("#agregar-usuario").modal('hide');
             $("#formAgregarEmpleado").trigger('reset');
-          }else{
-            alert("algo salio mal")
           }
         },
       });
