@@ -607,6 +607,7 @@ const obtener_usuarios = function(id){
         $("#apellidos").val(data[i]["apellidos"]);
         $("#estado2").val(data[i]["estado"]);
         $("#rol2").val(data[i]["rol"]);
+        $("#archivoFoto2").val(data[i]["foto"]);
         
         $(".fotoPerfil2").html(`<img src="./img/fotos/` + data[i]["foto"] +`" alt="" class='fotoPerfil rounded' style="width: 15rem;">`);
       })
@@ -631,18 +632,34 @@ const eliminar_usuario = function (id) {
 const actualizar_usuarios = function (id){
   $("#formActualizarEmpleado").submit(function(e){
     e.preventDefault();
-    var data = $(this).serialize();
+    var data2 = $(this).serialize();
+    console.log(data2);
+    const data = new FormData($("#formActualizarEmpleado")[0])
     $.ajax({
       url: "controller/usuario.php",
       method: "POST",
       data: data,
-      success: function(response) {
-          if (response == "ok") {
-              listar_empleados();
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(data) {
+          const response = JSON.parse(data);
+          
+          if (response.status === 'error'){
+            Swal.fire({
+              icon: "error",
+              title: "Lo sentimos",
+              text: response.message,
+            });
+          }else{
+            Swal.fire({
+              title: "Felicidades",
+              text: response.message,
+              icon: "success",
+            });
+            listar_empleados();
               $("#editar-usuario").modal('hide');
               $("#formActualizarEmpleado").trigger("reset");
-          }else{
-            alert("algo salio mal")
           }
       }
     })

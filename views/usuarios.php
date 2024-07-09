@@ -130,7 +130,7 @@
                                                 </div>
                                                 <span class="btn btn-default btn-file">
                                                     <input class="form-control" type="file" name='foto' id='foto' />
-                                                    <input type="hidden" name='archivoFoto' id='archivoFoto' />
+                                                    <input type="text" name='archivoFoto' id='archivoFoto2' />
                                                 </span>
                                                 <a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload"><i class='bx bxs-trash'></i></a>
                                             </div>

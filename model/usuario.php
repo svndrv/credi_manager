@@ -1,10 +1,12 @@
-<?php 
+<?php
 
-class Usuario extends Conectar {
+class Usuario extends Conectar
+{
     private $db;
     private $usuarios;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->db = Conectar::conexion();
         $this->usuarios = array();
     }
@@ -22,7 +24,7 @@ class Usuario extends Conectar {
         $data = $sql->fetch(PDO::FETCH_ASSOC);
         $contrasenaEncriptada = $data['contrasena'];
 
-        if($data['estado'] === 'inactivo' || $data['estado'] === 'eliminado') return ["status" => "error", "message" => "El usuario esta inactivo."];
+        if ($data['estado'] === 'inactivo' || $data['estado'] === 'eliminado') return ["status" => "error", "message" => "El usuario esta inactivo."];
 
         if (password_verify($contrasena, $contrasenaEncriptada) == false)
             return ["status" => "error", "message" => "Contraseña incorrecta."];
@@ -40,24 +42,26 @@ class Usuario extends Conectar {
             //"url" => "index?view=campanas"
             "url" => "dashboard.php"
         ];
-
     }
 
-    public function obtener_usuarios(){
+    public function obtener_usuarios()
+    {
         $sql = "SELECT * FROM usuario";
         $sql = $this->db->prepare($sql);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function obtener_asesor_admin(){
+    public function obtener_asesor_admin()
+    {
         $sql = "SELECT * FROM usuario where rol != 2";
         $sql = $this->db->prepare($sql);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function obtener_x_rol_estado($rol, $estado){
+    public function obtener_x_rol_estado($rol, $estado)
+    {
         $sql = "SELECT * FROM usuario WHERE 1=1";
 
         // Agregar condiciones según los parámetros recibidos
@@ -85,8 +89,9 @@ class Usuario extends Conectar {
         // Devolver todos los resultados como un array asociativo
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    public function obtener_usuario_x_id($id){
+
+    public function obtener_usuario_x_id($id)
+    {
         $sql = "SELECT * FROM usuario WHERE id = ?";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(1, $id);
@@ -94,7 +99,8 @@ class Usuario extends Conectar {
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function eliminar_usuario($id){
+    public function eliminar_usuario($id)
+    {
         $sql = "DELETE FROM usuario WHERE id = ?";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(1, $id);
@@ -102,24 +108,73 @@ class Usuario extends Conectar {
         echo 'ok';
     }
 
-    public function actualizar_usuario($id, $usuario, $contrasena, $nombres, $apellidos, $rol, $estado){
-        $sql = "UPDATE usuario SET usuario = ?, contrasena = ?, nombres = ?, apellidos = ?, rol = ?, estado = ?, updated_at = now() WHERE id = ?";
-        $sql = $this->db->prepare($sql);
-        $sql->bindValue(1, $usuario);
-        $sql->bindValue(2, $contrasena);
-        $sql->bindValue(3, $nombres);
-        $sql->bindValue(4, $apellidos);
-        $sql->bindValue(5, $rol);
-        $sql->bindValue(6, $estado);
-        $sql->bindValue(7, $id);
-        $sql->execute();
-        echo "ok";
+    public function actualizar_usuario($id, $usuario, $contrasena, $nombres, $apellidos, $rol, $estado, $foto, $archivoFoto)
+    {
 
+        if (empty($nombres) || empty($apellidos))
+            return [
+                "status" => "error",
+                "message" => "Verfifique los campos vacios."
+            ];
+
+        if (empty($contrasena)) {
+            $sql = "UPDATE usuario SET usuario = ?, nombres = ?, apellidos = ?, rol = ?, estado = ?, foto = ?, updated_at = now() WHERE id = ?";
+            $sql = $this->db->prepare($sql);
+
+            if (empty($foto)) {
+                $nombreFoto = $archivoFoto;
+            } else {
+                $nombreFoto = uniqid() . "-" . $_FILES["foto"]['name'];
+                $ruta = "../img/fotos/" . $nombreFoto;
+                move_uploaded_file($_FILES["foto"]['tmp_name'], $ruta);
+            }
+
+            $sql->bindValue(1, $usuario);
+            $sql->bindValue(2, $nombres);
+            $sql->bindValue(3, $apellidos);
+            $sql->bindValue(4, $rol);
+            $sql->bindValue(5, $estado);
+            $sql->bindValue(6, $nombreFoto);
+            $sql->bindValue(7, $id);
+
+            return [
+                "status" => "success",
+                "message" => "Usuario editado correctamente."
+            ];
+        } else {
+            $sql = "UPDATE usuario SET usuario = ?, contrasena = ?, nombres = ?, apellidos = ?, rol = ?, estado = ?, foto = ?, updated_at = now() WHERE id = ?";
+            $sql = $this->db->prepare($sql);
+            $contrasenaEncriptada = password_hash($contrasena, PASSWORD_DEFAULT);
+
+            if (empty($foto)) {
+                $nombreFoto = $archivoFoto;
+            } else {
+                $nombreFoto = uniqid() . "-" . $_FILES["foto"]['name'];
+                $ruta = "../img/fotos/" . $nombreFoto;
+                move_uploaded_file($_FILES["foto"]['tmp_name'], $ruta);
+            }
+
+            $sql->bindValue(1, $usuario);
+            $sql->bindValue(2, $contrasenaEncriptada);
+            $sql->bindValue(3, $nombres);
+            $sql->bindValue(4, $apellidos);
+            $sql->bindValue(5, $rol);
+            $sql->bindValue(6, $estado);
+            $sql->bindValue(7, $nombreFoto);
+            $sql->bindValue(8, $id);
+            $sql->execute();
+            
+            return [
+                "status" => "success",
+                "message" => "Usuario editado correctamente."
+            ];
+        }
     }
 
-    public function agregar_usuario($usuario, $contrasena, $nombres, $apellidos, $rol, $estado, $foto){
+    public function agregar_usuario($usuario, $contrasena, $nombres, $apellidos, $rol, $estado, $foto)
+    {
 
-        if(empty($usuario) || empty($contrasena) || empty($nombres) || empty($apellidos) || empty($rol) || empty($estado))
+        if (empty($usuario) || empty($contrasena) || empty($nombres) || empty($apellidos) || empty($rol) || empty($estado))
             return [
                 "status" => "error",
                 "message" => "Verificar los campos vacios."
@@ -134,7 +189,7 @@ class Usuario extends Conectar {
             return ["status" => "error", "message" => "El usuario ya existe."];
 
         if (empty($foto))
-        $foto = 'user.jpg';   
+            $foto = 'user.jpg';
 
         $sql = "INSERT INTO usuario (usuario, contrasena, nombres, apellidos, rol, estado, foto,created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, now(), now())";
         $sql = $this->db->prepare($sql);
@@ -153,7 +208,7 @@ class Usuario extends Conectar {
         $sql->bindValue(6, $estado);
         $sql->bindValue(7, $nombreFoto);
         $sql->execute();
-        
+
         $response = [
             "status" => "success",
             "message" => "Se ha creado con exito."
@@ -162,15 +217,11 @@ class Usuario extends Conectar {
         return $response;
     }
 
-    public function obtener_ventas_por_emp(){
+    public function obtener_ventas_por_emp()
+    {
         $sql = "SELECT mu.ld_cantidad, mu.tc_cantidad, mu.ld_monto, u.nombres, u.apellidos FROM ventas_por_usuario mu INNER JOIN usuario u ON mu.id = u.id WHERE u.id = :id LIMIT 1";
         $sql = $this->db->prepare($sql);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
-
 }
-
-
-
-?>
