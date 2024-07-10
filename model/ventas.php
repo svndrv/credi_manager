@@ -28,20 +28,34 @@ class Ventas extends Conectar {
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function agregar_ventas($nombres, $dni, $celular, $credito, $plazo, $tem, $id_usuario, $tipo_producto, $estado){
-        $sql = "INSERT INTO ventas (nombres, dni, celular, credito, plazo, tem, id_usuario, tipo_producto, estado, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, now(), now())";
+    public function agregar_ventas($nombres, $dni, $celular, $credito, $linea, $plazo, $tem, $id_usuario, $tipo_producto, $estado){
+
+        if(empty($nombres) || empty($dni) || empty($celular) || empty($credito) || empty($linea) || empty($plazo) || empty($tem) || empty($id_usuario) || empty($tipo_producto) || empty($estado))
+            return [
+                "status" => "error",
+                "message" => "Verifique los espacios vacios."
+            ];
+
+        $sql = "INSERT INTO ventas (nombres, dni, celular, credito, linea,plazo, tem, id_usuario, tipo_producto, estado, created_at, updated_at) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, now(), now())";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(1, $nombres);
         $sql->bindValue(2, $dni);
         $sql->bindValue(3, $celular);
         $sql->bindValue(4, $credito);
-        $sql->bindValue(5, $plazo);
-        $sql->bindValue(6, $tem);
-        $sql->bindValue(7, $id_usuario);
-        $sql->bindValue(8, $tipo_producto);
-        $sql->bindValue(9, $estado);
+        $sql->bindValue(5, $linea);
+        $sql->bindValue(6, $plazo);
+        $sql->bindValue(7, $tem);
+        $sql->bindValue(8, $id_usuario);
+        $sql->bindValue(9, $tipo_producto);
+        $sql->bindValue(10, $estado);
         $sql->execute();
-        echo 'ok';
+
+        $response = [
+            "status" => "success",
+            "message" => "Se ha creado con exito."
+        ];
+
+        return $response;
     }
     public function contar_ld(){
         $sql = "SELECT COUNT(*) AS cantidad_ld FROM ventas WHERE tipo_producto IN ('LD', 'LD/TC')";

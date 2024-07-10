@@ -67,7 +67,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="editar-usuarioLabel">Actualizar Empleado</h1>
+                <h1 class="modal-title fs-5" id="editar-usuarioLabel">Editar Usuario</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -105,7 +105,7 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="contrasena" class="form-label">Contraseña:</label>
-                                        <input type="text" class="form-control" id="contrasena" name="contrasena">
+                                        <input type="text" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
                                     </div>
                                     <div class="mb-3">
                                         <label for="apellidos" class="form-label">Apellidos:</label>
@@ -130,7 +130,7 @@
                                                 </div>
                                                 <span class="btn btn-default btn-file">
                                                     <input class="form-control" type="file" name='foto' id='foto' />
-                                                    <input type="text" name='archivoFoto' id='archivoFoto2' />
+                                                    <input type="hidden" name='archivoFoto' id='archivoFoto2' />
                                                 </span>
                                                 <a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload"><i class='bx bxs-trash'></i></a>
                                             </div>

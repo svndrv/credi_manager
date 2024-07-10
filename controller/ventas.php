@@ -11,6 +11,7 @@ $nombres = '';
 $dni = '';
 $celular = '';
 $credito = '';
+$linea = '';
 $plazo = '';
 $tem = '';
 $id_usuario = '';
@@ -25,6 +26,7 @@ if(isset($_POST['nombres'])){ $nombres = $_POST['nombres']; }else{ $nombres = ""
 if(isset($_POST['dni'])){ $dni = $_POST['dni']; }else{ $dni = "";};
 if(isset($_POST['celular'])){ $celular = $_POST['celular']; }else{ $celular = "";};
 if(isset($_POST['credito'])){ $credito = $_POST['credito']; }else{ $credito = "";};
+if(isset($_POST['linea'])){ $linea = $_POST['linea']; }else{ $linea = "";};
 if(isset($_POST['plazo'])){ $plazo = $_POST['plazo']; }else{ $plazo = "";};
 if(isset($_POST['tem'])){ $tem = $_POST['tem']; }else{ $tem = "";};
 if(isset($_POST['id_usuario'])){ $id_usuario = $_POST['id_usuario']; }else{ $id_usuario = "";};
@@ -33,7 +35,7 @@ if(isset($_POST['estado'])){ $estado = $_POST['estado']; }else{ $estado = "";};
 
 switch ($option) {
     case 'agregar_ventas':
-        $ventas->agregar_ventas($nombres, $dni, $celular,$credito, $plazo,$tem,$id_usuario,$tipo_producto,$estado);
+        echo json_encode($ventas->agregar_ventas($nombres, $dni, $celular,$credito, $linea, $plazo,$tem,$id_usuario,$tipo_producto,$estado));
     break;
     case 'contar_filas_ld':
         echo json_encode($ventas->contar_ld());

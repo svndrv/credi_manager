@@ -1,9 +1,12 @@
 <main class="content mt-3 px-5 py-4">
     <section class="container-fluid">
+        <article class="mb-4">
+            <p><span class="fw-light fs-4">CrediManager / </span><span class="fw-bold fs-4">Base</span></p>
+        </article>
         <article class="card border-0">
             <div class="card-header">
                 <h5 class="card-title fw-bold">
-                    Lista de consultas
+                    Lista Base
                 </h5>
             </div>
             <div class="card-body p-4">
@@ -62,11 +65,11 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="obtener-baseLabel">Obtener Base</h1>
+                <h1 class="modal-title fs-5" id="obtener-baseLabel">Transladar a Ventas</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form id="formObtenerEmpleado">
+            <form id="formObtenerBase">
                     <input type="hidden" name="opcion" value="base_x_id">
                     <input type="hidden" name="option" value="agregar_ventas">
                     <input type="hidden" name="id" id="id">
@@ -87,6 +90,10 @@
                     <div class="mb-3">
                         <label for="credito_max" class="form-label">Credito:</label>
                         <input type="text" class="form-control" id="credito_max" name="credito">
+                    </div>  
+                    <div class="mb-3">
+                        <label for="linea" class="form-label">Linea:</label>
+                        <input type="text" class="form-control" id="linea" name="linea">
                     </div>  
                     <div class="mb-3">
                         <label for="plazo_max" class="form-label">Plazo:</label>

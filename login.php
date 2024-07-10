@@ -20,11 +20,11 @@ if (isset($_SESSION['id'])) {
   <link rel="icon" href="img/icolo-burogroup-b-white.ico">
 </head>
 
-<body>
+<body style="background-color: #ced4da;">
 
   <div class="container d-flex justify-content-center align-items-center min-vh-100">
     <div class="row border rounded-5 p-3 bg-white shadow box-area">
-      <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #1d468e;">
+      <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #212529;">
         <div class="featured-image mb-3">
           <img src="img/1.png" class="img-fluid" style="width: 250px;">
         </div>
@@ -52,7 +52,7 @@ if (isset($_SESSION['id'])) {
               </span>
             </div>
             <div class="input-group mb-2">
-              <button type="submit" class="btn btn-lg btn-primary w-100 fs-6">Ingresar</button>
+              <button type="submit" class="btn btn-lg btn-dark w-100 fs-6">Ingresar</button>
             </div>
           </form>
           <div class="input-group mb-5">
@@ -60,7 +60,7 @@ if (isset($_SESSION['id'])) {
           </div>
           <small class="text-secondary">
             Si no recuerdas tu cuenta, comunicate con el personal interno.
-            <a href="#">Contactarse</a>
+            <!-- <a href="#">Contactarse</a> -->
           </small>
 
         </div>

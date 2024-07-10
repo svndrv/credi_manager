@@ -111,7 +111,7 @@ class Usuario extends Conectar
     public function actualizar_usuario($id, $usuario, $contrasena, $nombres, $apellidos, $rol, $estado, $foto, $archivoFoto)
     {
 
-        if (empty($nombres) || empty($apellidos))
+        if (empty($usuario ||empty($nombres) || empty($apellidos || empty($rol) || empty($estado))))
             return [
                 "status" => "error",
                 "message" => "Verfifique los campos vacios."
@@ -136,6 +136,7 @@ class Usuario extends Conectar
             $sql->bindValue(5, $estado);
             $sql->bindValue(6, $nombreFoto);
             $sql->bindValue(7, $id);
+            $sql->execute();
 
             return [
                 "status" => "success",

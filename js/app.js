@@ -10,7 +10,6 @@ $(function () {
   contar_ld_monto();
   listar_ventas();
   crear_ventas();
-  
 
   listar_empleados();
   ventas_x_usuario();
@@ -22,12 +21,185 @@ $(function () {
   listar_metas();
   actualizar_usuarios();
   crear_usuarios();
-  
 });
 
+const ventas_x_usuario = function () {
+  $("#form_venta_usuario").submit(function (e) {
+    e.preventDefault();
+    var id_usuario = document.getElementById("id_usuario").value.trim();
+    var mes = document.getElementById("mes").value.trim();
+    $.ajax({
+      url: "controller/ventas.php",
+      method: "POST",
+      data: {
+        id_usuario: id_usuario,
+        mes: mes,
+        option: "ventas_x_usuario",
+      },
+      success: function (response) {
+        const data = JSON.parse(response);
+        let ld_cant_html = ``;
+        let tc_cant_html = ``;
+        let ld_mont_html = ``;
+        //console.log(data);
+        if (data.length > 0) {
+          data.map((x) => {
+            const { ld_cantidad, tc_cantidad, ld_monto } = x;
+            ld_cant_html =
+              ld_cant_html + `<p class="card-text">Cant. ${ld_cantidad}</p>`;
+            tc_cant_html =
+              tc_cant_html + `<p class="card-text">Cant. ${tc_cantidad}</p>`;
+            ld_mont_html =
+              ld_mont_html + `<p class="card-text">S/. ${ld_monto}</p>`;
+          });
+        } else {
+          ld_cant_html = ld_cant_html + `<p class="card-text">Cant. 0</p>`;
+          tc_cant_html = tc_cant_html + `<p class="card-text">Cant. 0</p>`;
+          ld_mont_html = ld_mont_html + `<p class="card-text">S/. 0.0</p>`;
+        }
+        $("#ld_cantidad_text").html(ld_cant_html);
+        $("#tc_cantidad_text").html(tc_cant_html);
+        $("#ld_monto_text").html(ld_mont_html);
+      },
+    });
+  });
+};
 
-const base_x_dni = function (){
-  $("#form_filtro_base").submit(function (e){
+/* -------------------   METAS   ---------------------- */
+
+const listar_metas = function () {
+  $.ajax({
+    url: "controller/meta.php",
+    success: function (response) {
+      const data = JSON.parse(response);
+      let html = ``;
+      if (data.length > 0) {
+        data.map((metas_por_usuario) => {
+          let usuario = null;
+          if (metas_por_usuario.id_usuario === 1) {
+            usuario = "Administrador";
+          } else if (metas_por_usuario.id_usuario === 3) {
+            usuario = "Asesor";
+          }
+          let mes = null;
+          if (metas_por_usuario.mes === "1") {
+            mes = "Enero";
+          } else if (metas_por_usuario.mes === "2") {
+            mes = "Febrero";
+          } else if (metas_por_usuario.mes === "3") {
+            mes = "Marzo";
+          } else if (metas_por_usuario.mes === "4") {
+            mes = "Abril";
+          } else if (metas_por_usuario.mes === "5") {
+            mes = "Mayo";
+          } else if (metas_por_usuario.mes === "6") {
+            mes = "Junio";
+          } else if (metas_por_usuario.mes === "7") {
+            mes = "Julio";
+          } else if (metas_por_usuario.mes === "8") {
+            mes = "Agosto";
+          } else if (metas_por_usuario.mes === "9") {
+            mes = "Septiembre";
+          } else if (metas_por_usuario.mes === "10") {
+            mes = "Octubre";
+          } else if (metas_por_usuario.mes === "11") {
+            mes = "Noviembre";
+          } else if (metas_por_usuario.mes === "12") {
+            mes = "Diciembre";
+          }
+
+          html =
+            html +
+            `<tr>
+          <th scope="row">
+          ${metas_por_usuario.id}
+          </th><td>${metas_por_usuario.ld_cantidad}
+          </td><td>${metas_por_usuario.ld_monto}
+          </td><td>${metas_por_usuario.tc_cantidad}
+          </td><td>${usuario}</td><td>${mes}
+          </td><td>${metas_por_usuario.cumplido}
+          </td><td><a onclick="obtener_metas(${metas_por_usuario.id})"><i class="fa-solid fa-pencil me-4"></i></a>
+          <a onclick="eliminar_meta(${metas_por_usuario.id})"><i class="fa-solid fa-trash"></i></a>
+          </td></tr>`;
+        });
+      } else {
+        html =
+          html +
+          `<tr><td class='text-center' colspan='8'>No se encontraron resultados</td></tr>`;
+      }
+      $("#listar_metas").html(html);
+    },
+  });
+};
+const eliminar_meta = function (id) {
+  $.ajax({
+    url: "controller/meta.php",
+    method: "POST",
+    data: {
+      id: id,
+      option: "eliminar_meta",
+    },
+    success: function (data) {
+      if (data == "ok") {
+        listar_metas();
+      }
+    },
+  });
+};
+const obtener_metas = function (id) {
+  $("#editar-metas").modal("show");
+  $.ajax({
+    url: "controller/meta.php",
+    method: "POST",
+    data: {
+      id: id,
+      option: "obtener_x_id",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+      $.each(data, function (i, e) {
+        $("#id").val(data[i]["id"]);
+        $("#modal_ld_cantidad").val(data[i]["ld_cantidad"]);
+        $("#modal_tc_cantidad").val(data[i]["tc_cantidad"]);
+        $("#modal_ld_monto").val(data[i]["ld_monto"]);
+        $("#modal_id_usuario").val(data[i]["id_usuario"]);
+        $("#modal_mes").val(data[i]["mes"]);
+        $("#modal_cumplido").val(data[i]["cumplido"]);
+      });
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al obtener la meta: ", error);
+      alert("Hubo un error al obtener la meta.");
+    },
+  });
+};
+const actualizar_meta = function () {
+  $("#formActualizarMeta").submit(function (e) {
+    e.preventDefault();
+    var data = $(this).serialize();
+    $.ajax({
+      url: "controller/meta.php",
+      method: "POST",
+      data: data,
+      success: function (response) {
+        if (response == "ok") {
+          listar_metas();
+          $("#editar-metas").modal("hide");
+          $("#formActualizarMeta").trigger("reset");
+        } else {
+          alert("Algo salió mal.");
+        }
+      },
+    });
+  });
+};
+
+/* ----------------------------------------------------- */
+
+/* -------------------   BASE   ---------------------- */
+
+const base_x_dni = function () {
+  $("#form_filtro_base").submit(function (e) {
     e.preventDefault();
     var dni = document.getElementById("dni").value.trim();
     $.ajax({
@@ -35,14 +207,15 @@ const base_x_dni = function (){
       method: "POST",
       data: {
         dni: dni,
-        option: "base_x_dni", 
+        option: "base_x_dni",
       },
-      success: function (response){
+      success: function (response) {
         const data = JSON.parse(response);
         let html = ``;
-        if(data.length > 0){
+        if (data.length > 0) {
           data.map((x) => {
-            const {id,
+            const {
+              id,
               dni,
               nombres,
               tipo_cliente,
@@ -59,24 +232,24 @@ const base_x_dni = function (){
               combo,
             } = x;
             html =
-            html +
-            `<tr><td>${id}</td><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td>
+              html +
+              `<tr><td>${id}</td><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td>
                 <a onclick="obtener_base(${id})"><i class="fa-solid fa-plus me-4"></i></a>
                 <a onclick="eliminar_base(${id})"><i class="fa-solid fa-trash"></i></a>
               </td></tr>`;
-        
           });
-        }else{
-          alert("No se encontro resultados. COLOCAR UNA ALERTA CON BOOSTRAP")
+        } else {
+          Swal.fire({
+            title: "No se encontraron campañas.",
+            padding: "2em"
+          });
           listarRegistros();
-          
         }
-        $("#listar_base").html(html);       
-      }
-    })
+        $("#listar_base").html(html);
+      },
+    });
   });
 };
-
 const listarRegistros = function (pagina) {
   $.ajax({
     url: "controller/base.php",
@@ -161,174 +334,6 @@ function construirPaginacion(pagina_actual) {
     },
   });
 }
-
-const ventas_x_usuario = function () {
-  $("#form_venta_usuario").submit(function (e) {
-    e.preventDefault();
-    var id_usuario = document.getElementById("id_usuario").value.trim();
-    var mes = document.getElementById("mes").value.trim();
-    $.ajax({
-      url: "controller/ventas.php",
-      method: "POST",
-      data: {
-        id_usuario: id_usuario,
-        mes: mes,
-        option: "ventas_x_usuario",
-      },
-      success: function (response) {
-        const data = JSON.parse(response);
-        let ld_cant_html = ``;
-        let tc_cant_html = ``;
-        let ld_mont_html = ``;
-        //console.log(data);
-        if (data.length > 0) {
-          data.map((x) => {
-            const { ld_cantidad, tc_cantidad, ld_monto } = x;
-            ld_cant_html =
-              ld_cant_html + `<p class="card-text">Cant. ${ld_cantidad}</p>`;
-            tc_cant_html =
-              tc_cant_html + `<p class="card-text">Cant. ${tc_cantidad}</p>`;
-            ld_mont_html =
-              ld_mont_html + `<p class="card-text">S/. ${ld_monto}</p>`;
-          });
-        } else {
-          ld_cant_html = ld_cant_html + `<p class="card-text">Cant. 0</p>`;
-          tc_cant_html = tc_cant_html + `<p class="card-text">Cant. 0</p>`;
-          ld_mont_html = ld_mont_html + `<p class="card-text">S/. 0.0</p>`;
-        }
-        $("#ld_cantidad_text").html(ld_cant_html);
-        $("#tc_cantidad_text").html(tc_cant_html);
-        $("#ld_monto_text").html(ld_mont_html);
-      },
-    });
-  });
-};
-
-const listar_metas = function () {
-  $.ajax({
-    url: "controller/meta.php",
-    success: function (response) {
-      const data = JSON.parse(response);
-      let html = ``;
-      if (data.length > 0) {
-        data.map((metas_por_usuario) => {
-            let usuario = null;
-            if (metas_por_usuario.id_usuario === 1) {
-                usuario = "Administrador"
-            } else if (metas_por_usuario.id_usuario === 3) {
-                usuario = "Asesor"
-            }
-            let mes = null;
-            if (metas_por_usuario.mes === "1") {
-              mes = "Enero";
-            } else if (metas_por_usuario.mes === "2") {
-              mes = "Febrero";
-            } else if (metas_por_usuario.mes === "3") {
-              mes = "Marzo";
-            } else if (metas_por_usuario.mes === "4") {
-              mes = "Abril";
-            } else if (metas_por_usuario.mes === "5") {
-              mes = "Mayo";
-            } else if (metas_por_usuario.mes === "6") {
-              mes = "Junio";
-            } else if (metas_por_usuario.mes === "7") {
-              mes = "Julio";
-            } else if (metas_por_usuario.mes === "8") {
-              mes = "Agosto";
-            } else if (metas_por_usuario.mes === "9") {
-              mes = "Septiembre";
-            } else if (metas_por_usuario.mes === "10") {
-              mes = "Octubre";
-            } else if (metas_por_usuario.mes === "11") {
-              mes = "Noviembre";
-            } else if (metas_por_usuario.mes === "12") {
-              mes = "Diciembre";
-            }
-          
-          html = html + `<tr>
-          <th scope="row">
-          ${metas_por_usuario.id}
-          </th><td>${metas_por_usuario.ld_cantidad}
-          </td><td>${metas_por_usuario.ld_monto}
-          </td><td>${metas_por_usuario.tc_cantidad}
-          </td><td>${usuario}</td><td>${mes}
-          </td><td>${metas_por_usuario.cumplido}
-          </td><td><a onclick="obtener_metas(${metas_por_usuario.id})"><i class="fa-solid fa-pencil me-4"></i></a>
-          <a onclick="eliminar_meta(${metas_por_usuario.id})"><i class="fa-solid fa-trash"></i></a>
-          </td></tr>`;
-        });
-      } else {
-        html =
-          html +
-          `<tr><td class='text-center' colspan='8'>No se encontraron resultados</td></tr>`;
-      }
-      $("#listar_metas").html(html);
-    },
-  });
-};
-const eliminar_meta = function (id) {
-  $.ajax({
-    url: "controller/meta.php",
-    method: "POST",
-    data: {
-      id: id,
-      option: "eliminar_meta",
-    },
-    success: function (data) {
-      if (data == "ok") {
-        listar_metas();
-      }
-    },
-  });
-};
-const obtener_metas = function (id) {
-  $("#editar-metas").modal("show");
-  $.ajax({
-    url: "controller/meta.php",
-    method: "POST",
-    data: {
-      id: id,
-      option: "obtener_x_id",
-    },
-    success: function (response) {
-      data = JSON.parse(response);
-      $.each(data, function (i, e) {
-        $("#id").val(data[i]["id"]);
-        $("#modal_ld_cantidad").val(data[i]["ld_cantidad"]);
-        $("#modal_tc_cantidad").val(data[i]["tc_cantidad"]);
-        $("#modal_ld_monto").val(data[i]["ld_monto"]);
-        $("#modal_id_usuario").val(data[i]["id_usuario"]);
-        $("#modal_mes").val(data[i]["mes"]);
-        $("#modal_cumplido").val(data[i]["cumplido"]);
-      });
-    },
-    error: function (xhr, status, error) {
-      console.error("Error al obtener la meta: ", error);
-      alert("Hubo un error al obtener la meta.");
-    }
-  });
-};
-const actualizar_meta = function(){
-  $("#formActualizarMeta").submit(function(e){
-    e.preventDefault();
-    var data = $(this).serialize();
-    $.ajax({
-      url: "controller/meta.php",
-      method: "POST",
-      data: data,
-      success: function(response) {
-          if (response == "ok") {
-              listar_metas();
-              $("#editar-metas").modal('hide');
-              $("#formActualizarMeta").trigger("reset");
-          }else{
-            alert("Algo salió mal.")
-          }
-      }
-    })
-  })
-}
-
 const obtener_base = function (id) {
   $("#obtener-base").modal("show");
   $.ajax({
@@ -346,6 +351,7 @@ const obtener_base = function (id) {
         $("#dni2").val(data[i]["dni"]);
         $("#celular_1").val(data[i]["celular_1"]);
         $("#credito_max").val(data[i]["credito_max"]);
+        $("#linea").val(data[i]["linea_max"]);
         $("#plazo_max").val(data[i]["plazo_max"]);
         $("#tipo_producto").val(data[i]["tipo_producto"]);
         $("#tem").val(data[i]["tem"]);
@@ -354,23 +360,38 @@ const obtener_base = function (id) {
     error: function (xhr, status, error) {
       console.error("Error al obtener la meta: ", error);
       alert("Hubo un error al obtener la meta.");
-    }
+    },
   });
 };
 
+/* ----------------------------------------------------- */
 
 /* -------------------   VENTAS   ---------------------- */
 
-const listar_ventas = function(){
+const listar_ventas = function () {
   $.ajax({
     url: "controller/ventas.php",
-    success: function (response){
+    success: function (response) {
       const data = JSON.parse(response);
       let html = ``;
-      if(data.length > 0){
+      if (data.length > 0) {
         data.map((x) => {
-          const {id, nombres, dni, celular, credito, linea, plazo, tem, usuario, tipo_producto, estado} = x;
-          html = html + `<tr>
+          const {
+            id,
+            nombres,
+            dni,
+            celular,
+            credito,
+            linea,
+            plazo,
+            tem,
+            usuario,
+            tipo_producto,
+            estado,
+          } = x;
+          html =
+            html +
+            `<tr>
               <td>${id}</td>
               <td>${nombres}</td>
               <td>${dni}</td>
@@ -387,80 +408,102 @@ const listar_ventas = function(){
                 <a onclick="eliminar_venta(${id})"><i class="fa-solid fa-trash"></i></a>
               </td>
             </tr>`;
-        });  
-      }else{
-        html = html +
-        `<tr><td class='text-center' colspan='11'>No se encontraron resultados.</td>`;
+        });
+      } else {
+        html =
+          html +
+          `<tr><td class='text-center' colspan='11'>No se encontraron resultados.</td>`;
       }
       $("#listar_ventas").html(html);
-    }
-
-  })
-}
-const crear_ventas = function(){
-  $("#formObtenerEmpleado").submit(function(e){
+    },
+  });
+};
+const crear_ventas = function () {
+  $("#formObtenerBase").submit(function (e) {
     e.preventDefault();
-    var data = $(this).serialize();
-
+    const data = new FormData($("#formObtenerBase")[0]);
+    var data2 = $(this).serialize();
+    console.log(data2);
     $.ajax({
       url: "controller/ventas.php",
       method: "POST",
       data: data,
-      success: function(response){
-
-        alert(data);
-      }
-    })
-  })
-  
-
-}
-var contar_ld = function(){
-    $.ajax({
-      url: "controller/ventas.php",
-      type: "POST",
-      data: {
-        option: "contar_filas_ld",
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function (data) {
+        
+        const response = JSON.parse(data);
+        
+        if (response.status == "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Lo sentimos",
+            text: response.message,
+          });
+        } else {
+          Swal.fire({
+            title: "Felicidades",
+            text: response.message,
+            icon: "success",
+            backdrop: `
+          rgba(33,219,130,0.2)
+          left top
+          no-repeat
+          `
+          });
+          $("#obtener-base").modal("hide");
+          $("#formObtenerBase").trigger("reset");
+        }
       },
-      success: function (response) {
-          const data = JSON.parse(response);
-          let html = ``;
-          if(data.length > 0){
-            data.map((x) => {
-              const {cantidad_ld} = x;
-              html = html + `<p class="card-text">Cant. ${cantidad_ld}</p>`;
-            });
-          }else{
-            html = html + `<p class="card-text">Cant. 0</p>`;
-          }
-          $("#ld_cantidad_text").html(html);
+    });
+  });
+};
+var contar_ld = function () {
+  $.ajax({
+    url: "controller/ventas.php",
+    type: "POST",
+    data: {
+      option: "contar_filas_ld",
+    },
+    success: function (response) {
+      const data = JSON.parse(response);
+      let html = ``;
+      if (data.length > 0) {
+        data.map((x) => {
+          const { cantidad_ld } = x;
+          html = html + `<p class="card-text">Cant. ${cantidad_ld}</p>`;
+        });
+      } else {
+        html = html + `<p class="card-text">Cant. 0</p>`;
       }
-    })
-}
-var contar_tc = function(){
-    $.ajax({
-      url: "controller/ventas.php",
-      type: "POST",
-      data: {
-        option: "contar_filas_tc",
-      },
-      success: function (response) {
-          const data = JSON.parse(response);
-          let html = ``;
-          if(data.length > 0){
-            data.map((x) => {
-              const {cantidad_tc} = x;
-              html = html + `<p class="card-text">Cant. ${cantidad_tc}</p>`;
-            });
-          }else{
-            html = html + `<p class="card-text">Cant. 0</p>`;
-          }
-          $("#tc_cantidad_text").html(html);
+      $("#ld_cantidad_text").html(html);
+    },
+  });
+};
+var contar_tc = function () {
+  $.ajax({
+    url: "controller/ventas.php",
+    type: "POST",
+    data: {
+      option: "contar_filas_tc",
+    },
+    success: function (response) {
+      const data = JSON.parse(response);
+      let html = ``;
+      if (data.length > 0) {
+        data.map((x) => {
+          const { cantidad_tc } = x;
+          html = html + `<p class="card-text">Cant. ${cantidad_tc}</p>`;
+        });
+      } else {
+        html = html + `<p class="card-text">Cant. 0</p>`;
       }
-    })
-}
-
-var contar_ld_monto = function(){
+      $("#tc_cantidad_text").html(html);
+    },
+  });
+};
+var contar_ld_monto = function () {
   $.ajax({
     url: "controller/ventas.php",
     type: "POST",
@@ -468,20 +511,20 @@ var contar_ld_monto = function(){
       option: "ld_monto",
     },
     success: function (response) {
-        const data = JSON.parse(response);
-        let html = ``;
-        if(data.length > 0){
-          data.map((x) => {
-            const {ld_monto} = x;
-            html = html + `<p class="card-text">S/. ${ld_monto}</p>`;
-          });
-        }else{
-          html = html + `<p class="card-text">S/. 0.0</p>`;
-        }
-        $("#ld_monto_text").html(html);
-    }
-  })
-}
+      const data = JSON.parse(response);
+      let html = ``;
+      if (data.length > 0) {
+        data.map((x) => {
+          const { ld_monto } = x;
+          html = html + `<p class="card-text">S/. ${ld_monto}</p>`;
+        });
+      } else {
+        html = html + `<p class="card-text">S/. 0.0</p>`;
+      }
+      $("#ld_monto_text").html(html);
+    },
+  });
+};
 
 /* ----------------------------------------------------- */
 
@@ -588,7 +631,7 @@ const listar_empleados = function () {
     },
   });
 };
-const obtener_usuarios = function(id){
+const obtener_usuarios = function (id) {
   $("#editar-usuario").modal("show");
   $.ajax({
     url: "controller/usuario.php",
@@ -597,30 +640,34 @@ const obtener_usuarios = function(id){
       id: id,
       opcion: "obtener_x_id_usuario",
     },
-    success: function (response){
+    success: function (response) {
       data = JSON.parse(response);
-      $.each(data, function(i, e){
+      $.each(data, function (i, e) {
         $("#id").val(data[i]["id"]);
         $("#usuario").val(data[i]["usuario"]);
-        $("#contrasena").val(data[i]["contrasena"]);
+        //$("#contrasena").val(data[i]["contrasena"]);
         $("#nombres").val(data[i]["nombres"]);
         $("#apellidos").val(data[i]["apellidos"]);
         $("#estado2").val(data[i]["estado"]);
         $("#rol2").val(data[i]["rol"]);
         $("#archivoFoto2").val(data[i]["foto"]);
-        
-        $(".fotoPerfil2").html(`<img src="./img/fotos/` + data[i]["foto"] +`" alt="" class='fotoPerfil rounded' style="width: 15rem;">`);
-      })
-    }
-  })
-}
+
+        $(".fotoPerfil2").html(
+          `<img src="./img/fotos/` +
+            data[i]["foto"] +
+            `" alt="" class='fotoPerfil rounded' style="width: 15rem;">`
+        );
+      });
+    },
+  });
+};
 const eliminar_usuario = function (id) {
   $.ajax({
     url: "controller/usuario.php",
     method: "POST",
     data: {
       id: id,
-      opcion: "eliminar_usuario"
+      opcion: "eliminar_usuario",
     },
     success: function (data) {
       if (data == "ok") {
@@ -629,12 +676,12 @@ const eliminar_usuario = function (id) {
     },
   });
 };
-const actualizar_usuarios = function (id){
-  $("#formActualizarEmpleado").submit(function(e){
+const actualizar_usuarios = function (id) {
+  $("#formActualizarEmpleado").submit(function (e) {
     e.preventDefault();
     var data2 = $(this).serialize();
     console.log(data2);
-    const data = new FormData($("#formActualizarEmpleado")[0])
+    const data = new FormData($("#formActualizarEmpleado")[0]);
     $.ajax({
       url: "controller/usuario.php",
       method: "POST",
@@ -642,66 +689,62 @@ const actualizar_usuarios = function (id){
       contentType: false,
       cache: false,
       processData: false,
-      success: function(data) {
-          const response = JSON.parse(data);
-          
-          if (response.status === 'error'){
-            Swal.fire({
-              icon: "error",
-              title: "Lo sentimos",
-              text: response.message,
-            });
-          }else{
-            Swal.fire({
-              title: "Felicidades",
-              text: response.message,
-              icon: "success",
-            });
-            listar_empleados();
-              $("#editar-usuario").modal('hide');
-              $("#formActualizarEmpleado").trigger("reset");
-          }
-      }
-    })
-  })
+      success: function (data) {
+        const response = JSON.parse(data);
+
+        if (response.status === "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Lo sentimos",
+            text: response.message,
+          });
+        } else {
+          Swal.fire({
+            title: "Felicidades",
+            text: response.message,
+            icon: "success",
+          });
+          listar_empleados();
+          $("#editar-usuario").modal("hide");
+          $("#formActualizarEmpleado").trigger("reset");
+        }
+      },
+    });
+  });
 };
 const crear_usuarios = function () {
   $("#formAgregarEmpleado").submit(function (e) {
     e.preventDefault();
-    const data = new FormData($("#formAgregarEmpleado")[0])
+    const data = new FormData($("#formAgregarEmpleado")[0]);
 
-      $.ajax({
-        url: "controller/usuario.php",
-        method: "POST",
-        data: data,
-        contentType: false,
-        cache: false,
-        processData: false,    
-        success: function (data) {
-          
-          
-          const response = JSON.parse(data);
-          console.log(response);
-          if (response.status == 'error') {
-            Swal.fire({
-              icon: "error",
-              title: "Lo sentimos",
-              text: response.message,
-            });
-            
-          }else{
-            Swal.fire({
-              title: "Felicidades",
-              text: response.message,
-              icon: "success",
-            });
-            listar_empleados();
-            $("#agregar-usuario").modal('hide');
-            $("#formAgregarEmpleado").trigger('reset');
-          }
-        },
-      });
-    
+    $.ajax({
+      url: "controller/usuario.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function (data) {
+        const response = JSON.parse(data);
+        console.log(response);
+        if (response.status == "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Lo sentimos",
+            text: response.message,
+          });
+        } else {
+          Swal.fire({
+            title: "Felicidades",
+            text: response.message,
+            icon: "success",
+          });
+          listar_empleados();
+          $("#agregar-usuario").modal("hide");
+          $("#formAgregarEmpleado").trigger("reset");
+        }
+      },
+    });
   });
 };
 
@@ -937,26 +980,26 @@ const obtener_consultas = function (id) {
     },
   });
 };
-const actualizar_consulta = function(){
-  $("#formActualizarConsulta").submit(function(e){
+const actualizar_consulta = function () {
+  $("#formActualizarConsulta").submit(function (e) {
     e.preventDefault();
     var data = $(this).serialize();
     $.ajax({
       url: "controller/consultas.php",
       method: "POST",
       data: data,
-      success: function(response) {
-          if (response == "ok") {
-              listar_consultas();
-              $("#editar-consulta").modal('hide');
-              $("#formActualizarConsulta").trigger("reset");
-          }else{
-            alert("Algo salio mal.")
-          }
-      }
-    })
-  })
-}
+      success: function (response) {
+        if (response == "ok") {
+          listar_consultas();
+          $("#editar-consulta").modal("hide");
+          $("#formActualizarConsulta").trigger("reset");
+        } else {
+          alert("Algo salio mal.");
+        }
+      },
+    });
+  });
+};
 
 /* ----------------------------------------------------- */
 

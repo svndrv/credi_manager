@@ -13,6 +13,7 @@ $tipo_cliente = '';
 $direccion = '';
 $distrito = '';
 $credito_max = '';
+$linea_max = '';
 $plazo_max = '';
 $tem = '';
 $celular_1 = '';
@@ -32,6 +33,7 @@ if(isset($_POST['tipo_cliente'])){ $tipo_cliente = $_POST['tipo_cliente']; }else
 if(isset($_POST['direccion'])){ $direccion = $_POST['direccion']; }else{ $direccion = "";};
 if(isset($_POST['distrito'])){ $distrito = $_POST['distrito']; }else{ $distrito = "";};
 if(isset($_POST['credito_max'])){ $credito_max = $_POST['credito_max']; }else{ $credito_max = "";};
+if(isset($_POST['linea_max'])){ $linea_max = $_POST['linea_max']; }else{ $linea_max = "";};
 if(isset($_POST['plazo_max'])){ $plazo_max = $_POST['plazo_max']; }else{ $plazo_max = "";};
 if(isset($_POST['tem'])){ $tem = $_POST['tem']; }else{ $tem = "";};
 if(isset($_POST['celular_1'])){ $celular_1 = $_POST['celular_1']; }else{ $celular_1 = "";};
@@ -43,7 +45,7 @@ if(isset($_POST['combo'])){ $combo = $_POST['combo']; }else{ $combo = "";};
 
 switch ($option) {
     case 'listar':
-        $por_pagina = 4; // Número de registros por página
+        $por_pagina = 5; // Número de registros por página
         $offset = ($pagina - 1) * $por_pagina;
         $registros = $base->obtener_registros_paginados($por_pagina, $offset);
         echo json_encode($registros);
