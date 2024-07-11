@@ -968,7 +968,6 @@ const obtener_consultas = function (id) {
       option: "obtener_x_id",
     },
     success: function (response) {
-      alert(response);
       data = JSON.parse(response);
       $.each(data, function (i, e) {
         $("#id2").val(data[i]["id"]);

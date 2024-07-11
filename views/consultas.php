@@ -62,33 +62,67 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="editar-consultaModalLabel">Agregar</h1>
+                <h1 class="modal-title fs-5" id="editar-consultaModalLabel">Transladar a Ventas</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="formActualizarConsulta">
-                    <input type="hidden" name="option" value="actualizar_consulta">
+                <form id="formObtenerBase">
+                    <input type="hidden" name="option" value="agregar_ventas">
                     <input type="hidden" name="id" id="id2">
-                    <div class="mb-3">
-                        <label for="dni" class="form-label">DNI:</label>
-                        <input type="text" class="form-control" id="dni2" name="dni" aria-describedby="emailHelp">
+                    <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
+                    <input type="hidden" id="estado" name="estado" value="Pendiente">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="nombres" class="form-label">Nombres:</label>
+                                <input type="text" class="form-control" id="nombres" name="nombres" aria-describedby="emailHelp">
+                            </div>
+                            <div class="mb-3">
+                                <label for="dni" class="form-label">DNI:</label>
+                                <input type="text" class="form-control" id="dni2" name="dni" aria-describedby="emailHelp">
+                            </div>
+                            <div class="mb-3">
+                                <label for="celular" class="form-label">Celular:</label>
+                                <input type="text" class="form-control" id="celular2" name="celular" aria-describedby="emailHelp">
+                            </div>
+                            <div class="mb-3">
+                                <label for="tem" class="form-label">TEM:</label>
+                                <input type="text" class="form-control" id="tem" name="tem" aria-describedby="emailHelp">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="credito_max" class="form-label">Credito:</label>
+                                <input type="text" class="form-control" id="credito_max" name="credito">
+                            </div>
+                            <div class="mb-3">
+                                <label for="linea" class="form-label">Linea:</label>
+                                <input type="text" class="form-control" id="linea" name="linea">
+                            </div>
+                            <div class="mb-3">
+                                <label for="plazo_max" class="form-label">Plazo:</label>
+                                <select class="form-select" name="plazo" id="plazo_max">
+                                    <option selected>Plazo</option>
+                                    <option value="00">0</option>
+                                    <option value="12">12</option>
+                                    <option value="24">24</option>
+                                    <option value="36">36</option>
+                                    <option value="48">48</option>
+                                    <option value="72">72</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipo_producto" class="form-label">Producto:</label>
+                                <select class="form-select" name="tipo_producto" id="tipo_producto">
+                                    <option value="0">Producto</option>
+                                    <option value="LD">LD</option>
+                                    <option value="TC">TC</option>
+                                    <option value="LD/TC">LD/TC</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="celular" class="form-label">Celular:</label>
-                        <input type="text" class="form-control" id="celular2" name="celular" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="descripcion" class="form-label">Descripción:</label>
-                        <input type="text" class="form-control" id="descripcion" name="descripcion" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="campana" class="form-label">Campana:</label>
-                        <select class="form-select" name="campana" id="campana2">
-                            <option value="0">Estado de campaña</option>
-                            <option value="Si">Si</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
+
 
             </div>
             <div class="modal-footer">

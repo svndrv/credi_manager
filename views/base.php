@@ -1,12 +1,12 @@
 <main class="content mt-3 px-5 py-4">
     <section class="container-fluid">
         <article class="mb-4">
-            <p><span class="fw-light fs-4">CrediManager / </span><span class="fw-bold fs-4">Base</span></p>
+            <p><span class="fw-light fs-4">CrediManager / </span><span class="fw-bold fs-4"><?php if ($_SESSION['rol'] != '2') { ?>Gestionar <?php } else { ?>Base <?php } ?></span></p>
         </article>
         <article class="card border-0">
             <div class="card-header">
                 <h5 class="card-title fw-bold">
-                    Lista Base
+                    <?php if ($_SESSION['rol'] != '2') { ?>Gestionar <?php } else { ?>Lista Base <?php } ?>
                 </h5>
             </div>
             <div class="card-body p-4">
@@ -69,58 +69,69 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form id="formObtenerBase">
+                <form id="formObtenerBase">
                     <input type="hidden" name="opcion" value="base_x_id">
                     <input type="hidden" name="option" value="agregar_ventas">
                     <input type="hidden" name="id" id="id">
-                    <input type="text" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
-                    <input type="text" id="estado" name="estado" value="Pendiente">
-                    <div class="mb-3">
-                        <label for="nombres" class="form-label">Nombres:</label>
-                        <input type="text" class="form-control" id="nombres" name="nombres">
+                    <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
+                    <input type="hidden" id="estado" name="estado" value="Pendiente">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="nombres" class="form-label">Nombres:</label>
+                                <input type="text" class="form-control" id="nombres" name="nombres">
+                            </div>
+                            <div class="mb-3">
+                                <label for="dni" class="form-label">Dni:</label>
+                                <input type="text" class="form-control" id="dni2" name="dni">
+                            </div>
+                            <div class="mb-3">
+                                <label for="celular_1" class="form-label">Celular:</label>
+                                <input type="text" class="form-control" id="celular_1" name="celular">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="tem" class="form-label">TEM:</label>
+                                <input type="text" class="form-control" id="tem" name="tem">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="credito_max" class="form-label">Credito:</label>
+                                <input type="text" class="form-control" id="credito_max" name="credito">
+                            </div>
+                            <div class="mb-3">
+                                <label for="linea" class="form-label">Linea:</label>
+                                <input type="text" class="form-control" id="linea" name="linea">
+                            </div>
+                            <div class="mb-3">
+                                <label for="plazo_max" class="form-label">Plazo:</label>
+                                <select class="form-select" name="plazo" id="plazo_max">
+                                    <option selected>Plazo</option>
+                                    <option value="00">0</option>
+                                    <option value="12">12</option>
+                                    <option value="24">24</option>
+                                    <option value="36">36</option>
+                                    <option value="48">48</option>
+                                    <option value="72">72</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipo_producto" class="form-label">Producto:</label>
+                                <select class="form-select" name="tipo_producto" id="tipo_producto">
+                                    <option value="0">Producto</option>
+                                    <option value="LD">LD</option>
+                                    <option value="TC">TC</option>
+                                    <option value="LD/TC">LD/TC</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="dni" class="form-label">Dni:</label>
-                        <input type="text" class="form-control" id="dni2" name="dni">
-                    </div>
-                    <div class="mb-3">
-                        <label for="celular_1" class="form-label">Celular:</label>
-                        <input type="text" class="form-control" id="celular_1" name="celular">
-                    </div>
-                    <div class="mb-3">
-                        <label for="credito_max" class="form-label">Credito:</label>
-                        <input type="text" class="form-control" id="credito_max" name="credito">
-                    </div>  
-                    <div class="mb-3">
-                        <label for="linea" class="form-label">Linea:</label>
-                        <input type="text" class="form-control" id="linea" name="linea">
-                    </div>  
-                    <div class="mb-3">
-                        <label for="plazo_max" class="form-label">Plazo:</label>
-                        <select class="form-select" name="plazo" id="plazo_max">
-                            <option value="0">Plazo</option>
-                            <option value="12">12</option>
-                            <option value="24">24</option>
-                            <option value="36">36</option>
-                            <option value="48">48</option>
-                            <option value="72">72</option>
-                        </select>
-                    </div>   
-                    <div class="mb-3">
-                        <label for="tipo_producto" class="form-label">Producto:</label>
-                        <select class="form-select" name="tipo_producto" id="tipo_producto">
-                            <option value="0">Producto</option>
-                            <option value="LD">LD</option>
-                            <option value="TC">TC</option>
-                            <option value="LD/TC">LD/TC</option>
-                        </select>
-                    </div>   
-                    <div class="mb-3">
-                        <label for="tem" class="form-label">TEM:</label>
-                        <input type="text" class="form-control" id="tem" name="tem">
-                    </div>
-                    
-                     
+
+
+
+
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
