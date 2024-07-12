@@ -1,5 +1,8 @@
 <main class="content mt-3 px-5 py-4">
     <section class="container-fluid">
+    <article class="mb-4">
+            <p><span class="fw-light fs-4">CrediManager / </span><span class="fw-bold fs-4">Consultas</span></p>
+        </article>
         <article class="card border-0">
             <div class="card-header">
                 <h5 class="card-title fw-bold">

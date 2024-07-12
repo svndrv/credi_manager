@@ -9,7 +9,7 @@ class Ventas extends Conectar {
         $this->usuarios = array();
     }
     public function obtener_ventas_x_usuario($id_usuario, $mes){
-        $sql = "SELECT ld_cantidad, tc_cantidaSd, ld_monto FROM ventas_por_usuario WHERE id_usuario = ? AND mes = ?;";
+        $sql = "SELECT ld_cantidad, tc_cantidad, ld_monto FROM ventas_por_usuario WHERE id_usuario = ? AND mes = ?;";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(1,$id_usuario);
         $sql->bindValue(2,$mes);
@@ -76,6 +76,18 @@ class Ventas extends Conectar {
         $sql = $this->db->prepare($sql);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function obtener_venta_x_id($id){
+        $sql = "SELECT * FROM venetas WHERE id = ?";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(1, $id);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function eliminar_venta(){
+        
     }
 
 }

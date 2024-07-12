@@ -46,8 +46,11 @@ switch ($option) {
     case 'ld_monto':
         echo json_encode($ventas->contar_ld_monto());
     break;
+    case 'venta_x_id':
+        echo json_encode($ventas->obtener_venta_x_id($id));
+    break;
     default:
-        echo json_encode($ventas->obtener_ventas_inner());
+        echo json_encode($ventas->obtener_ventas_inner());    
     break;
 }
 

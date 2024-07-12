@@ -453,6 +453,7 @@ const crear_ventas = function () {
           `
           });
           $("#obtener-base").modal("hide");
+          $("#editar-consulta").modal("hide");
           $("#formObtenerBase").trigger("reset");
         }
       },
@@ -522,6 +523,36 @@ var contar_ld_monto = function () {
         html = html + `<p class="card-text">S/. 0.0</p>`;
       }
       $("#ld_monto_text").html(html);
+    },
+  });
+};
+
+const obtener_ventas = function (id) {
+  $("#obtener-ventas").modal("show");
+  $.ajax({
+    url: "controller/ventas.php",
+    method: "POST",
+    data: {
+      id: id,
+      option: "venta_x_id",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+      $.each(data, function (i, e) {
+        $("#id").val(data[i]["id"]);
+        $("#nombres").val(data[i]["nombres"]);
+        $("#dni2").val(data[i]["dni"]);
+        $("#celular").val(data[i]["celular"]);
+        $("#credito").val(data[i]["credito"]);
+        $("#linea").val(data[i]["linea"]);
+        $("#plazo").val(data[i]["plazo"]);
+        $("#tipo_producto").val(data[i]["tipo_producto"]);
+        $("#tem").val(data[i]["tem"]);
+      });
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al obtener la meta: ", error);
+      alert("Hubo un error al obtener la meta.");
     },
   });
 };
@@ -770,7 +801,7 @@ const listar_consultas = function () {
               <td>${descripcion}</td>
               <td>${campana}</td>
               <td>
-                <a onclick="obtener_consultas(${id})"><i class="fa-solid fa-pencil me-4"></i></a>
+                <a onclick="obtener_consultas(${id})"><i class="fa-solid fa-plus me-4"></i></a>
                 <a onclick="eliminar_consulta(${id})"><i class="fa-solid fa-trash"></i></a>
               </td>
             </tr>`;
