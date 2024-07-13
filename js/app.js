@@ -1,4 +1,6 @@
 $(function () {
+  importar();
+
   listar_consultas();
   rellenar_consulta();
   crear_consultas();
@@ -243,7 +245,7 @@ const base_x_dni = function () {
         } else {
           Swal.fire({
             title: "No se encontraron campañas.",
-            padding: "2em"
+            padding: "2em",
           });
           listarRegistros();
         }
@@ -434,9 +436,8 @@ const crear_ventas = function () {
       cache: false,
       processData: false,
       success: function (data) {
-        
         const response = JSON.parse(data);
-        
+
         if (response.status == "error") {
           Swal.fire({
             icon: "error",
@@ -452,7 +453,7 @@ const crear_ventas = function () {
           rgba(33,219,130,0.2)
           left top
           no-repeat
-          `
+          `,
           });
           $("#obtener-base").modal("hide");
           $("#editar-consulta").modal("hide");
@@ -528,7 +529,6 @@ var contar_ld_monto = function () {
     },
   });
 };
-
 const obtener_ventas = function (id) {
   $("#obtener-ventas").modal("show");
   $.ajax({
@@ -625,7 +625,6 @@ const filtro_ventas = function () {
     });
   });
 };
-
 const actualizar_ventas = function (id) {
   $("#formObtenerVentas").submit(function (e) {
     e.preventDefault();
@@ -1130,6 +1129,52 @@ const actualizar_consulta = function () {
         } else {
           alert("Algo salio mal.");
         }
+      },
+    });
+  });
+};
+
+/* ----------------------------------------------------- */
+
+/* ---------------------- EXCEL ------------------------- */
+
+const importar = function () {
+  $("#uploadForm").on("submit", function (e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    $.ajax({
+      url: "controller/excel.php",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        if(response == "success"){
+          Swal.fire({
+            title: "Felicidades",
+            text: "La base se registro correctamente.",
+            icon: "success",
+            backdrop: `
+              rgba(33,219,130,0.2)
+              left top
+              no-repeat
+              `,
+          });
+          listarRegistros();
+          $('#file').val('');
+        }else{
+          Swal.fire({
+            title: "Error",
+            text: 'Seleccione un documento.',
+            icon: "error",
+            backdrop: `
+              rgba(242, 116, 116,0.2)
+              left top
+              no-repeat
+              `,
+          });
+        }
+   
       },
     });
   });

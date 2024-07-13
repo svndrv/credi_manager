@@ -11,14 +11,34 @@
             </div>
             <div class="card-body p-4">
                 <div class="row">
-                    <div class="col-lg-5 mb-4">
+                    <div class="col-lg-3 mb-4">
                         <form id="form_filtro_base">
                             <input type="text" class="form-control" id="dni" name="dni" placeholder="Ingrese un DNI">
                     </div>
                     <div class="col-lg-2 mb-3">
-                        <button type="submit" class="btn btn-dark w-100"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+                        <button type="submit" class="btn btn-dark w-100"><i class="fa-solid fa-magnifying-glass me-2"></i> Buscar</button>
                         </form>
                     </div>
+
+                    <?php if ($_SESSION['rol'] === '2' || $_SESSION['rol'] === '1') { ?>
+
+                        <div class="col-lg-7 mb-3">
+                            <form id="uploadForm" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <input type="file" name="file" id="file" accept=".xlsx" class="form-control">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <button type="submit" value="Upload" class="btn btn-success"><i class="fa-solid fa-file-import me-3"></i>Importar Excel</button>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    <?php }  ?>
+
                     <div class="col-lg-12">
                         <div class="table-responsive">
                             <table class="table table-hover">

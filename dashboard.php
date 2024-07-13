@@ -15,6 +15,7 @@ if (!isset($_SESSION['id'])) {
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <title>CrediManager | Dashboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="icon" href="img/icolo-burogroup-b-white.ico">
 </head>
 
@@ -26,7 +27,7 @@ if (!isset($_SESSION['id'])) {
         <!-- NAVEGADOR -->
         <?php require "includes/navbardb.php" ?>
         <!-- VIEWS -->
-        <?php require "views/ventas.php" ?>
+        <?php require "views/base.php" ?>
         <!-- FOOTER -->
         <?php require "includes/footerdb.php" ?>
     </div>
