@@ -26,7 +26,7 @@ if (!isset($_SESSION['id'])) {
         <!-- NAVEGADOR -->
         <?php require "includes/navbardb.php" ?>
         <!-- VIEWS -->
-        <?php require "views/metas.php" ?>
+        <?php require "views/ventas.php" ?>
         <!-- FOOTER -->
         <?php require "includes/footerdb.php" ?>
     </div>

@@ -10,6 +10,8 @@ $(function () {
   contar_ld_monto();
   listar_ventas();
   crear_ventas();
+  filtro_ventas();
+  actualizar_ventas();
 
   listar_empleados();
   ventas_x_usuario();
@@ -385,7 +387,7 @@ const listar_ventas = function () {
             linea,
             plazo,
             tem,
-            usuario,
+            nombre_completo,
             tipo_producto,
             estado,
           } = x;
@@ -400,7 +402,7 @@ const listar_ventas = function () {
               <td>S/.${linea}</td>
               <td>${plazo}</td>
               <td>${tem}%</td>
-              <td>${usuario}</td>
+              <td>${nombre_completo}</td>
               <td>${tipo_producto}</td>
               <td>${estado}</td>
               <td>
@@ -539,21 +541,123 @@ const obtener_ventas = function (id) {
     success: function (response) {
       data = JSON.parse(response);
       $.each(data, function (i, e) {
-        $("#id").val(data[i]["id"]);
-        $("#nombres").val(data[i]["nombres"]);
-        $("#dni2").val(data[i]["dni"]);
-        $("#celular").val(data[i]["celular"]);
-        $("#credito").val(data[i]["credito"]);
-        $("#linea").val(data[i]["linea"]);
-        $("#plazo").val(data[i]["plazo"]);
-        $("#tipo_producto").val(data[i]["tipo_producto"]);
-        $("#tem").val(data[i]["tem"]);
+        $("#id2").val(data[i]["id"]);
+        $("#nombres2").val(data[i]["nombres"]);
+        $("#dni3").val(data[i]["dni"]);
+        $("#celular2").val(data[i]["celular"]);
+        $("#credito2").val(data[i]["credito"]);
+        $("#linea2").val(data[i]["linea"]);
+        $("#plazo2").val(data[i]["plazo"]);
+        $("#tipo_producto2").val(data[i]["tipo_producto"]);
+        $("#tem2").val(data[i]["tem"]);
+        $("#nombre_completo").val(data[i]["nombre_completo"]);
+        $("#estado2").val(data[i]["estado"]);
       });
     },
     error: function (xhr, status, error) {
       console.error("Error al obtener la meta: ", error);
       alert("Hubo un error al obtener la meta.");
     },
+  });
+};
+const filtro_ventas = function () {
+  $("#form_filtro_ventas").submit(function (e) {
+    e.preventDefault();
+    var dni = document.getElementById("dni_f").value.trim();
+    var estado = document.getElementById("estado_f").value.trim();
+    var tipo_producto = document.getElementById("tipo_producto_f").value.trim();
+    $.ajax({
+      url: "controller/ventas.php",
+      method: "POST",
+      data: {
+        dni: dni,
+        estado: estado,
+        tipo_producto: tipo_producto,
+        option: "filtro_ventas",
+      },
+      success: function (response) {
+        const data = JSON.parse(response);
+        console.log(data);
+
+        let html = ``;
+        if (data.length > 0) {
+          data.map((x) => {
+            const {
+              id,
+              nombres,
+              dni,
+              celular,
+              credito,
+              linea,
+              plazo,
+              tem,
+              nombre_completo,
+              tipo_producto,
+              estado,
+            } = x;
+            html =
+              html +
+              `<tr>
+                <td>${id}</td>
+                <td>${nombres}</td>
+                <td>${dni}</td>
+                <td>${celular}</td>
+                <td>S/.${credito}</td>
+                <td>S/.${linea}</td>
+                <td>${plazo}</td>
+                <td>${tem}%</td>
+                <td>${nombre_completo}</td>
+                <td>${tipo_producto}</td>
+                <td>${estado}</td>
+                <td>
+                  <a onclick="obtener_ventas(${id})"><i class="fa-solid fa-pencil me-4"></i></a>
+                  <a onclick="eliminar_venta(${id})"><i class="fa-solid fa-trash"></i></a>
+                </td>
+              </tr>`;
+          });
+        } else {
+          html =
+            html +
+            `<tr><td class='text-center' colspan='12'>No se encontraron resultados</td>`;
+        }
+        $("#listar_ventas").html(html);
+      },
+    });
+  });
+};
+
+const actualizar_ventas = function (id) {
+  $("#formObtenerVentas").submit(function (e) {
+    e.preventDefault();
+    const data = new FormData($("#formObtenerVentas")[0]);
+    $.ajax({
+      url: "controller/ventas.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function (data) {
+        const response = JSON.parse(data);
+
+        if (response.status === "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Lo sentimos",
+            text: response.message,
+          });
+        } else {
+          Swal.fire({
+            title: "Felicidades",
+            text: response.message,
+            icon: "success",
+          });
+          listar_ventas();
+          $("#obtener-ventas").modal("hide");
+          $("#formObtenerVentas").trigger("reset");
+        }
+      },
+    });
   });
 };
 

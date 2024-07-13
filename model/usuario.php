@@ -111,7 +111,7 @@ class Usuario extends Conectar
     public function actualizar_usuario($id, $usuario, $contrasena, $nombres, $apellidos, $rol, $estado, $foto, $archivoFoto)
     {
 
-        if (empty($usuario ||empty($nombres) || empty($apellidos || empty($rol) || empty($estado))))
+        if (empty($usuario) ||empty($nombres) || empty($apellidos) || empty($rol) || empty($estado))
             return [
                 "status" => "error",
                 "message" => "Verfifique los campos vacios."

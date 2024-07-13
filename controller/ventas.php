@@ -49,8 +49,14 @@ switch ($option) {
     case 'venta_x_id':
         echo json_encode($ventas->obtener_venta_x_id($id));
     break;
+    case 'filtro_ventas':
+        echo json_encode($ventas->venta_x_dni_estado_producto($dni, $estado, $tipo_producto));
+    break;
+    case 'actualizar_ventas':
+        echo json_encode($ventas->actualizar_venta($id, $nombres, $dni, $celular, $credito, $linea, $plazo, $tem, $tipo_producto, $estado));
+    break;
     default:
-        echo json_encode($ventas->obtener_ventas_inner());    
+        echo json_encode($ventas->obtener_ventas_inner());  
     break;
 }
 
