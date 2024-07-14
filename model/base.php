@@ -45,25 +45,6 @@ class Base extends Conectar{
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // public function obtener_base_x_dni($dni){
-    //     $sql = "SELECT * FROM base WHERE 1=1";
-
-    //     if ($dni) {
-    //         $sql .= " AND dni = :dni";
-    //     }
-
-    //     $stmt = $this->db->prepare($sql);
-
-    //     if ($dni) {
-    //         $stmt->bindParam(':dni', $dni, PDO::PARAM_STR);
-    //     }
-
-    //     $stmt->execute();
-    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // }
-
-
     public function obtener_registros_paginados($limit, $offset) {
         $sql = "SELECT * FROM base LIMIT :limit OFFSET :offset";
         $stmt = $this->db->prepare($sql);
@@ -109,6 +90,16 @@ class Base extends Conectar{
             $stmt->execute();
         }
         $stmt = null; // Cierra la declaración
+    }
+
+    public function borrar_base(){
+        $sql = "TRUNCATE TABLE base";
+        $sql = $this->db->prepare($sql);
+        $sql->execute();
+        return [
+            "status" => "success",
+            "message" => "La base de elimino correctamente."
+        ];
     }
 
 

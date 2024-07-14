@@ -84,7 +84,7 @@
                             <option value="0">Estado</option>
                             <option value="Pendiente">Pendiente</option>
                             <option value="Desembolsado">Desembolsado</option>
-                            <option value="Cancelado">Cancelado</option>
+                            <!-- <option value="Cancelado">Cancelado</option> -->
                         </select>
                     </div>
                     <div class="col-lg-4 mb-4">
@@ -203,7 +203,7 @@
                                     <option value="0">Estado</option>
                                     <option value="Pendiente">Pendiente</option>
                                     <option value="Desembolsado">Desembolsado</option>
-                                    <option value="Cancelado">Cancelado</option>
+                                    <!-- <option value="Cancelado">Cancelado</option> -->
                                 </select>
                             </div>
                         </div>

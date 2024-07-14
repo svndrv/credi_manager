@@ -40,7 +40,7 @@ FROM
 INNER JOIN 
     usuario u 
 ON 
-    v.id_usuario = u.id";
+    v.id_usuario = u.id WHERE v.estado != 'Cancelado'";
         $sql = $this->db->prepare($sql);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -69,27 +69,27 @@ ON
 
         $response = [
             "status" => "success",
-            "message" => "Se ha creado con exito."
+            "message" => "Se translado la venta con éxito."
         ];
 
         return $response;
     }
     public function contar_ld(){
-        $sql = "SELECT COUNT(*) AS cantidad_ld FROM ventas WHERE tipo_producto IN ('LD', 'LD/TC')";
+        $sql = "SELECT COUNT(*) AS cantidad_ld FROM ventas WHERE tipo_producto IN ('LD', 'LD/TC') AND estado = 'Desembolsado'";
         $sql = $this->db->prepare($sql);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function contar_tc(){
-        $sql = "SELECT COUNT(*) AS cantidad_tc FROM ventas WHERE tipo_producto IN ('TC', 'LD/TC')";
+        $sql = "SELECT COUNT(*) AS cantidad_tc FROM ventas WHERE tipo_producto IN ('TC', 'LD/TC') AND estado = 'Desembolsado'";
         $sql = $this->db->prepare($sql);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function contar_ld_monto(){
-        $sql = "SELECT SUM(credito) AS ld_monto FROM ventas";
+        $sql = "SELECT SUM(credito) AS ld_monto FROM ventas WHERE estado = 'Desembolsado'";
         $sql = $this->db->prepare($sql);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -105,7 +105,7 @@ ON
     }
 
     public function eliminar_venta($id){
-        $sql = "UPDATE ventas SET estado WHERE id = ?";
+        $sql = "UPDATE ventas SET estado = ? WHERE id = ?";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(1, "Cancelado");
         $sql->bindValue(2, $id);
@@ -137,7 +137,7 @@ FROM
 INNER JOIN 
     usuario u 
 ON 
-    v.id_usuario = u.id WHERE 1 = 1";
+    v.id_usuario = u.id WHERE v.estado != 'Cancelado'";
 
         if($dni){
             $sql .= " AND v.dni = :dni";

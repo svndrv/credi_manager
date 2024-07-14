@@ -29,13 +29,14 @@
                                         <input type="file" name="file" id="file" accept=".xlsx" class="form-control">
                                     </div>
                                     <div class="col-lg-4">
-                                        <button type="submit" value="Upload" class="btn btn-success"><i class="fa-solid fa-file-import me-3"></i>Importar Excel</button>
+                                        <button type="submit" value="Upload" class="btn btn-success"><i class="fa-solid fa-file-import me-2"></i>Importar Excel</button>
                                     </div>
                                 </div>
 
                             </form>
 
                         </div>
+                        
 
                     <?php }  ?>
 
@@ -44,7 +45,6 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
                                         <th scope="col">Nombres</th>
                                         <th scope="col">Dni</th>
                                         <th scope="col">Tipo de Cliente</th>
@@ -75,6 +75,9 @@
                             </nav>
                         </div>
                     </div>
+                    <div class="col-lg-12 mb-3 d-flex justify-content-start mt-3">
+                            <button type="button" id="btn-borrar-base" class="btn btn-danger"><i class="fa-solid fa-trash me-2"></i>Borrar base</button>
+                        </div>
                 </div>
             </div>
         </article>

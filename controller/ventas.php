@@ -55,6 +55,10 @@ switch ($option) {
     case 'actualizar_ventas':
         echo json_encode($ventas->actualizar_venta($id, $nombres, $dni, $celular, $credito, $linea, $plazo, $tem, $tipo_producto, $estado));
     break;
+    case 'eliminar_ventas':
+        $id = $_POST['id'];
+        echo json_encode($ventas->eliminar_venta($id));
+    break;
     default:
         echo json_encode($ventas->obtener_ventas_inner());  
     break;

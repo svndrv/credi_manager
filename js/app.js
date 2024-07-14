@@ -7,6 +7,8 @@ $(function () {
   filtro_consultas();
   actualizar_consulta();
 
+  borrar_base();
+
   contar_ld();
   contar_tc();
   contar_ld_monto();
@@ -237,9 +239,8 @@ const base_x_dni = function () {
             } = x;
             html =
               html +
-              `<tr><td>${id}</td><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td>
+              `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td>
                 <a onclick="obtener_base(${id})"><i class="fa-solid fa-plus me-4"></i></a>
-                <a onclick="eliminar_base(${id})"><i class="fa-solid fa-trash"></i></a>
               </td></tr>`;
           });
         } else {
@@ -283,9 +284,8 @@ const listarRegistros = function (pagina) {
           } = x;
           html =
             html +
-            `<tr><td>${id}</td><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td>
+            `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td>
                 <a onclick="obtener_base(${id})"><i class="fa-solid fa-plus me-4"></i></a>
-                <a onclick="eliminar_base(${id})"><i class="fa-solid fa-trash"></i></a>
               </td></tr>`;
         });
       } else {
@@ -365,6 +365,49 @@ const obtener_base = function (id) {
       console.error("Error al obtener la meta: ", error);
       alert("Hubo un error al obtener la meta.");
     },
+  });
+};
+
+const borrar_base = function () {
+  $("#btn-borrar-base").click(function (e) {
+    e.preventDefault();
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "La base será eliminada.",
+      showCancelButton: true,
+      confirmButtonColor: "rgb(33,219,130)",
+      cancelButtonColor: "#d33",      
+      confirmButtonText: "Si",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "controller/base.php",
+          method: "POST",
+          data: {
+            option: "borrar_base",
+          },
+          success: function (data) {
+            const response = JSON.parse(data);
+            if (response.status === "success") {
+              Swal.fire({
+                title: "Ejecución Exitosa.",
+                text: response.message,
+                icon: "success",
+                backdrop: `
+              rgba(33,219,130,0.2)
+              left top
+              no-repeat
+              `,
+              });
+              listarRegistros();
+            } else {
+              alert("algo salio mal" + data);
+            }
+          },
+        });
+      }
+    });
   });
 };
 
@@ -652,11 +695,55 @@ const actualizar_ventas = function (id) {
             icon: "success",
           });
           listar_ventas();
+          contar_ld();
+          contar_tc();
+          contar_ld_monto();
           $("#obtener-ventas").modal("hide");
           $("#formObtenerVentas").trigger("reset");
         }
       },
     });
+  });
+};
+
+const eliminar_venta = function (id) {
+  Swal.fire({
+    title: "¿Estas seguro?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "controller/ventas.php",
+        method: "POST",
+        data: {
+          id: id,
+          option: "eliminar_ventas",
+        },
+        success: function (data) {
+          const response = JSON.parse(data);
+          if (response.status === "success") {
+            Swal.fire({
+              title: "Felicidades",
+              text: response.message,
+              icon: "success",
+            });
+            listar_ventas();
+            contar_ld();
+            contar_tc();
+            contar_ld_monto();
+            $("#obtener-ventas").modal("hide");
+            $("#formObtenerVentas").trigger("reset");
+          } else {
+            alert("algo salio mal" + data);
+          }
+        },
+      });
+    }
   });
 };
 
@@ -1149,7 +1236,7 @@ const importar = function () {
       processData: false,
       contentType: false,
       success: function (response) {
-        if(response == "success"){
+        if (response == "success") {
           Swal.fire({
             title: "Felicidades",
             text: "La base se registro correctamente.",
@@ -1161,11 +1248,11 @@ const importar = function () {
               `,
           });
           listarRegistros();
-          $('#file').val('');
-        }else{
+          $("#file").val("");
+        } else {
           Swal.fire({
             title: "Error",
-            text: 'Seleccione un documento.',
+            text: "Seleccione un documento.",
             icon: "error",
             backdrop: `
               rgba(242, 116, 116,0.2)
@@ -1174,7 +1261,6 @@ const importar = function () {
               `,
           });
         }
-   
       },
     });
   });

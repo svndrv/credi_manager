@@ -55,14 +55,15 @@ switch ($option) {
         $total_registros = $base->contar_registros();
         echo json_encode(['total' => $total_registros]);
     break;
-    
     case 'base_x_dni':
         echo json_encode($base->obtener_base_x_dni($dni));
     break;
     case 'base_x_id':
         echo json_encode($base->obtener_base_x_id($id));
     break;
-
+    case 'borrar_base':
+        echo json_encode($base->borrar_base());
+    break;
     default:
         echo json_encode(['error' => 'Opción no válida']);
     break;
