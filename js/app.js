@@ -1,32 +1,52 @@
+const url = new URL(window.location.href);
+const params = new URLSearchParams(url.search);
+
 $(function () {
-  importar();
 
-  listar_consultas();
-  rellenar_consulta();
-  crear_consultas();
-  filtro_consultas();
-  actualizar_consulta();
 
-  borrar_base();
+  if (params.get("view") === "gestionar") {
+    base_x_dni();
+    listarRegistros(1);
+    construirPaginacion();
+    borrar_base();
+    importar();
+    crear_ventas();
+  }
 
-  contar_ld();
-  contar_tc();
-  contar_ld_monto();
-  listar_ventas();
-  crear_ventas();
-  filtro_ventas();
-  actualizar_ventas();
+  if (params.get("view") === "consultas") {
+    listar_consultas(); 
+    filtro_consultas();
+    actualizar_consulta();
+    crear_ventas();
+  }else{
+    crear_consultas();
+    rellenar_consulta(); 
+  }
 
-  listar_empleados();
-  ventas_x_usuario();
-  select_usuarios();
-  filtro_empleados();
-  base_x_dni();
-  listarRegistros(1);
-  construirPaginacion();
-  listar_metas();
-  actualizar_usuarios();
-  crear_usuarios();
+  if (params.get("view") === "ventas") {
+    contar_ld();
+    contar_tc();
+    contar_ld_monto();
+    listar_ventas();
+    crear_ventas();
+    filtro_ventas();
+    actualizar_ventas();
+  }
+
+  if (params.get("view") === "usuarios") {
+    listar_empleados();
+    ventas_x_usuario();
+    select_usuarios();
+    filtro_empleados();
+    actualizar_usuarios();
+    crear_usuarios();
+  }
+
+  if (params.get("view") === "metas") {
+    listar_metas();
+  }
+
+  
 });
 
 const ventas_x_usuario = function () {
@@ -376,7 +396,7 @@ const borrar_base = function () {
       text: "La base será eliminada.",
       showCancelButton: true,
       confirmButtonColor: "rgb(33,219,130)",
-      cancelButtonColor: "#d33",      
+      cancelButtonColor: "#d33",
       confirmButtonText: "Si",
       cancelButtonText: "Cancelar",
     }).then((result) => {
@@ -929,11 +949,11 @@ const actualizar_usuarios = function (id) {
             didOpen: (toast) => {
               toast.onmouseenter = Swal.stopTimer;
               toast.onmouseleave = Swal.resumeTimer;
-            }
+            },
           });
           Toast.fire({
             icon: "success",
-            title: response.message
+            title: response.message,
           });
           listar_empleados();
           $("#editar-usuario").modal("hide");
@@ -974,11 +994,11 @@ const crear_usuarios = function () {
             didOpen: (toast) => {
               toast.onmouseenter = Swal.stopTimer;
               toast.onmouseleave = Swal.resumeTimer;
-            }
+            },
           });
           Toast.fire({
             icon: "success",
-            title: response.message
+            title: response.message,
           });
           listar_empleados();
           $("#agregar-usuario").modal("hide");
