@@ -40,7 +40,7 @@ class Usuario extends Conectar
         return [
             "status" => "success",
             //"url" => "index?view=campanas"
-            "url" => "dashboard.php"
+            "url" => "dashboard.php?view=inicio"
         ];
     }
 

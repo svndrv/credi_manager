@@ -10,60 +10,58 @@
             <li class="sidebar-header">
                 Elementos de <?php echo $_SESSION['usuario'] ?>
             </li>
-            
-            <?php if ($_SESSION['rol'] === '1') { ?>
+
+            <li class="sidebar-item">
+                <a href="dashboard.php?view=inicio" class="sidebar-link">
+                    <i class="fa-solid fa-house pe-2"></i>
+                    Inicio
+                </a>
+            </li>
+
+            <?php if ($_SESSION['rol'] === '1' || $_SESSION['rol'] === '3') { ?>
                 <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="fa-solid fa-coins pe-2"></i>
-                    Ventas
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="fa-solid fa-users pe-2"></i>
-                    Empleados
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="fa-solid fa-list pe-2"></i>
-                    Lista de Consultas
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="fa-solid fa-file-lines pe-2"></i>
-                    Gestionar
-                </a>
-            </li>
-            <?php }  ?>
+                    <a href="dashboard.php?view=gestionar" class="sidebar-link">
+                        <i class="fa-solid fa-file-lines pe-2"></i>
+                        Gestionar
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="dashboard.php?view=consultas" class="sidebar-link">
+                        <i class="fa-solid fa-sack-dollar pe-2"></i>
+                        Consultas
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="dashboard.php?view=ventas" class="sidebar-link">
+                        <i class="fa-solid fa-sack-dollar pe-2"></i>
+                        Ventas
+                    </a>
+                </li>
+
+            <?php } ?>
+
             <?php if ($_SESSION['rol'] === '2') { ?>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="dashboard.php?view=metas" class="sidebar-link">
                         <i class="fa-solid fa-bullseye pe-2"></i>
                         Metas
                     </a>
                 </li>
                 <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="fa-solid fa-database pe-2"></i>
-                    Base
-                </a>
-            </li>
+                    <a href="dashboard.php?view=base" class="sidebar-link">
+                        <i class="fa-solid fa-database pe-2"></i>
+                        Base
+                    </a>
+                </li>
             <?php }  ?>
-            <?php if ($_SESSION['rol'] === '3') { ?>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="fa-solid fa-list pe-2"></i>
-                    Lista de Consultas
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="fa-solid fa-file-lines pe-2"></i>
-                    Gestionar
-                </a>
-            </li>
+
+            <?php if ($_SESSION['rol'] === '1') { ?>
+                <li class="sidebar-item">
+                    <a href="dashboard.php?view=usuarios" class="sidebar-link">
+                        <i class="fa-solid fa-users pe-2"></i>
+                        Usuarios
+                    </a>
+                </li>
             <?php }  ?>
         </ul>
     </div>

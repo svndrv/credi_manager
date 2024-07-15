@@ -1,9 +1,12 @@
 <main class="content mt-3 px-5 py-4">
     <div class="container-fluid">
+    <article class="mb-4">
+            <p><span class="fw-light fs-4">CrediManager / </span><span class="fw-bold fs-4">Usuarios</span></p>
+        </article>
         <div class="card border-0">
             <div class="card-header">
                 <h5 class="card-title fw-bold">
-                    Empleados
+                    Usuarios
                 </h5>
             </div>
             <div class="card-body p-4">

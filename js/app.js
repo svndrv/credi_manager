@@ -587,7 +587,7 @@ const obtener_ventas = function (id) {
         $("#id2").val(data[i]["id"]);
         $("#nombres2").val(data[i]["nombres"]);
         $("#dni3").val(data[i]["dni"]);
-        $("#celular2").val(data[i]["celular"]);
+        $("#celular3").val(data[i]["celular"]);
         $("#credito2").val(data[i]["credito"]);
         $("#linea2").val(data[i]["linea"]);
         $("#plazo2").val(data[i]["plazo"]);
@@ -920,10 +920,20 @@ const actualizar_usuarios = function (id) {
             text: response.message,
           });
         } else {
-          Swal.fire({
-            title: "Felicidades",
-            text: response.message,
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
             icon: "success",
+            title: response.message
           });
           listar_empleados();
           $("#editar-usuario").modal("hide");
@@ -955,10 +965,20 @@ const crear_usuarios = function () {
             text: response.message,
           });
         } else {
-          Swal.fire({
-            title: "Felicidades",
-            text: response.message,
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
             icon: "success",
+            title: response.message
           });
           listar_empleados();
           $("#agregar-usuario").modal("hide");

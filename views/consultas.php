@@ -90,17 +90,17 @@
                             </div>
                             <div class="mb-3">
                                 <label for="tem" class="form-label">TEM:</label>
-                                <input type="text" class="form-control" id="tem" name="tem" aria-describedby="emailHelp">
+                                <input type="text" class="form-control" id="tem" name="tem" aria-describedby="emailHelp" value="0.00">
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="mb-3">
                                 <label for="credito_max" class="form-label">Credito:</label>
-                                <input type="text" class="form-control" id="credito_max" name="credito">
+                                <input type="text" class="form-control" id="credito_max" name="credito" value="0.000">
                             </div>
                             <div class="mb-3">
                                 <label for="linea" class="form-label">Linea:</label>
-                                <input type="text" class="form-control" id="linea" name="linea">
+                                <input type="text" class="form-control" id="linea" name="linea" value="0.000">
                             </div>
                             <div class="mb-3">
                                 <label for="plazo_max" class="form-label">Plazo:</label>

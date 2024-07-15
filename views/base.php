@@ -1,4 +1,4 @@
-<main class="content mt-3 px-5 py-4">
+<main class="content  mt-3 px-5 py-4">
     <section class="container-fluid">
         <article class="mb-4">
             <p><span class="fw-light fs-4">CrediManager / </span><span class="fw-bold fs-4"><?php if ($_SESSION['rol'] != '2') { ?>Gestionar <?php } else { ?>Base <?php } ?></span></p>
@@ -75,9 +75,14 @@
                             </nav>
                         </div>
                     </div>
-                    <div class="col-lg-12 mb-3 d-flex justify-content-start mt-3">
+
+                    <?php if ($_SESSION['rol'] === '2' || $_SESSION['rol'] === '1') { ?>
+
+                    <div class="col-lg-12 mb-3 d-flex justify-content-start mt-4">
                             <button type="button" id="btn-borrar-base" class="btn btn-danger"><i class="fa-solid fa-trash me-2"></i>Borrar base</button>
                         </div>
+
+                    <?php } ?>
                 </div>
             </div>
         </article>

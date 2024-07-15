@@ -22,12 +22,41 @@ if (!isset($_SESSION['id'])) {
 <div class="wrapper">
 
     <!-- ASIDE -->
+    
     <?php require "includes/sidebar-left.php" ?>
     <div class="main">
         <!-- NAVEGADOR -->
         <?php require "includes/navbardb.php" ?>
+
+
+        <?php $view = $_GET['view']; ?>
         <!-- VIEWS -->
-        <?php require "views/base.php" ?>
+
+        <?php
+
+        switch ($view) {
+            case "gestionar":
+                require './views/base.php';
+                break;
+            case "usuarios":
+                require './views/usuarios.php';
+                break;
+            case "consultas":
+                require './views/consultas.php';
+                break;
+            case "metas":
+                require './views/metas.php';
+                break;
+            case "ventas":
+                require './views/ventas.php';
+                break;
+            default:
+                require './views/inicio.php';
+                break;
+        }
+
+        ?>
+
         <!-- FOOTER -->
         <?php require "includes/footerdb.php" ?>
     </div>
