@@ -36,6 +36,9 @@ switch($option){
     case "obtener_x_id":
         echo json_encode($metas->obtener_meta_x_id($id));
     break;
+    case 'agregar_meta':
+        echo json_encode($metas->agregar_meta($ld_cantidad, $ld_monto, $tc_cantidad, $id_usuario, $mes, $cumplido));
+    break;
     default:
         echo json_encode($metas->obtener_metas());
     break;

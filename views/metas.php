@@ -16,8 +16,6 @@
 
                             <select class="form-select mb-4" aria-label="Default select example" id="id_usuario" name="id_usuario">
                                 <option value=0>Seleccionar Usuario</option>
-                                <option value=1>Administrador</option>
-                                <option value=3>Asesor</option>
                             </select>
                     </div>
                     <div class="col-lg-3">
@@ -52,7 +50,11 @@
                     </div>
                 </div>
                     </form>
-                    <button type="submit" class="btn btn-success"><i class="fa-solid fa-magnifying-glass"></i>Agregar</button>
+                    <div class="col-lg-12 d-flex justify-content-end mb-4">
+                    <button type="button" class="btn btn-warning px-5 text-white" data-bs-toggle="modal" data-bs-target="#agregar-meta">
+                        <i class="fa-solid fa-user-plus me-2"></i> Agregar
+                    </button>
+                </div>
                     <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -105,9 +107,7 @@
                     <div class="mb-3">
                         <label for="id_usuario" class="form-label">Usuario:</label>
                         <select class="form-select" name="id_usuario" id="modal_id_usuario">
-                            <option value="0">Seleccionar usuario</option>
-                            <option value="1">Administrador</option>
-                            <option value="3">Asesor</option>
+                            
                         </select>
                     </div>
                     <div class="mb-3">
@@ -146,3 +146,80 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="agregar-meta" tabindex="-1" aria-labelledby="agregar-metaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="agregar-metaLabel">Agregar Meta</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formAgregarMeta">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input type="hidden" name="option" value="agregar_meta">
+                                    <input type="hidden" name="id" id="id">
+                                    <div class="mb-3">
+                                        <label for="ld_cantidad" class="form-label">LD Cantidad:</label>
+                                        <input type="number" class="form-control" id="ld_cantidad" name="ld_cantidad">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ld_monto" class="form-label">LD Monto:</label>
+                                        <input type="number" class="form-control" id="ld_monto" name="ld_monto">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tc_cantidad" class="form-label">TC Cantidad:</label>
+                                        <input type="number" class="form-control" id="tc_cantidad" name="tc_cantidad">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="id_usuario" class="form-label">Usuario:</label>
+                                        <select class="form-select" name="id_usuario" id="id_usuario2">
+                                            <option value="0">Selecciona usuario</option>
+                                            <!-- Opciones de usuarios se llenarán dinámicamente -->
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="mes" class="form-label">Mes:</label>
+                                        <select class="form-select" name="mes" id="mes">
+                                            <option value="0">Seleccionar mes</option>
+                                            <option value="1">Enero</option>
+                                            <option value="2">Febrero</option>
+                                            <option value="3">Marzo</option>
+                                            <option value="4">Abril</option>
+                                            <option value="5">Mayo</option>
+                                            <option value="6">Junio</option>
+                                            <option value="7">Julio</option>
+                                            <option value="8">Agosto</option>
+                                            <option value="9">Septiembre</option>
+                                            <option value="10">Octubre</option>
+                                            <option value="11">Noviembre</option>
+                                            <option value="12">Diciembre</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="cumplido" class="form-label">Cumplido:</label>
+                                        <select class="form-select" name="cumplido" id="cumplido">
+                                            <option value="0">Seleccionar estado</option>
+                                            <option value="Si">Si</option>
+                                            <option value="No">No</option>
+                                            <option value="Pendiente">Pendiente</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-success">Registrar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+

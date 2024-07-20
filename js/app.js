@@ -44,6 +44,11 @@ $(function () {
 
   if (params.get("view") === "metas") {
     listar_metas();
+    crear_metas();
+    actualizar_meta();
+    select_usuarios();
+  }else{
+    
   }
 
   
@@ -91,6 +96,8 @@ const ventas_x_usuario = function () {
   });
 };
 
+
+
 /* -------------------   METAS   ---------------------- */
 
 const listar_metas = function () {
@@ -101,62 +108,75 @@ const listar_metas = function () {
       let html = ``;
       if (data.length > 0) {
         data.map((metas_por_usuario) => {
-          let usuario = null;
-          if (metas_por_usuario.id_usuario === 1) {
-            usuario = "Administrador";
-          } else if (metas_por_usuario.id_usuario === 3) {
-            usuario = "Asesor";
-          }
           let mes = null;
-          if (metas_por_usuario.mes === "1") {
-            mes = "Enero";
-          } else if (metas_por_usuario.mes === "2") {
-            mes = "Febrero";
-          } else if (metas_por_usuario.mes === "3") {
-            mes = "Marzo";
-          } else if (metas_por_usuario.mes === "4") {
-            mes = "Abril";
-          } else if (metas_por_usuario.mes === "5") {
-            mes = "Mayo";
-          } else if (metas_por_usuario.mes === "6") {
-            mes = "Junio";
-          } else if (metas_por_usuario.mes === "7") {
-            mes = "Julio";
-          } else if (metas_por_usuario.mes === "8") {
-            mes = "Agosto";
-          } else if (metas_por_usuario.mes === "9") {
-            mes = "Septiembre";
-          } else if (metas_por_usuario.mes === "10") {
-            mes = "Octubre";
-          } else if (metas_por_usuario.mes === "11") {
-            mes = "Noviembre";
-          } else if (metas_por_usuario.mes === "12") {
-            mes = "Diciembre";
+          switch (metas_por_usuario.mes) {
+            case "1":
+              mes = "Enero";
+              break;
+            case "2":
+              mes = "Febrero";
+              break;
+            case "3":
+              mes = "Marzo";
+              break;
+            case "4":
+              mes = "Abril";
+              break;
+            case "5":
+              mes = "Mayo";
+              break;
+            case "6":
+              mes = "Junio";
+              break;
+            case "7":
+              mes = "Julio";
+              break;
+            case "8":
+              mes = "Agosto";
+              break;
+            case "9":
+              mes = "Septiembre";
+              break;
+            case "10":
+              mes = "Octubre";
+              break;
+            case "11":
+              mes = "Noviembre";
+              break;
+            case "12":
+              mes = "Diciembre";
+              break;
+            default:
+              mes = "Mes desconocido";
           }
 
-          html =
-            html +
-            `<tr>
-          <th scope="row">
-          ${metas_por_usuario.id}
-          </th><td>${metas_por_usuario.ld_cantidad}
-          </td><td>${metas_por_usuario.ld_monto}
-          </td><td>${metas_por_usuario.tc_cantidad}
-          </td><td>${usuario}</td><td>${mes}
-          </td><td>${metas_por_usuario.cumplido}
-          </td><td><a onclick="obtener_metas(${metas_por_usuario.id})"><i class="fa-solid fa-pencil me-4"></i></a>
-          <a onclick="eliminar_meta(${metas_por_usuario.id})"><i class="fa-solid fa-trash"></i></a>
-          </td></tr>`;
+          html += `
+            <tr>
+              <th scope="row">${metas_por_usuario.id}</th>
+              <td>${metas_por_usuario.ld_cantidad}</td>
+              <td>${metas_por_usuario.ld_monto}</td>
+              <td>${metas_por_usuario.tc_cantidad}</td>
+              <td>${metas_por_usuario.usuario_nombre}</td>
+              <td>${mes}</td>
+              <td>${metas_por_usuario.cumplido}</td>
+              <td>
+                <a onclick="obtener_metas(${metas_por_usuario.id})">
+                  <i class="fa-solid fa-pencil me-4"></i>
+                </a>
+                <a onclick="eliminar_meta(${metas_por_usuario.id})">
+                  <i class="fa-solid fa-trash"></i>
+                </a>
+              </td>
+            </tr>`;
         });
       } else {
-        html =
-          html +
-          `<tr><td class='text-center' colspan='8'>No se encontraron resultados</td></tr>`;
+        html = `<tr><td class='text-center' colspan='8'>No se encontraron resultados</td></tr>`;
       }
       $("#listar_metas").html(html);
     },
   });
 };
+
 const eliminar_meta = function (id) {
   $.ajax({
     url: "controller/meta.php",
@@ -188,9 +208,16 @@ const obtener_metas = function (id) {
         $("#modal_ld_cantidad").val(data[i]["ld_cantidad"]);
         $("#modal_tc_cantidad").val(data[i]["tc_cantidad"]);
         $("#modal_ld_monto").val(data[i]["ld_monto"]);
-        $("#modal_id_usuario").val(data[i]["id_usuario"]);
         $("#modal_mes").val(data[i]["mes"]);
         $("#modal_cumplido").val(data[i]["cumplido"]);
+
+        // Obtener el nombre completo del usuario
+        var usuarioNombre = data[i]["usuario_nombre"];
+        
+        // Seleccionar el usuario en el select modal_id_usuario
+        $("#modal_id_usuario").find("option").filter(function() {
+          return $(this).text() === usuarioNombre;
+        }).prop("selected", true);
       });
     },
     error: function (xhr, status, error) {
@@ -199,26 +226,64 @@ const obtener_metas = function (id) {
     },
   });
 };
-const actualizar_meta = function () {
-  $("#formActualizarMeta").submit(function (e) {
+
+const actualizar_meta = function(){
+  $("#formActualizarMeta").submit(function(e){
     e.preventDefault();
     var data = $(this).serialize();
     $.ajax({
       url: "controller/meta.php",
       method: "POST",
       data: data,
-      success: function (response) {
-        if (response == "ok") {
-          listar_metas();
-          $("#editar-metas").modal("hide");
-          $("#formActualizarMeta").trigger("reset");
-        } else {
-          alert("Algo salió mal.");
-        }
-      },
-    });
+      success: function(response) {
+        alert(response)
+          if (response == "ok") {
+              listar_metas();
+              $("#editar-metas").modal('hide');
+              $("#formActualizarMeta").trigger("reset");
+          }else{
+            alert("Algo salió mal.")
+          }
+      }
+    })
+  })
+}
+const crear_metas = function () {
+  $("#formAgregarMeta").submit(function (e) {
+      e.preventDefault();
+      const data = new FormData($("#formAgregarMeta")[0]);
+
+      $.ajax({
+          url: "controller/meta.php",
+          method: "POST",
+          data: data,
+          contentType: false,
+          cache: false,
+          processData: false,
+          success: function (data) {
+            alert(data);
+              const response = JSON.parse(data);
+              if (response.status == "error") {
+                  Swal.fire({
+                      icon: "error",
+                      title: "Lo sentimos",
+                      text: response.message,
+                  });
+              } else {
+                  Swal.fire({
+                      title: "Felicidades",
+                      text: response.message,
+                      icon: "success",
+                  });
+                  listar_metas();
+                  $("#agregar-meta").modal("hide");
+                  $("#formAgregarMeta").trigger("reset");
+              }
+          },
+      });
   });
 };
+
 
 /* ----------------------------------------------------- */
 
@@ -773,20 +838,60 @@ const eliminar_venta = function (id) {
 
 const select_usuarios = function () {
   $.ajax({
-    url: "controller/ventas.php",
+    url: "controller/usuario.php",
     type: "GET",
     success: function (response) {
       const usuarios = JSON.parse(response);
-      var select = $("#id_usuario");
-      usuarios.forEach(function (usu) {
-        var option = $("<option></option>")
-          .attr("value", usu.id)
-          .text(usu.nombres + " " + usu.apellidos);
-        select.append(option);
+      var selectIds = ["#id_usuario", "#modal_id_usuario","#id_usuario2"];
+
+      // Limpiar los selects antes de agregar nuevas opciones
+      selectIds.forEach(function (selectId) {
+        var select = $(selectId);
+        select.empty();
+
+        // Agregar la opción "Selecciona usuario"
+        var defaultOption = $("<option></option>")
+          .attr("value", "")
+          .text("Selecciona usuario")
+          .prop("selected", true);
+        select.append(defaultOption);
+
+        // Agregar usuarios
+        usuarios.forEach(function (usu) {
+          if (usu.rol != 2) {
+            var option = $("<option></option>")
+              .attr("value", usu.id)
+              .text(usu.nombres + " " + usu.apellidos);
+            select.append(option);
+          }
+        });
+
+        // Detectar cambio de selección
+        select.change(function () {
+          var selectedUserId = $(this).val();
+          console.log("ID de usuario seleccionado:", selectedUserId);
+         
+        });
       });
     },
   });
 };
+// const select_usuarios = function () {
+//   $.ajax({
+//     url: "controller/ventas.php",
+//     type: "GET",
+//     success: function (response) {
+//       const usuarios = JSON.parse(response);
+//       var select = $("#id_usuario");
+//       usuarios.forEach(function (usu) {
+//         var option = $("<option></option>")
+//           .attr("value", usu.id)
+//           .text(usu.nombres + " " + usu.apellidos);
+//         select.append(option);
+//       });
+//     },
+//   });
+// };
 const filtro_empleados = function () {
   $("#form_filtro_empleados").submit(function (e) {
     e.preventDefault();

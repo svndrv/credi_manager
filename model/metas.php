@@ -7,14 +7,15 @@ class Metas extends Conectar {
         $this->db = Conectar::conexion();
         $this->metas = array();
     }
-    public function obtener_metas(){
-        $sql = "SELECT * FROM metas_por_usuario";
+    public function obtener_metas() {
+        $sql = "SELECT m.id, m.ld_cantidad, m.tc_cantidad, m.ld_monto, CONCAT(u.nombres, ' ', u.apellidos) AS usuario_nombre, m.mes, m.cumplido, m.created_at, m.updated_at FROM metas m JOIN usuario u ON m.id_usuario = u.id";
         $sql = $this->db->prepare($sql);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
+    
     public function obtener_metas_por_usuario($id_usuario, $mes , $cumplido) {
-        $sql = "SELECT * FROM metas_por_usuario WHERE 1=1";
+        $sql = "SELECT * FROM metas WHERE 1=1";
     
         // Agregar condiciones según los parámetros recibidos
         if ($id_usuario) {
@@ -48,19 +49,19 @@ class Metas extends Conectar {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function eliminar_meta($id){
-        $sql = "DELETE FROM metas_por_usuario WHERE id = ?";
+        $sql = "DELETE FROM metas WHERE id = ?";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(1,$id);
         $sql->execute();
         echo 'ok';
     }
     public function actualizar_meta($id, $ld_cantidad, $ld_monto, $tc_cantidad, $id_usuario, $mes, $cumplido) {
-        $sql = "UPDATE metas_por_usuario 
+        $sql = "UPDATE metas
                 SET ld_cantidad = ?, ld_monto = ?, tc_cantidad = ?, id_usuario = ?, mes = ?, cumplido = ?, updated_at = now() 
                 WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(1, $ld_cantidad, PDO::PARAM_INT);
-        $stmt->bindValue(2, $ld_monto, PDO::PARAM_STR);
+        $stmt->bindValue(2, $ld_monto, PDO::PARAM_INT);
         $stmt->bindValue(3, $tc_cantidad, PDO::PARAM_INT);
         $stmt->bindValue(4, $id_usuario, PDO::PARAM_INT);
         $stmt->bindValue(5, $mes, PDO::PARAM_STR);
@@ -69,13 +70,42 @@ class Metas extends Conectar {
         $stmt->execute();
         echo "ok";
     }
-    public function obtener_meta_x_id($id){
-        $sql = "SELECT * FROM metas_por_usuario WHERE id = ?";
+    
+    public function obtener_meta_x_id($id) {
+        $sql = "SELECT m.id, m.ld_cantidad, m.tc_cantidad, m.ld_monto, CONCAT(u.nombres, ' ', u.apellidos) AS usuario_nombre, m.mes, m.cumplido, m.created_at, m.updated_at FROM metas m JOIN usuario u ON m.id_usuario = u.id WHERE m.id = ?";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(1, $id);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public function agregar_meta($ld_cantidad, $ld_monto, $tc_cantidad, $id_usuario, $mes, $cumplido)
+{
+    if (empty($ld_cantidad) || empty($ld_monto) || empty($tc_cantidad) || empty($id_usuario) || empty($id_usuario) ||empty($cumplido)) {
+        return [
+            "status" => "error",
+            "message" => "Verificar los campos vacíos."
+        ];
+    }
+
+    $sql = "INSERT INTO metas (ld_cantidad, ld_monto, tc_cantidad, id_usuario, mes, cumplido, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?,now(), now())";
+    $sql = $this->db->prepare($sql);
+    $sql->bindValue(1, $ld_cantidad);
+    $sql->bindValue(2, $ld_monto);
+    $sql->bindValue(3, $tc_cantidad);
+    $sql->bindValue(4, $id_usuario);
+    $sql->bindValue(5, $mes);
+    $sql->bindValue(6, $cumplido);
+    $sql->execute();
+
+    $response = [
+        "status" => "success",
+        "message" => "Meta creada exitosamente."
+    ];
+
+    return $response;
+}
+
     
 }
 ?>
