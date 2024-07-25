@@ -47,6 +47,7 @@ $(function () {
     crear_metas();
     actualizar_meta();
     select_usuarios();
+    filtro_metas();
   }else{
     
   }
@@ -281,6 +282,97 @@ const crear_metas = function () {
               }
           },
       });
+  });
+};
+const filtro_metas = function (){
+  $("#form_filtro_meta").submit(function (e){
+    e.preventDefault();
+    var id_usuario = document.getElementById("id_usuario_f").value.trim();
+    var mes = document.getElementById("mes_f").value.trim();
+    var cumplido = document.getElementById("cumplido_f").value.trim();
+    $.ajax({
+      url:"controller/meta.php",
+      method: "POST",
+      data: {
+        id_usuario: id_usuario,
+        mes: mes,
+        cumplido: cumplido,
+        option: "filtro_metas",
+
+      },
+      success: function(response){
+        const data = JSON.parse(response);
+        let html = ``;
+        if (data.length > 0) {
+          data.map((metas_por_usuario) => {
+            let mes = null;
+            switch (metas_por_usuario.mes) {
+              case "1":
+                mes = "Enero";
+                break;
+              case "2":
+                mes = "Febrero";
+                break;
+              case "3":
+                mes = "Marzo";
+                break;
+              case "4":
+                mes = "Abril";
+                break;
+              case "5":
+                mes = "Mayo";
+                break;
+              case "6":
+                mes = "Junio";
+                break;
+              case "7":
+                mes = "Julio";
+                break;
+              case "8":
+                mes = "Agosto";
+                break;
+              case "9":
+                mes = "Septiembre";
+                break;
+              case "10":
+                mes = "Octubre";
+                break;
+              case "11":
+                mes = "Noviembre";
+                break;
+              case "12":
+                mes = "Diciembre";
+                break;
+              default:
+                mes = "Mes desconocido";
+            }
+  
+            html += `
+              <tr>
+                <th scope="row">${metas_por_usuario.id}</th>
+                <td>${metas_por_usuario.ld_cantidad}</td>
+                <td>${metas_por_usuario.ld_monto}</td>
+                <td>${metas_por_usuario.tc_cantidad}</td>
+                <td>${metas_por_usuario.nombre_completo}</td>
+                <td>${mes}</td>
+                <td>${metas_por_usuario.cumplido}</td>
+                <td>
+                  <a onclick="obtener_metas(${metas_por_usuario.id})">
+                    <i class="fa-solid fa-pencil me-4"></i>
+                  </a>
+                  <a onclick="eliminar_meta(${metas_por_usuario.id})">
+                    <i class="fa-solid fa-trash"></i>
+                  </a>
+                </td>
+              </tr>`;
+          });
+        } else {
+          html = `<tr><td class='text-center' colspan='8'>No se encontraron resultados</td></tr>`;
+        }
+        $("#listar_metas").html(html);
+
+      },
+    });
   });
 };
 
@@ -842,7 +934,7 @@ const select_usuarios = function () {
     type: "GET",
     success: function (response) {
       const usuarios = JSON.parse(response);
-      var selectIds = ["#id_usuario", "#modal_id_usuario","#id_usuario2"];
+      var selectIds = ["#id_usuario_f", "#modal_id_usuario","#id_usuario2"];
 
       // Limpiar los selects antes de agregar nuevas opciones
       selectIds.forEach(function (selectId) {

@@ -14,12 +14,12 @@
                     <div class="row">
                        <div class="col-lg-2">
 
-                            <select class="form-select mb-4" aria-label="Default select example" id="id_usuario" name="id_usuario">
+                            <select class="form-select mb-4" aria-label="Default select example" id="id_usuario_f" name="id_usuario_f">
                                 <option value=0>Seleccionar Usuario</option>
                             </select>
                     </div>
                     <div class="col-lg-3">
-                        <select class="form-select" aria-label="Default select example" name="mes" id="mes">
+                        <select class="form-select" aria-label="Default select example" name="mes_f" id="mes_f">
                             <option value="0">Selecciona el mes</option>
                             <option value="1">Enero</option>
                             <option value="2">Febrero</option>
@@ -36,7 +36,7 @@
                         </select>
                     </div>
                     <div class="col-lg-3">
-                        <select class="form-select mb-4" aria-label="Default select example" id="cumplido" name="cumplido">
+                        <select class="form-select mb-4" aria-label="Default select example" id="cumplido_f" name="cumplido_f">
                             <option value="0">Seleccionar Cumplido</option>
                             <option value="Pendiente">Pendiente</option>
                             <option value="Si">Si</option>

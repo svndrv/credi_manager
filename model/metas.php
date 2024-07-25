@@ -105,7 +105,53 @@ class Metas extends Conectar {
 
     return $response;
 }
+public function metas_x_usuario_mes_cumplido($id_usuario, $mes, $cumplido) {
+    $sql = "SELECT 
+        m.id,
+        m.ld_cantidad,
+        m.tc_cantidad,
+        m.ld_monto,
+        CONCAT(u.nombres, ' ', u.apellidos) AS nombre_completo,
+        m.mes,
+        m.cumplido
+    FROM 
+        metas m 
+    INNER JOIN 
+        usuario u 
+    ON 
+        m.id_usuario = u.id
+    WHERE 1=1"; 
 
+            if ($id_usuario) {
+                $sql .= " AND m.id_usuario = :id_usuario";
+            }
+
+            if ($mes) {
+                $sql .= " AND m.mes = :mes";
+            }
+
+            if ($cumplido) {
+                $sql .= " AND m.cumplido = :cumplido";
+            }
+
+            $stmt = $this->db->prepare($sql);
+
+            if ($id_usuario) {
+                $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+            }
+
+            if ($mes) {
+                $stmt->bindParam(':mes', $mes, PDO::PARAM_STR);
+            }
+
+            if ($cumplido) {
+                $stmt->bindParam(':cumplido', $cumplido, PDO::PARAM_STR);
+            }
+
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
     
 }
 ?>

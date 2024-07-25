@@ -27,6 +27,7 @@ if (!isset($_SESSION['id'])) {
     <div class="main">
         <!-- NAVEGADOR -->
         <?php require "includes/navbardb.php" ?>
+        
 
 
         <?php $view = $_GET['view']; ?>
