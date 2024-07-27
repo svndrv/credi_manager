@@ -6,6 +6,9 @@ html {
     scroll-behavior: smooth;
 }
 
+.swal2-container {
+    z-index: 2000 !important;
+}
 
 header {
     top: 0;
@@ -220,6 +223,7 @@ footer{
     bottom: 0;
     right: 0;
     margin: 35px 5px;
+    z-index: 2000 !important;
 }
 
 .floating-container:hover{

@@ -1299,6 +1299,7 @@ const verificar_dni_base = function () {
     });
   });
 };
+
 const crear_consultas = function () {
   $("#form_consulta").submit(function (e) {
     e.preventDefault();
@@ -1311,7 +1312,7 @@ const crear_consultas = function () {
       html =
         html +
         `<div class="alert alert-danger" role="alert">
-            Cantidad de dígitos errónea. Vuelve a intentarlo.
+            Verifique los campos vacios.
             </div>`;
     } else {
       $.ajax({
@@ -1344,17 +1345,21 @@ const crear_consultas = function () {
               text: "Un asesor se contactara con usted pronto.",
               icon: "success",
             });
+            document.getElementById("form_consulta").value = "";
           } else {
             Swal.fire({
               icon: "error",
               title: "Lo sentimos",
               text: "Usted no cuenta con una campaña este mes, intentelo el siguiente.",
             });
+            
           }
         },
+        
       });
     }
 
+    
     $("#alerta").html(html);
   });
 };
