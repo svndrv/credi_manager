@@ -14,9 +14,9 @@ if (!isset($_SESSION['id'])) {
     <link rel="stylesheet" href="css/bootstrapcss/bootstrap.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <title>CrediManager | Dashboard</title>
+    <title>CREDIMANAGER | Buró Group</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link rel="icon" href="img/icolo-burogroup-b-white.ico">
+    <link rel="icon" href="img/icon-logo-2.ico">
 </head>
 
 <body>
@@ -27,6 +27,8 @@ if (!isset($_SESSION['id'])) {
         <div class="main">
             <!-- NAVEGADOR -->
             <?php require "includes/navbardb.php" ?>
+            <!-- HEADER -->
+            <?php require "includes/header.php" ?>
             <!-- VIEWS -->
             <?php
             switch ($view) {
@@ -53,10 +55,10 @@ if (!isset($_SESSION['id'])) {
             <!-- FOOTER -->
             <?php require "includes/footerdb.php" ?>
         </div>
-        <a href="#" class="theme-toggle">
+        <!-- <a href="#" class="theme-toggle">
             <i class="fa-regular fa-moon"></i>
             <i class="fa-regular fa-sun"></i>
-        </a>
+        </a> -->
     </div>
 </body>
 

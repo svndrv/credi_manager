@@ -1,22 +1,19 @@
-<main class="content mt-3 px-5 py-4">
-    <section class="container-fluid">
-    <article class="mb-4">
-            <p><span class="fw-light fs-4">CrediManager / </span><span class="fw-bold fs-4">Consultas</span></p>
-        </article>
-        <article class="card border-0">
-            <div class="card-header">
-                <h5 class="card-title fw-bold">
+<main class="content-pages content px-5 py-4">
+    <section class="container-fluid mt-3">
+        <article class="card shadow bg-body-tertiary">
+            <div class="card-header card-style-custom">
+                <h5 class="card-title fw-bold p-1">
                     Lista de consultas
                 </h5>
             </div>
             <div class="card-body p-4">
                 <div class="row">
 
-                    <div class="col-lg-5 mb-4">
+                    <div class="col-lg-3 mb-4">
                         <form id="form_consultas">
                             <input type="text" class="form-control" id="c-dni" name="c-dni" placeholder="Ingrese un DNI">
                     </div>
-                    <div class="col-lg-5 mb-4">
+                    <div class="col-lg-3 mb-4">
                         <select class="form-select" name="c-campana" id="c-campana">
                             <option value="0">Estado de campaña</option>
                             <option value="Si">Si</option>
@@ -24,7 +21,7 @@
                         </select>
                     </div>
                     <div class="col-lg-2 mb-3">
-                        <button type="submit" class="btn btn-dark w-100"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <button type="submit" class="btn btn-dark w-25"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </form>
                     </div>
                     <!-- <div class="col-lg-12 d-flex justify-content-end mb-3">
@@ -34,7 +31,7 @@
                     </div> -->
                     <div class="col-lg-12">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>

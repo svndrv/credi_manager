@@ -1,14 +1,14 @@
-<aside id="sidebar" class="js-sidebar">
+<aside id="sidebar" class="js-sidebar" style="background-color: #010e17;">
     <!-- Content For Sidebar -->
-    <div class="h-100">
-        <div class="sidebar-logo">
-            <img src="img/credi-manager-logo.png" class="w-75">
+    <div class="h-200">
+        <div class="sidebar-logo mt-3">
+            <img src="img/icon-logo.png" class="w-25">
         </div>
         <ul class="sidebar-nav">
 
-            <li class="sidebar-header">
-                Elementos de <?php echo $_SESSION['usuario'] ?>
-            </li>
+            <div class="sidebar-header text-secondary mb-2">
+                Herramientas de <?php echo $_SESSION['usuario'] ?>
+            </div>
 
             <li <?php echo ($view === 'inicio') ? 'class="sidebar-active-link"' : ''; ?>>
                 <a href="dashboard.php?view=inicio" class="sidebar-link">
@@ -46,8 +46,8 @@
                         Metas
                     </a>
                 </li>
-                <li <?php echo ($view === 'base') ? 'class="sidebar-active-link"' : ''; ?>>
-                    <a href="dashboard.php?view=base" class="sidebar-link">
+                <li <?php echo ($view === 'gestionar') ? 'class="sidebar-active-link"' : ''; ?>>
+                    <a href="dashboard.php?view=gestionar" class="sidebar-link">
                         <i class="fa-solid fa-database pe-2"></i>
                         Base
                     </a>

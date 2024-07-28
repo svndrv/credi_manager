@@ -2,8 +2,6 @@ const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
 
 $(function () {
-
-
   if (params.get("view") === "gestionar") {
     base_x_dni();
     listarRegistros(1);
@@ -14,13 +12,13 @@ $(function () {
   }
 
   if (params.get("view") === "consultas") {
-    listar_consultas(); 
+    listar_consultas();
     filtro_consultas();
     actualizar_consulta();
     crear_ventas();
-  }else{
+  } else {
     crear_consultas();
-    rellenar_consulta(); 
+    rellenar_consulta();
   }
 
   if (params.get("view") === "ventas") {
@@ -48,11 +46,11 @@ $(function () {
     actualizar_meta();
     select_usuarios();
     filtro_metas();
-  }else{
-    
   }
-
-  
+  if (params.get("view") === "inicio") {
+    listar_bonos();
+    listar_metas_inicio();
+  }
 });
 
 const ventas_x_usuario = function () {
@@ -97,7 +95,119 @@ const ventas_x_usuario = function () {
   });
 };
 
+const listar_metas_inicio = function () {
+  $.ajax({
+    url: "controller/meta.php",
+    success: function (response) {
+      const data = JSON.parse(response);
+      let html = ``;
+      if (data.length > 0) {
+        data.map((metas_por_usuario) => {
+          let mes = null;
+          switch (metas_por_usuario.mes) {
+            case "1":
+              mes = "Enero";
+              break;
+            case "2":
+              mes = "Febrero";
+              break;
+            case "3":
+              mes = "Marzo";
+              break;
+            case "4":
+              mes = "Abril";
+              break;
+            case "5":
+              mes = "Mayo";
+              break;
+            case "6":
+              mes = "Junio";
+              break;
+            case "7":
+              mes = "Julio";
+              break;
+            case "8":
+              mes = "Agosto";
+              break;
+            case "9":
+              mes = "Septiembre";
+              break;
+            case "10":
+              mes = "Octubre";
+              break;
+            case "11":
+              mes = "Noviembre";
+              break;
+            case "12":
+              mes = "Diciembre";
+              break;
+            default:
+              mes = "Mes desconocido";
+          }
 
+          html += `
+            <tr>
+              <th scope="row">${metas_por_usuario.id}</th>
+              <td>${metas_por_usuario.ld_cantidad}</td>
+              <td>${metas_por_usuario.ld_monto}</td>
+              <td>${metas_por_usuario.tc_cantidad}</td>
+              <td>${metas_por_usuario.usuario_nombre}</td>
+              <td>${mes}</td>
+              <td>${metas_por_usuario.cumplido}</td>
+            </tr>`;
+        });
+      } else {
+        html = `<tr><td class='text-center' colspan='8'>No se encontraron resultados</td></tr>`;
+      }
+      $("#listar_metas").html(html);
+    },
+  });
+};
+
+/* -------------------   BONO   ---------------------- */
+
+const listar_bonos = function () {
+  $.ajax({
+    url: "controller/bono.php",
+    success: function (response) {
+      const data = JSON.parse(response);
+      let html_descripcion = ``;
+      let html_estado = ``;
+      let estado = response.estado;
+      if (data.length > 0) {
+        data.map((x) => {
+          const { id, descripcion, estado } = x;
+          html_descripcion = html_descripcion + `<span>${descripcion}</span> `;
+
+
+          if(estado == 'Disponible'){
+            html_estado =
+            html_estado +
+            `<span class="mb-3 d-block" name="estado" id="bono-estado">
+                  <i class="fa-regular fa-circle-check me-2" style="color: #39c988"></i>
+                  ${estado}
+            </span>`;
+          }else{
+            html_estado =
+            html_estado +
+            `<span class="mb-3 d-block" name="estado" id="bono-estado">
+                  <i class="fa-regular fa-circle-xmark me-2" style="color: #ff3d50"></i>
+                  ${estado}
+            </span>`;
+          }
+
+          
+        });
+      } else {
+        html_descripcion =
+          html_descripcion +
+          `<span>No se encontraron bonos para el dia de hoy.</span> `;
+      }
+      $("#bono-descripcion").html(html_descripcion);
+      $("#bono-estado").html(html_estado);
+    },
+  });
+};
 
 /* -------------------   METAS   ---------------------- */
 
@@ -214,11 +324,14 @@ const obtener_metas = function (id) {
 
         // Obtener el nombre completo del usuario
         var usuarioNombre = data[i]["usuario_nombre"];
-        
+
         // Seleccionar el usuario en el select modal_id_usuario
-        $("#modal_id_usuario").find("option").filter(function() {
-          return $(this).text() === usuarioNombre;
-        }).prop("selected", true);
+        $("#modal_id_usuario")
+          .find("option")
+          .filter(function () {
+            return $(this).text() === usuarioNombre;
+          })
+          .prop("selected", true);
       });
     },
     error: function (xhr, status, error) {
@@ -228,79 +341,78 @@ const obtener_metas = function (id) {
   });
 };
 
-const actualizar_meta = function(){
-  $("#formActualizarMeta").submit(function(e){
+const actualizar_meta = function () {
+  $("#formActualizarMeta").submit(function (e) {
     e.preventDefault();
     var data = $(this).serialize();
     $.ajax({
       url: "controller/meta.php",
       method: "POST",
       data: data,
-      success: function(response) {
-        alert(response)
-          if (response == "ok") {
-              listar_metas();
-              $("#editar-metas").modal('hide');
-              $("#formActualizarMeta").trigger("reset");
-          }else{
-            alert("Algo salió mal.")
-          }
-      }
-    })
-  })
-}
-const crear_metas = function () {
-  $("#formAgregarMeta").submit(function (e) {
-      e.preventDefault();
-      const data = new FormData($("#formAgregarMeta")[0]);
-
-      $.ajax({
-          url: "controller/meta.php",
-          method: "POST",
-          data: data,
-          contentType: false,
-          cache: false,
-          processData: false,
-          success: function (data) {
-            alert(data);
-              const response = JSON.parse(data);
-              if (response.status == "error") {
-                  Swal.fire({
-                      icon: "error",
-                      title: "Lo sentimos",
-                      text: response.message,
-                  });
-              } else {
-                  Swal.fire({
-                      title: "Felicidades",
-                      text: response.message,
-                      icon: "success",
-                  });
-                  listar_metas();
-                  $("#agregar-meta").modal("hide");
-                  $("#formAgregarMeta").trigger("reset");
-              }
-          },
-      });
+      success: function (response) {
+        alert(response);
+        if (response == "ok") {
+          listar_metas();
+          $("#editar-metas").modal("hide");
+          $("#formActualizarMeta").trigger("reset");
+        } else {
+          alert("Algo salió mal.");
+        }
+      },
+    });
   });
 };
-const filtro_metas = function (){
-  $("#form_filtro_meta").submit(function (e){
+const crear_metas = function () {
+  $("#formAgregarMeta").submit(function (e) {
+    e.preventDefault();
+    const data = new FormData($("#formAgregarMeta")[0]);
+
+    $.ajax({
+      url: "controller/meta.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function (data) {
+        alert(data);
+        const response = JSON.parse(data);
+        if (response.status == "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Lo sentimos",
+            text: response.message,
+          });
+        } else {
+          Swal.fire({
+            title: "Felicidades",
+            text: response.message,
+            icon: "success",
+          });
+          listar_metas();
+          $("#agregar-meta").modal("hide");
+          $("#formAgregarMeta").trigger("reset");
+        }
+      },
+    });
+  });
+};
+const filtro_metas = function () {
+  $("#form_filtro_meta").submit(function (e) {
     e.preventDefault();
     var id_usuario = document.getElementById("id_usuario_f").value.trim();
     var mes = document.getElementById("mes_f").value.trim();
     var cumplido = document.getElementById("cumplido_f").value.trim();
     $.ajax({
-      url:"controller/meta.php",
+      url: "controller/meta.php",
       method: "POST",
       data: {
         id_usuario: id_usuario,
         mes: mes,
         cumplido: cumplido,
         option: "filtro_metas",
-
       },
-      success: function(response){
+      success: function (response) {
         const data = JSON.parse(response);
         let html = ``;
         if (data.length > 0) {
@@ -346,7 +458,7 @@ const filtro_metas = function (){
               default:
                 mes = "Mes desconocido";
             }
-  
+
             html += `
               <tr>
                 <th scope="row">${metas_por_usuario.id}</th>
@@ -370,12 +482,10 @@ const filtro_metas = function (){
           html = `<tr><td class='text-center' colspan='8'>No se encontraron resultados</td></tr>`;
         }
         $("#listar_metas").html(html);
-
       },
     });
   });
 };
-
 
 /* ----------------------------------------------------- */
 
@@ -628,7 +738,7 @@ const listar_ventas = function () {
               <td>${tipo_producto}</td>
               <td>${estado}</td>
               <td>
-                <a onclick="obtener_ventas(${id})"><i class="fa-solid fa-pencil me-4"></i></a>
+                <a onclick="obtener_ventas(${id})"><i class="fa-regular fa-pen-to-square me-4" style="color: #001b2b"></i></a>
                 <a onclick="eliminar_venta(${id})"><i class="fa-solid fa-trash"></i></a>
               </td>
             </tr>`;
@@ -691,7 +801,6 @@ var contar_ld = function () {
       option: "contar_filas_ld",
     },
     success: function (response) {
-      
       const data = JSON.parse(response);
       let html = ``;
       if (data.length > 0) {
@@ -830,8 +939,8 @@ const filtro_ventas = function () {
                 <td>${nombre_completo}</td>
                 <td>${tipo_producto}</td>
                 <td>${estado}</td>
-                <td>
-                  <a onclick="obtener_ventas(${id})"><i class="fa-solid fa-pencil me-4"></i></a>
+                <td class="text-center">
+                  <a onclick="obtener_ventas(${id})"><i class="fa-regular fa-pen-to-square me-4" style="color: #001b2b"></i></a>
                   <a onclick="eliminar_venta(${id})"><i class="fa-solid fa-trash"></i></a>
                 </td>
               </tr>`;
@@ -883,7 +992,6 @@ const actualizar_ventas = function (id) {
     });
   });
 };
-
 const eliminar_venta = function (id) {
   Swal.fire({
     title: "¿Estas seguro?",
@@ -935,7 +1043,7 @@ const select_usuarios = function () {
     type: "GET",
     success: function (response) {
       const usuarios = JSON.parse(response);
-      var selectIds = ["#id_usuario_f", "#modal_id_usuario","#id_usuario2"];
+      var selectIds = ["#id_usuario_f", "#modal_id_usuario", "#id_usuario2"];
 
       // Limpiar los selects antes de agregar nuevas opciones
       selectIds.forEach(function (selectId) {
@@ -963,7 +1071,6 @@ const select_usuarios = function () {
         select.change(function () {
           var selectedUserId = $(this).val();
           console.log("ID de usuario seleccionado:", selectedUserId);
-         
         });
       });
     },
@@ -1058,8 +1165,14 @@ const listar_empleados = function () {
           }
           html =
             html +
-            `<tr><th scope="row">${usuario.id}</th><th scope="row">${usuario.usuario}</th><td>${usuario.nombres}</td><td>${usuario.apellidos}</td><td>${rol}</td><td>${estado}</td><td><a onclick="obtener_usuarios(${usuario.id})"><i class="fa-solid fa-pencil me-4"></i></a>
-            <a onclick="eliminar_usuario(${usuario.id})"><i class="fa-solid fa-trash"></i></a></td></tr>`;
+            `<tr>
+            <th scope="row">${usuario.id}</th>
+            <td scope="row">${usuario.usuario}</td>
+            <td>${usuario.nombres}</td><td>${usuario.apellidos}</td>
+            <td>${rol}</td><td>${estado}</td>
+            <td class="text-center">
+              <a onclick="obtener_usuarios(${usuario.id})"><i class="fa-regular fa-pen-to-square me-4" style="color: #001b2b"></i></a>
+              <a onclick="eliminar_usuario(${usuario.id})"><i class="fa-solid fa-trash" style="color: #001b2b"></i></a></td></tr>`;
         });
       } else {
         html =
@@ -1328,7 +1441,6 @@ const crear_consultas = function () {
               icon: "error",
               title: "Error",
               text: "Algo salio mal",
-              
             });
           }
         },
@@ -1346,7 +1458,7 @@ const crear_consultas = function () {
               title: "Felicidades",
               text: "Un asesor se contactara con usted pronto.",
               icon: "success",
-              confirmButtonColor: "rgb(0, 60, 94)"
+              confirmButtonColor: "rgb(0, 60, 94)",
             });
             document.getElementById("form_consulta").value = "";
           } else {
@@ -1354,16 +1466,13 @@ const crear_consultas = function () {
               icon: "error",
               title: "Lo sentimos",
               text: "Usted no cuenta con una campaña este mes, intentelo el siguiente.",
-              confirmButtonColor: "rgb(0, 60, 94)"
+              confirmButtonColor: "rgb(0, 60, 94)",
             });
-            
           }
         },
-        
       });
     }
 
-    
     $("#alerta").html(html);
   });
 };

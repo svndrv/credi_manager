@@ -1,18 +1,15 @@
-<main class="content mt-3 px-5 py-4">
-    <div class="container-fluid">
-    <article class="mb-4">
-            <p><span class="fw-light fs-4">CrediManager / </span><span class="fw-bold fs-4">Metas</span></p>
-        </article>
-        <div class="card border-0">
-            <div class="card-header">
-                <h5 class="card-title fw-bold">
+<main class="content-pages content px-5 py-4">
+    <div class="container-fluid mt-3">
+        <div class="card shadow bg-body-tertiar">
+            <div class="card-header card-style-custom">
+                <h5 class="card-title fw-bold p-1">
                    Metas
                 </h5>
             </div>
             <div class="card-body p-4">
                 <form id="form_filtro_meta">
                     <div class="row">
-                       <div class="col-lg-2">
+                       <div class="col-lg-3">
 
                             <select class="form-select mb-4" aria-label="Default select example" id="id_usuario_f" name="id_usuario_f">
                                 <option value=0>Seleccionar Usuario</option>
@@ -45,7 +42,7 @@
 
                     </div>
                     
-                    <div class="col-lg-2">
+                    <div class="col-lg-1">
                        <button type="submit" class="btn btn-dark"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </div>
@@ -56,7 +53,7 @@
                     </button>
                 </div>
                     <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-bordered table-hover table-striped">
                     <thead>
                         <tr>
                             <th scope="col">#</th>

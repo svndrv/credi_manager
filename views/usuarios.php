@@ -1,18 +1,15 @@
-<main class="content mt-3 px-5 py-4">
-    <div class="container-fluid">
-    <article class="mb-4">
-            <p><span class="fw-light fs-4">CrediManager / </span><span class="fw-bold fs-4">Usuarios</span></p>
-        </article>
-        <div class="card border-0">
-            <div class="card-header">
-                <h5 class="card-title fw-bold">
+<main class="content-pages content px-5 py-4">
+    <div class="container-fluid mt-3">
+        <div class="card shadow bg-body-tertiary">
+            <div class="card-header card-style-custom">
+                <h5 class="card-title fw-bold p-1">
                     Usuarios
                 </h5>
             </div>
             <div class="card-body p-4">
                 <form id="form_filtro_empleados">
                     <div class="row">
-                        <div class="col-lg-5">
+                        <div class="col-lg-3 ">
 
                             <select class="form-select mb-4" aria-label="Default select example" id="rol" name="rol">
                                 <option value="0">Seleccionar el rol</option>
@@ -21,7 +18,7 @@
                                 <option value="3">Asesor</option>
                             </select>
                         </div>
-                        <div class="col-lg-5">
+                        <div class="col-lg-3 ">
                             <select class="form-select mb-4" aria-label="Default select example" id="estado" name="estado">
                                 <option value="0">Seleccionar el estado</option>
                                 <option value="1">Activo</option>
@@ -31,38 +28,41 @@
 
 
                         <div class="col-lg-2 mb-3">
-                            <button type="submit" class="btn btn-dark w-100"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            <button type="submit" class="btn btn-dark"><i class="fa-solid fa-magnifying-glass"></i></button>
 
                         </div>
-                    </div>
                 </form>
-                <div class="col-lg-12 d-flex justify-content-end mb-4">
-                    <button type="button" class="btn btn-warning px-5 text-white" data-bs-toggle="modal" data-bs-target="#agregar-usuario">
-                        <i class="fa-solid fa-user-plus me-2"></i> Agregar
-                    </button>
+                <div class="col-lg-4 mb-3 text-end">
+                    <button type="button" class="btn btn-warning btn-md px-5 text-white" data-bs-toggle="modal" data-bs-target="#agregar-usuario">
+                        <i class="fa-solid fa-user-plus me-2"></i>Agregar</button>
+
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Usuario</th>
-                                <th scope="col">Nombres</th>
-                                <th scope="col">Apellidos</th>
-                                <th scope="col">Rol</th>
-                                <th scope="col">Estado</th>
-                                <th scope="col">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody id="listar_empleados">
-                            <tr>
-                                <td colspan="8" class="text-center">No hay datos</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+
+            </div>
+
+
+            <div class="table-responsive ">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Usuario</th>
+                            <th scope="col">Nombres</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">Rol</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listar_empleados">
+                        <tr>
+                            <td colspan="8" class="text-center">No hay datos</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
     </div>
 </main>
 
@@ -103,7 +103,7 @@
                                             <option value="3">Asesor</option>
                                         </select>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">

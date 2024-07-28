@@ -1,11 +1,8 @@
-<main class="content  mt-3 px-5 py-4">
-    <section class="container-fluid">
-        <article class="mb-4">
-            <p><span class="fw-light fs-4">CrediManager / </span><span class="fw-bold fs-4"><?php if ($_SESSION['rol'] != '2') { ?>Gestionar <?php } else { ?>Base <?php } ?></span></p>
-        </article>
-        <article class="card border-0">
-            <div class="card-header">
-                <h5 class="card-title fw-bold">
+<main class="content-pages content px-5 py-4">
+    <section class="container-fluid mt-3">
+        <article class="card shadow bg-body-tertiar">
+            <div class="card-header card-style-custom">
+                <h5 class="card-title fw-bold p-1">
                     <?php if ($_SESSION['rol'] != '2') { ?>Gestionar <?php } else { ?>Lista Base <?php } ?>
                 </h5>
             </div>
@@ -16,7 +13,7 @@
                             <input type="text" class="form-control" id="dni" name="dni" placeholder="Ingrese un DNI">
                     </div>
                     <div class="col-lg-2 mb-3">
-                        <button type="submit" class="btn btn-dark w-100"><i class="fa-solid fa-magnifying-glass me-2"></i></button>
+                        <button type="submit" class="btn btn-dark w-25"><i class="fa-solid fa-magnifying-glass me-2"></i></button>
                         </form>
                     </div>
 
@@ -42,7 +39,7 @@
 
                     <div class="col-lg-12">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
                                         <th scope="col">Nombres</th>

@@ -7,9 +7,21 @@
 }
 
 :root {
-    --font-base: "ClashDisplay", sans-serif;
+    --font-base: "Poppins", Arial, sans-serif;
 }
 
+.content-pages{
+    background-color: #F0F1F2;
+}
+
+.table-hover{
+    background-color: red;
+}
+
+.card-style-custom{
+    background-color: #010e17;
+    color: white;
+}
 
 body {
     font-family: var(--font-base);
@@ -244,16 +256,16 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
 }
 
 #bg-card-ld{
-    border-color: #39c98874;
+    border: 0;
     background-color: #39c98847;
 }
 #bg-card-tc{
-    border-color: #912ec9;
+    border: 0;
     background-color: #902ec942;
 }
 
 #bg-card-ldm{
-    border-color: #fbc442;
+    border: 0;
     background-color: #fbc34246;
 }
 

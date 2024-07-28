@@ -1,61 +1,55 @@
-<main class="content mt-3 px-5 py-4">
-<section class="container-fluid">
-<article class="mb-4">
-            <p><span class="fw-light fs-4">CrediManager / </span><span class="fw-bold fs-4">Ventas</span></p>
-        </article>
-        <article class="card border-0">
-            <div class="card-body p-4">
-            <div class="col-lg-12 mt-3">
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div id="bg-card-ld" class="card" style="width: 20rem;">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-lg-4 d-flex justify-content-center">
-                                                <img src="img/money.png" style="width: 4rem;" />
-                                            </div>
-                                            <div class="col-lg-8">
-                                                <h5 id="ldc-card-tittle" class="card-title">LD</h5>
-                                                <h6 class="card-subtitle mb-2 text-body-secondary">Prestamo Personal</h6>
-                                                <div id="ld_cantidad_text">
-                                                    <p class="card-text">Cant. 0</p>
-                                                </div>
+<main class="content-pages content px-5 py-4">
+    <section class="container-fluid mt-3">
+                <div class="col-lg-12 mt-3">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div id="bg-card-ld" class="card shadow w-100" style="width: 20rem;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4 d-flex justify-content-center">
+                                            <img src="img/money.png" style="width: 4rem;" />
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <h5 id="ldc-card-tittle" class="card-title">LD</h5>
+                                            <h6 class="card-subtitle mb-2 text-body-secondary">Prestamo Personal</h6>
+                                            <div id="ld_cantidad_text">
+                                                <p class="card-text">Cant. 0</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div id="bg-card-tc" class="card" style="width: 20rem;">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-lg-4 d-flex justify-content-center">
-                                                <img src="img/card.png" style="width: 4rem;" />
-                                            </div>
-                                            <div class="col-lg-8">
-                                                <h5 id="tcc-card-tittle" class="card-title">TC</h5>
-                                                <h6 class="card-subtitle mb-2 text-body-secondary">Tarjeta de crédito</h6>
-                                                <div id="tc_cantidad_text">
-                                                    <p class="card-text">Cant. 0 </p>
-                                                </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div id="bg-card-tc" class="card shadow w-100" style="width: 20rem;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4 d-flex justify-content-center">
+                                            <img src="img/card.png" style="width: 4rem;" />
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <h5 id="tcc-card-tittle" class="card-title">TC</h5>
+                                            <h6 class="card-subtitle mb-2 text-body-secondary">Tarjeta de crédito</h6>
+                                            <div id="tc_cantidad_text">
+                                                <p class="card-text">Cant. 0 </p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div id="bg-card-ldm" class="card" style="width: 20rem;">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-lg-4 d-flex justify-content-center">
-                                                <img src="img/bag-coin.png" style="width: 4rem;" />
-                                            </div>
-                                            <div class="col-lg-8">
-                                                <h5 id="ldm-card-tittle" class="card-title">Monto de LD</h5>
-                                                <h6 class="card-subtitle mb-2 text-body-secondary">Total de Crédito</h6>
-                                                <div id="ld_monto_text">
-                                                    <p class="card-text">S/. 0.0</p>
-                                                </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div id="bg-card-ldm" class="card shadow w-100" style="width: 20rem;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4 d-flex justify-content-center">
+                                            <img src="img/bag-coin.png" style="width: 4rem;" />
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <h5 id="ldm-card-tittle" class="card-title">Monto de LD</h5>
+                                            <h6 class="card-subtitle mb-2 text-body-secondary">Total de Crédito</h6>
+                                            <div id="ld_monto_text">
+                                                <p class="card-text">S/. 0.0</p>
                                             </div>
                                         </div>
                                     </div>
@@ -63,13 +57,12 @@
                             </div>
                         </div>
                     </div>
-            </div>
-        </article>
+                </div>
     </section>
     <section class="container-fluid">
-        <article class="card border-0">
-            <div class="card-header">
-                <h5 class="card-title fw-bold">
+        <article class="card shadow bg-body-tertiary">
+            <div class="card-header card-style-custom">
+                <h5 class="card-title fw-bold p-1">
                     Tabla de ventas
                 </h5>
             </div>
@@ -87,7 +80,7 @@
                             <!-- <option value="Cancelado">Cancelado</option> -->
                         </select>
                     </div>
-                    <div class="col-lg-4 mb-4">
+                    <div class="col-lg-3 mb-4">
                         <select class="form-select" name="tipo_producto" id="tipo_producto_f">
                             <option value="0">Producto</option>
                             <option value="LD">LD</option>
@@ -96,12 +89,12 @@
                         </select>
                     </div>
                     <div class="col-lg-2 mb-3">
-                        <button type="submit" class="btn btn-dark w-100"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <button type="submit" class="btn btn-dark w-25"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </form>
                     </div>
                     <div class="col-lg-12">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
