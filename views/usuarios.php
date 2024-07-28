@@ -31,7 +31,7 @@
 
 
                         <div class="col-lg-2 mb-3">
-                            <button type="submit" class="btn btn-dark w-100"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+                            <button type="submit" class="btn btn-dark w-100"><i class="fa-solid fa-magnifying-glass"></i></button>
 
                         </div>
                     </div>

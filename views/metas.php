@@ -46,7 +46,7 @@
                     </div>
                     
                     <div class="col-lg-2">
-                       <button type="submit" class="btn btn-dark"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+                       <button type="submit" class="btn btn-dark"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </div>
                     </form>

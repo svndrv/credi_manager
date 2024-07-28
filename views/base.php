@@ -16,7 +16,7 @@
                             <input type="text" class="form-control" id="dni" name="dni" placeholder="Ingrese un DNI">
                     </div>
                     <div class="col-lg-2 mb-3">
-                        <button type="submit" class="btn btn-dark w-100"><i class="fa-solid fa-magnifying-glass me-2"></i> Buscar</button>
+                        <button type="submit" class="btn btn-dark w-100"><i class="fa-solid fa-magnifying-glass me-2"></i></button>
                         </form>
                     </div>
 

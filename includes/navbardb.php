@@ -10,7 +10,6 @@
                     <img src="img/profile.jpg" class="avatar img-fluid rounded" alt="">
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
-                    <a href="#" class="dropdown-item">Mi perfil</a>
                     <a href="logout.php" class="dropdown-item">Cerrar Sesión</a>
                 </div>
             </li>

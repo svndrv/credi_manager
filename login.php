@@ -20,22 +20,21 @@ if (isset($_SESSION['id'])) {
   <link rel="icon" href="img/icolo-burogroup-b-white.ico">
 </head>
 
-<body style="background-color: #ced4da;">
+<body id="body-login">
 
   <div class="container d-flex justify-content-center align-items-center min-vh-100">
     <div class="row border rounded-5 p-3 bg-white shadow box-area">
-      <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #212529;">
+      <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: rgb(0,60,94);">
         <div class="featured-image mb-3">
-          <img src="img/1.png" class="img-fluid" style="width: 250px;">
+          <img src="img/logi-login2.png" class="img-fluid" style="width: 250px;">
         </div>
-        <p class="text-white fs-2" style="font-weight: bold;">Verificación</p>
+        <p class="text-white fs-2" style="font-weight: bold;">CREDIMANAGER</p>
         <small class="text-white text-wrap text-center" style="width: 17rem;">El ingreso a la plataforma es solo a <br>personal autorizado</small>
       </div>
       <div class="col md-6 right-box">
         <div class="row aligh-items-center">
           <div class="header-text mb-3">
-            <h1>Buró Group</h1>
-            <p>Ingreso a la plataforma CrediManager para la gestión de <span id="credi">Credi</span><span id="scotia">Scotia</span>.</p>
+            <h1 class="fw-bold">BURÓ GROUP<i class="fa-solid fa-circle-check fa-xs p-3"></i></h1>
           </div>
           <form id="formLogin">
             <input type="hidden" value="login" name="opcion">
@@ -52,14 +51,14 @@ if (isset($_SESSION['id'])) {
               </span>
             </div>
             <div class="input-group mb-2">
-              <button type="submit" class="btn btn-lg btn-dark w-100 fs-6">Ingresar</button>
+              <button type="submit" class="btn btn-lg w-100 fs-6 text-white" style="background-color: #0ed290;">Ingresar</button>
             </div>
           </form>
           <div class="input-group mb-5">
-            <a href="index.php" class="btn btn-lg btn-light w-100 fs-6">Regresar</a>
+            <a href="index.php" class="btn btn-lg  w-100 fs-6 text-white" style="background-color: #9cbbc4;">Regresar</a>
           </div>
           <small class="text-secondary">
-            Si no recuerdas tu cuenta, comunicate con el personal interno.
+            *Si no recuerdas tu cuenta, comunicate con personal autorizado.
             <!-- <a href="#">Contactarse</a> -->
           </small>
 

@@ -24,7 +24,7 @@ class Usuario extends Conectar
         $data = $sql->fetch(PDO::FETCH_ASSOC);
         $contrasenaEncriptada = $data['contrasena'];
 
-        if ($data['estado'] === 'inactivo' || $data['estado'] === 'eliminado') return ["status" => "error", "message" => "El usuario esta inactivo."];
+        if ($data['estado'] == 2 ) return ["status" => "error", "message" => "El usuario esta inactivo."];
 
         if (password_verify($contrasena, $contrasenaEncriptada) == false)
             return ["status" => "error", "message" => "Contraseña incorrecta."];

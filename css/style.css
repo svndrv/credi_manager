@@ -1,3 +1,14 @@
+:root {
+    --c-brand-rgb: 0,60,94;
+    --c-body: #727272;
+}
+
+#body-login{
+    background: linear-gradient(rgba(var(--c-brand-rgb), 0.700), rgba(var(--c-brand-rgb), 1)), url(../img/cover-login.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
 body{
     background-color: #fbfbfb;
 }
@@ -206,7 +217,7 @@ footer{
     }
 
     .left-box{
-        height: 100px;
+        height: 25em;
         overflow: hidden;
     }
     .right-box{

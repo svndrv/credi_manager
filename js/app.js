@@ -691,6 +691,7 @@ var contar_ld = function () {
       option: "contar_filas_ld",
     },
     success: function (response) {
+      
       const data = JSON.parse(response);
       let html = ``;
       if (data.length > 0) {
@@ -1327,6 +1328,7 @@ const crear_consultas = function () {
               icon: "error",
               title: "Error",
               text: "Algo salio mal",
+              
             });
           }
         },
@@ -1344,6 +1346,7 @@ const crear_consultas = function () {
               title: "Felicidades",
               text: "Un asesor se contactara con usted pronto.",
               icon: "success",
+              confirmButtonColor: "rgb(0, 60, 94)"
             });
             document.getElementById("form_consulta").value = "";
           } else {
@@ -1351,6 +1354,7 @@ const crear_consultas = function () {
               icon: "error",
               title: "Lo sentimos",
               text: "Usted no cuenta con una campaña este mes, intentelo el siguiente.",
+              confirmButtonColor: "rgb(0, 60, 94)"
             });
             
           }

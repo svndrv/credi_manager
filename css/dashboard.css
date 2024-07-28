@@ -6,8 +6,13 @@
     box-sizing: border-box;
 }
 
+:root {
+    --font-base: "ClashDisplay", sans-serif;
+}
+
+
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-base);
     font-size: 0.875rem;
     opacity: 1;
     overflow-y: scroll;
@@ -37,6 +42,7 @@ h4 {
     display: flex;
     width: 100%;
 }
+
 
 #sidebar {
     max-width: 264px;
@@ -81,12 +87,24 @@ h4 {
     padding: 1.5rem 1.5rem .375rem;
 }
 
+.sidebar-active-link{
+    background-color: rgba(214, 34, 39,0.1);
+    border-left: 0.5em solid rgb(214, 34, 39);
+}
+
 a.sidebar-link {
     padding: .625rem 1.625rem;
     color: #e9ecef;
     position: relative;
     display: block;
     font-size: 0.875rem;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar-link:hover{
+    background-color: rgba(214, 34, 39,0.2);
+    color: rgb(255, 225, 73);  
+   
 }
 
 .sidebar-link[data-bs-toggle="collapse"]::after {
@@ -252,3 +270,115 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
 #fotoPerfil{
     padding: 50px;
 }
+
+
+
+
+  .card_pp {
+    width: 400px;
+    height: auto;
+    background: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1), 0 2px 3px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    padding: 0 10px;
+  }
+  
+  .card_pp-wrapper {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .card_pp-icon {
+    width: 20%;
+  }
+  
+  .card_pp-icon .icon-cart-box {
+    background-color: #e0f2f1;
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    text-align: center;
+    padding: 15px 0px;
+    margin: 0 auto;
+  }
+  
+  .card_pp-content {
+    width: 80%;
+  }
+  
+  .card_pp-title-wrapper {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    width: 100%;
+  }
+  
+  .card_pp-title {
+    width: 95%;
+    font-size: 1em;
+    font-weight: 600;
+    color: #333;
+    padding: 20px 0 0 10px;
+  }
+  
+  .card_pp-action {
+    width: 5%;
+    text-align: right;
+    padding: 0 30px;
+  }
+  
+  .card_pp-action svg {
+    cursor: pointer;
+    fill: rgba(0, 0, 0, 0.2);
+    transition: 0.3s ease-in-out;
+  }
+  
+  .card_pp-action svg:hover {
+    fill: rgba(0, 0, 0, 0.6);
+  }
+  
+  .product-name {
+    font-size: 0.8em;
+    color: #757575;
+    padding: 10px 0 0 10px;
+  }
+  
+  .product-name:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .product-price {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #333;
+    padding: 0 0 10px 10px;
+  }
+  
+  .btn-view-cart {
+    font-size: 0.7em;
+    font-weight: 600;
+    padding: 5px 10px;
+    margin: 5px 10px 20px;
+    border-radius: 15px;
+    color: #009688;
+    border: 1px solid #009688;
+    background-color: #e0f2f1;
+    box-shadow: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.4s ease-in-out;
+  }
+  
+  .btn-view-cart:hover,
+  .btn-view-cart:active,
+  .btn-view-cart:focus {
+    color: white;
+    background-color: #009688;
+    border: 1px solid #009688;
+  }
+
+  

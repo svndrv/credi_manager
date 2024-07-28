@@ -19,53 +19,45 @@ if (!isset($_SESSION['id'])) {
     <link rel="icon" href="img/icolo-burogroup-b-white.ico">
 </head>
 
-<div class="wrapper">
-
-    <!-- ASIDE -->
-    
-    <?php require "includes/sidebar-left.php" ?>
-    <div class="main">
-        <!-- NAVEGADOR -->
-        <?php require "includes/navbardb.php" ?>
-        
-
-
+<body>
+    <div class="wrapper">
         <?php $view = $_GET['view']; ?>
-        <!-- VIEWS -->
-
-        <?php
-
-        switch ($view) {
-            case "gestionar":
-                require './views/base.php';
-                break;
-            case "usuarios":
-                require './views/usuarios.php';
-                break;
-            case "consultas":
-                require './views/consultas.php';
-                break;
-            case "metas":
-                require './views/metas.php';
-                break;
-            case "ventas":
-                require './views/ventas.php';
-                break;
-            default:
-                require './views/inicio.php';
-                break;
-        }
-
-        ?>
-
-        <!-- FOOTER -->
-        <?php require "includes/footerdb.php" ?>
+        <!-- ASIDE -->
+        <?php require "includes/sidebar-left.php" ?>
+        <div class="main">
+            <!-- NAVEGADOR -->
+            <?php require "includes/navbardb.php" ?>
+            <!-- VIEWS -->
+            <?php
+            switch ($view) {
+                case "gestionar":
+                    require './views/base.php';
+                    break;
+                case "usuarios":
+                    require './views/usuarios.php';
+                    break;
+                case "consultas":
+                    require './views/consultas.php';
+                    break;
+                case "metas":
+                    require './views/metas.php';
+                    break;
+                case "ventas":
+                    require './views/ventas.php';
+                    break;
+                default:
+                    require './views/inicio.php';
+                    break;
+            }
+            ?>
+            <!-- FOOTER -->
+            <?php require "includes/footerdb.php" ?>
+        </div>
+        <a href="#" class="theme-toggle">
+            <i class="fa-regular fa-moon"></i>
+            <i class="fa-regular fa-sun"></i>
+        </a>
     </div>
-    <a href="#" class="theme-toggle">
-        <i class="fa-regular fa-moon"></i>
-        <i class="fa-regular fa-sun"></i>
-    </a>
-</div>
 </body>
 
 
