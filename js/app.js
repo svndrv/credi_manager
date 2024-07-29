@@ -2,6 +2,9 @@ const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
 
 $(function () {
+
+  cargar_perfil()
+
   if (params.get("view") === "gestionar") {
     base_x_dni();
     listarRegistros(1);
@@ -50,7 +53,11 @@ $(function () {
   if (params.get("view") === "inicio") {
     listar_bonos();
     listar_metas_inicio();
+  }else{
+    
   }
+
+  
 });
 
 const ventas_x_usuario = function () {
@@ -94,7 +101,6 @@ const ventas_x_usuario = function () {
     });
   });
 };
-
 const listar_metas_inicio = function () {
   $.ajax({
     url: "controller/meta.php",
@@ -163,6 +169,43 @@ const listar_metas_inicio = function () {
     },
   });
 };
+
+/* -------------------   PERFIL   ---------------------- */
+
+const cargar_perfil = () => {
+  return new Promise((resolve, reject) => {
+      try {
+          $.ajax({
+              url: "controller/usuario.php",
+              method: "POST",
+              data: { opcion: "obtener_perfil" },
+              success: function (data) {
+                console.log(data)
+                  const perfil = JSON.parse(data)
+                  const { id, nombres, apellidos, rol, foto } = perfil
+                  let rolHeader = "";
+                  if (rol === "1") {
+                      rolHeader = "Administrador"
+                  } else if (rol === "2") {
+                      rolHeader = "Operador"
+                  } else if (rol === "3") {
+                      rolHeader = "Asesor"
+                  }
+                  localStorage.setItem('usuario_id', id)
+                  localStorage.setItem('rol', rol)
+                  $("#nameHeader").html(`${nombres.split(" ")[0]} ${apellidos.split(" ")[0]}`)
+                  $("#rolHeader").html(`${rolHeader}`)
+                  $("#imgHeader").html(`<img src="img/fotos/${foto}" alt="${nombres.split(" ")[0]} ${apellidos.split(" ")[0]}" class="rounded-circle d-none d-sm-block" style="width: 2.7em; height: 2.7em"
+              data-lock-picture="img/fotos/${foto}" />`)
+              }
+          })
+          resolve();
+      } catch (error) {
+          reject(error);
+      }
+
+  })
+}
 
 /* -------------------   BONO   ---------------------- */
 

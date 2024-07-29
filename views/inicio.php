@@ -1,9 +1,11 @@
 <main class="content-pages content px-5 pt-4" style="background-color: #F0F1F2;">
-    <div class="container-fluid mt-3">
-        <div class="row d-flex">
+    <section class="container-fluid mt-3">
+
+        <?php if ($_SESSION['rol'] !== '2') { ?>
+            <article class="row">
             <div class="col-lg-12 mt-3">
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-sm-12">
                         <div id="bg-card-ld" class="card shadow w-100" style="width: 20rem;">
                             <div class="card-body">
                                 <div class="row">
@@ -21,7 +23,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-sm-12">
                         <div id="bg-card-tc" class="card shadow w-100" style="width: 20rem;">
                             <div class="card-body">
                                 <div class="row">
@@ -39,7 +41,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-sm-12">
                         <div id="bg-card-ldm" class="card shadow w-100" style="width: 20rem;">
                             <div class="card-body">
                                 <div class="row">
@@ -59,61 +61,108 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9">
-                <div class="card shadow bg-body-tertiar">
-                    <div class="card-header card-style-custom">
-                        <h5 class="card-title fw-bold p-1">
-                            Meta mensual de Fuerza de Ventas
-                        </h5>
-                    </div>
-                    <div class="card-body p-4">
+        </article>
+        <?php }  ?>
+        
+        <article class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="card shadow bg-body-tertiar">
+                            <div class="card-header card-style-custom">
+                                <h5 class="card-title fw-bold p-1">
+                                    Meta mensual de Fuerza de Ventas
+                                </h5>
+                            </div>
+                            <div class="card-body p-4">
 
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">LD Cantidad</th>
-                                        <th scope="col">LD Monto</th>
-                                        <th scope="col">TC Cantidad</th>
-                                        <th scope="col">Usuario</th>
-                                        <th scope="col">Mes</th>
-                                        <th scope="col">Cumplido</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="listar_metas">
-                                    <tr>
-                                        <td colspan="8" class="text-center">No hay datos</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">LD Cantidad</th>
+                                                <th scope="col">LD Monto</th>
+                                                <th scope="col">TC Cantidad</th>
+                                                <th scope="col">Usuario</th>
+                                                <th scope="col">Mes</th>
+                                                <th scope="col">Cumplido</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="listar_metas">
+                                            <tr>
+                                                <td colspan="8" class="text-center">No hay datos</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 d-flex">
-                <div class="card shadow bg-body-tertiar w-100">
-                    <div class="card-body py-4">
-                        <div class="align-items-start">
-                            <div class="flex-grow-1">
-                                <h4 class="mb-2 fw-bold">
-                                    Bono diario
-                                </h4>
-                                <p class="mb-3" name="descripcion" id="bono-descripcion">
-                                    <span>se han encontrado bonos diarios el dia de hoy.</span> 
-                                </p>
-                                <span class="mb-3 d-block" name="estado" id="bono-estado">
-                                    <i class="fa-regular fa-circle-check me-2" style="color: #39c988"></i>
-                                    No found
-                                </span>
-                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#gestion-bono">Gestionar bonos</button>
+                    <div class="col-lg-3">
+                        <div class="card shadow bg-body-tertiar w-100">
+                            <div class="card-body py-4">
+                                <div class="align-items-start">
+                                    <div class="flex-grow-1">
+                                        <h4 class="mb-2 fw-bold">
+                                        Bono diario
+                                        </h4>
+                                        <p class="mb-3" name="descripcion" id="bono-descripcion">
+                                            <span>se han encontrado bonos diarios el dia de hoy.</span>
+                                        </p>
+                                        <span class="mb-3 d-block" name="estado" id="bono-estado">
+                                            <i class="fa-regular fa-circle-check me-2" style="color: #39c988"></i>
+                                            No found
+                                        </span>
+                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#gestion-bono">Gestionar bonos</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card shadow bg-body-tertiar w-100">
+                            <div class="card-body py-4">
+                                <div class="align-items-start">
+                                    <div class="flex-grow-1">
+                                        <h4 class="mb-2 fw-bold mb-3">
+                                            Meta mensual
+                                        </h4>
+                                        <div id="bg-card-ld" class="card shadow w-100" style="width: 20rem;">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <h6 id="ldc-card-tittle" class="card-title d-inline me-3 bg-white rounded-circle p-1">LD</h6><span>50 préstamos</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="bg-card-tc" class="card shadow w-100" style="width: 20rem;">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <h6 id="tcc-card-tittle" class="card-title d-inline me-3 bg-white rounded-circle p-1">TC</h6><span>20 tarjetas</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="bg-card-ldm" class="card shadow w-100" style="width: 20rem;">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <h6 id="ldm-card-tittle" class="card-title d-inline me-3 bg-white rounded-circle p-1">MT</h6><span>S/. 300.000</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </article>
+    </section>
 
 </main>
 

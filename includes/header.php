@@ -25,7 +25,7 @@
 	} ?></p>
     </div>
     <div class="navbar-collapse navbar">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav me-3">
             <div class="h7" style="color:#010e17;"><i class="fa-solid fa-house"></i> / Inicio</div>
         </ul>
     </div>

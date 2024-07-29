@@ -7,7 +7,14 @@
         <ul class="sidebar-nav">
 
             <div class="sidebar-header text-secondary mb-2">
-                Herramientas de <?php echo $_SESSION['usuario'] ?>
+                Herramientas de <?php if ($_SESSION['rol'] == 1) {
+                                    echo 'Administrador';
+                                } else if ($_SESSION['rol'] == 2) {
+                                    echo 'Operador';
+                                } else {
+                                    echo 'Asesor';
+                                }
+                                ?>
             </div>
 
             <li <?php echo ($view === 'inicio') ? 'class="sidebar-active-link"' : ''; ?>>

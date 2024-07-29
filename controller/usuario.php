@@ -48,6 +48,9 @@ switch ($opcion) {
     case 'filtro_empleados':
         echo json_encode($usuarios->obtener_x_rol_estado($rol, $estado));
     break;
+    case 'obtener_perfil':
+        echo json_encode($usuarios->obtener_perfil($_SESSION['id']));
+        break;
     case 'eliminar_usuario':
         $usuarios->eliminar_usuario($id);
     break;

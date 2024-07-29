@@ -44,6 +44,14 @@ class Usuario extends Conectar
         ];
     }
 
+    public function obtener_perfil($id){
+        $sql = "SELECT id,usuario,nombres,apellidos,rol,foto FROM usuario WHERE id = ? LIMIT 1";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(1,$id);
+        $sql->execute();
+        return $sql->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function obtener_usuarios()
     {
         $sql = "SELECT * FROM usuario";
