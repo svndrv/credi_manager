@@ -1,6 +1,5 @@
 <main class="content-pages content px-5 pt-4" style="background-color: #F0F1F2;">
     <section class="container-fluid mt-3">
-
         <?php if ($_SESSION['rol'] !== '2') { ?>
             <article class="row">
             <div class="col-lg-12 mt-3">
@@ -115,7 +114,10 @@
                                             <i class="fa-regular fa-circle-check me-2" style="color: #39c988"></i>
                                             No found
                                         </span>
-                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#gestion-bono">Gestionar bonos</button>
+                                        <div class="getbono">
+                                            
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -174,22 +176,24 @@
                 <h1 class="modal-title fs-5" id="gestion-bonoLabel">Bono</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form>
+            <form id="formActualizarBono">
+                <input type="text" name="option" value="actualizar_bono">
+                <input type="text" name="id" id="bono-id">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion_bono" name="descripcion" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="estado" id="bono-estado-1" checked>
+                            <input class="form-check-input" type="radio" name="estado" id="bono-estado-1" value="Disponible" checked>
                             <label class="form-check-label" for="bono-estado-1">
                                 Disponible
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="estado" id="bono-estado-2">
+                            <input class="form-check-input" type="radio" name="estado" id="bono-estado-2" value="Finalizado">
                             <label class="form-check-label" for="bono-estado-2">
                                 Finalizado
                             </label>
@@ -199,7 +203,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-danger">Actualizar</button>
+                    <button type="submit" class="btn btn-danger">Actualizar</button>
                 </div>
             </form>
         </div>

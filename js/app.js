@@ -2,8 +2,7 @@ const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
 
 $(function () {
-
-  cargar_perfil()
+  cargar_perfil();
 
   if (params.get("view") === "gestionar") {
     base_x_dni();
@@ -53,11 +52,9 @@ $(function () {
   if (params.get("view") === "inicio") {
     listar_bonos();
     listar_metas_inicio();
-  }else{
-    
+    actualizar_bono();
+  } else {
   }
-
-  
 });
 
 const ventas_x_usuario = function () {
@@ -170,44 +167,76 @@ const listar_metas_inicio = function () {
   });
 };
 
+/* -------------------   VENTASMETAS   ---------------------- */
+
 /* -------------------   PERFIL   ---------------------- */
 
 const cargar_perfil = () => {
   return new Promise((resolve, reject) => {
-      try {
-          $.ajax({
-              url: "controller/usuario.php",
-              method: "POST",
-              data: { opcion: "obtener_perfil" },
-              success: function (data) {
-                console.log(data)
-                  const perfil = JSON.parse(data)
-                  const { id, nombres, apellidos, rol, foto } = perfil
-                  let rolHeader = "";
-                  if (rol === "1") {
-                      rolHeader = "Administrador"
-                  } else if (rol === "2") {
-                      rolHeader = "Operador"
-                  } else if (rol === "3") {
-                      rolHeader = "Asesor"
-                  }
-                  localStorage.setItem('usuario_id', id)
-                  localStorage.setItem('rol', rol)
-                  $("#nameHeader").html(`${nombres.split(" ")[0]} ${apellidos.split(" ")[0]}`)
-                  $("#rolHeader").html(`${rolHeader}`)
-                  $("#imgHeader").html(`<img src="img/fotos/${foto}" alt="${nombres.split(" ")[0]} ${apellidos.split(" ")[0]}" class="rounded-circle d-none d-sm-block" style="width: 2.7em; height: 2.7em"
-              data-lock-picture="img/fotos/${foto}" />`)
-              }
-          })
-          resolve();
-      } catch (error) {
-          reject(error);
-      }
-
-  })
-}
+    try {
+      $.ajax({
+        url: "controller/usuario.php",
+        method: "POST",
+        data: { opcion: "obtener_perfil" },
+        success: function (data) {
+          console.log(data);
+          const perfil = JSON.parse(data);
+          const { id, nombres, apellidos, rol, foto } = perfil;
+          let rolHeader = "";
+          if (rol === "1") {
+            rolHeader = "Administrador";
+          } else if (rol === "2") {
+            rolHeader = "Operador";
+          } else if (rol === "3") {
+            rolHeader = "Asesor";
+          }
+          localStorage.setItem("id", id);
+          localStorage.setItem("rol", rol);
+          $("#nameHeader").html(
+            `${nombres.split(" ")[0]} ${apellidos.split(" ")[0]}`
+          );
+          $("#rolHeader").html(`${rolHeader}`);
+          $("#imgHeader").html(`<img src="img/fotos/${foto}" alt="${
+            nombres.split(" ")[0]
+          } ${
+            apellidos.split(" ")[0]
+          }" class="rounded-circle d-none d-sm-block" style="width: 2.7em; height: 2.7em"
+              data-lock-picture="img/fotos/${foto}" />`);
+        },
+      });
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 /* -------------------   BONO   ---------------------- */
+
+const obtener_bono = function (id) {
+  $("#gestion-bono").modal("show");
+  $.ajax({
+    url: "controller/bono.php",
+    method: "POST",
+    data: {
+      id: id,
+      option: "obtener_x_id",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+      $.each(data, function (i, e) {
+        $("#bono-id").val(data[i]["id"]);
+        $("#descripcion_bono").val(data[i]["descripcion"]);
+        if (data[i]["estado"] === "Disponible") {
+          $("#bono-estado-1").prop("checked", true);
+        } else if (data[i]["estado"] === "Finalizado") {
+          $("#bono-estado-2").prop("checked", true);
+        }
+
+      });
+    },
+  });
+}
 
 const listar_bonos = function () {
   $.ajax({
@@ -218,28 +247,51 @@ const listar_bonos = function () {
       let html_estado = ``;
       let estado = response.estado;
       if (data.length > 0) {
-        data.map((x) => {
+        const rol = localStorage.getItem('rol');
+        console.log(rol)
+        data.map((x) => {      
           const { id, descripcion, estado } = x;
           html_descripcion = html_descripcion + `<span>${descripcion}</span> `;
-
-
-          if(estado == 'Disponible'){
-            html_estado =
-            html_estado +
-            `<span class="mb-3 d-block" name="estado" id="bono-estado">
-                  <i class="fa-regular fa-circle-check me-2" style="color: #39c988"></i>
-                  ${estado}
-            </span>`;
+          if(rol !== "3"){
+            if (estado == "Disponible") {
+              html_estado =
+                html_estado +
+                `<span class="mb-3 d-block" name="estado" id="bono-estado">
+                    <i class="fa-regular fa-circle-check me-2" style="color: #39c988"></i>
+                    ${estado}
+              </span>
+              <div class="getbono">
+                <button onclick="obtener_bono(${id})" type="button" class="btn btn-success btn-sm">Gestionar bonos</button>
+              </div>`;
+            } else {
+              html_estado =
+                html_estado +
+                `<span class="mb-3 d-block" name="estado" id="bono-estado">
+                    <i class="fa-regular fa-circle-xmark me-2" style="color: #ff3d50"></i>
+                    ${estado}
+              </span>
+              <div class="getbono">
+                <button onclick="obtener_bono(${id})" type="button" class="btn btn-success btn-sm">Gestionar bonos</button>
+              </div>`;
+            }
           }else{
-            html_estado =
-            html_estado +
-            `<span class="mb-3 d-block" name="estado" id="bono-estado">
-                  <i class="fa-regular fa-circle-xmark me-2" style="color: #ff3d50"></i>
-                  ${estado}
-            </span>`;
+            if (estado == "Disponible") {
+              html_estado =
+                html_estado +
+                `<span class="mb-3 d-block" name="estado" id="bono-estado">
+                    <i class="fa-regular fa-circle-check me-2" style="color: #39c988"></i>
+                    ${estado}
+              </span>`;
+              
+            } else {
+              html_estado =
+                html_estado +
+                `<span class="mb-3 d-block" name="estado" id="bono-estado">
+                    <i class="fa-regular fa-circle-xmark me-2" style="color: #ff3d50"></i>
+                    ${estado}
+              </span>`;
+            }
           }
-
-          
         });
       } else {
         html_descripcion =
@@ -249,6 +301,63 @@ const listar_bonos = function () {
       $("#bono-descripcion").html(html_descripcion);
       $("#bono-estado").html(html_estado);
     },
+  });
+};
+
+const actualizar_bono = function (id) {
+  $("#formActualizarBono").off('submit').on('submit', function (e) {
+    e.preventDefault();
+    var data2 = $(this).serialize();
+    console.log(data2);
+    const formData = new FormData(this); // Usar el propio formulario para crear FormData
+
+    $.ajax({
+      url: "controller/bono.php",
+      method: "POST",
+      data: formData,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function (data) {
+        console.log(data);
+        const response = JSON.parse(data);
+
+        if (response.status === "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Lo sentimos",
+            text: response.message,
+          });
+        } else {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            },
+          });
+          Toast.fire({
+            icon: "success",
+            title: response.message,
+          });
+          listar_bonos();
+          $("#gestion-bono").modal("hide");
+          $("#formActualizarBono").trigger("reset");
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Error en la solicitud:", status, error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Ha ocurrido un error al intentar actualizar el bono. Por favor, inténtelo de nuevo.",
+        });
+      }
+    });
   });
 };
 
@@ -549,6 +658,7 @@ const base_x_dni = function () {
         const data = JSON.parse(response);
         let html = ``;
         if (data.length > 0) {
+          const rol = localStorage.getItem('rol');
           data.map((x) => {
             const {
               id,
@@ -567,11 +677,19 @@ const base_x_dni = function () {
               tipo_producto,
               combo,
             } = x;
-            html =
+            if(rol !== "2"){
+              html =
               html +
               `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td>
-                <a onclick="obtener_base(${id})"><i class="fa-solid fa-plus me-4"></i></a>
-              </td></tr>`;
+                  <a onclick="obtener_base(${id})"><i class="fa-solid fa-plus me-4"></i></a>
+                </td></tr>`;
+            }else{
+              html =
+              html +
+              `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td class="text-center">
+                  ...
+                </td></tr>`;
+            }
           });
         } else {
           Swal.fire({
@@ -592,6 +710,7 @@ const listarRegistros = function (pagina) {
     data: { option: "listar", pagina: pagina },
     dataType: "json",
     success: function (response) {
+      const rol = localStorage.getItem('rol');
       let html = "";
       if (response.length > 0) {
         response.map((x) => {
@@ -612,11 +731,22 @@ const listarRegistros = function (pagina) {
             tipo_producto,
             combo,
           } = x;
-          html =
+
+          if(rol !== "2"){
+            html =
             html +
             `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td>
                 <a onclick="obtener_base(${id})"><i class="fa-solid fa-plus me-4"></i></a>
               </td></tr>`;
+          }else{
+            html =
+            html +
+            `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td class="text-center">
+                ...
+              </td></tr>`;
+          }
+
+          
         });
       } else {
         html = `<tr><td class='text-center' colspan='14'>No hay datos registrados</td></tr>`;

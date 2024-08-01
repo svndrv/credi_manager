@@ -17,6 +17,12 @@ if(isset($_POST['descripcion'])){ $descripcion = $_POST['descripcion']; }else{ $
 if(isset($_POST['estado'])){ $estado = $_POST['estado']; }else{ $estado = "";};
 
 switch($option){
+    case 'actualizar_bono':
+        echo json_encode($bonos->actualizar_bono($id, $descripcion, $estado));
+    break;
+    case "obtener_x_id":
+        echo json_encode($bonos->obtener_bono_x_id($id));
+    break;
     default:
         echo json_encode($bonos->obtener_bono());
     break; 

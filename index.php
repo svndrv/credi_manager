@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (isset($_SESSION['id'])) {
+    header("Location:dashboard.php?view=inicio");
+};
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -161,7 +168,7 @@
                             <i class="fa-solid fa-signature"></i>
                         </div>
                         <h5 class="mt-4 mb-3">A solo firma</h5>
-                        <p>Retira tu préstamo personal y/o tarjeta de crédito ÚNICA yendo a nuestros establecimientos y con tan solo tu firma.</p>
+                        <p>Retira tu préstamo personal y/o tarjeta de crédito ÚNICA yendo con tan solo tu firma.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6" data-aos="fade-down" data-aos-delay="350">
