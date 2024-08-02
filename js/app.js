@@ -49,6 +49,10 @@ $(function () {
     select_usuarios();
     filtro_metas();
   }
+
+  if (params.get("view") === "metasfv") {
+    listar_metasfv();
+  }
   if (params.get("view") === "inicio") {
     listar_bonos();
     listar_metas_inicio();
@@ -333,7 +337,7 @@ const actualizar_bono = function (id) {
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 3500,
+            timer: 1500,
             timerProgressBar: true,
             didOpen: (toast) => {
               toast.onmouseenter = Swal.stopTimer;
@@ -361,7 +365,7 @@ const actualizar_bono = function (id) {
   });
 };
 
-/* -------------------   METAS   ---------------------- */
+/* -------------------   METAS INDIVIDUALES  ---------------------- */
 
 const listar_metas = function () {
   $.ajax({
@@ -638,6 +642,85 @@ const filtro_metas = function () {
     });
   });
 };
+
+/* -------------------   METAS FUERZA DE VENTAS  ---------------------- */
+
+const listar_metasfv = function () {
+  $.ajax({
+    url: "controller/metafv.php",
+    success: function (response) {
+      const data = JSON.parse(response);
+      let html = ``;
+      if (data.length > 0) {
+        data.map((metas_por_usuario) => {
+          let mes = null;
+          switch (metas_por_usuario.mes) {
+            case "1":
+              mes = "Enero";
+              break;
+            case "2":
+              mes = "Febrero";
+              break;
+            case "3":
+              mes = "Marzo";
+              break;
+            case "4":
+              mes = "Abril";
+              break;
+            case "5":
+              mes = "Mayo";
+              break;
+            case "6":
+              mes = "Junio";
+              break;
+            case "7":
+              mes = "Julio";
+              break;
+            case "8":
+              mes = "Agosto";
+              break;
+            case "9":
+              mes = "Septiembre";
+              break;
+            case "10":
+              mes = "Octubre";
+              break;
+            case "11":
+              mes = "Noviembre";
+              break;
+            case "12":
+              mes = "Diciembre";
+              break;
+            default:
+              mes = "Mes desconocido";
+          }
+
+          html += `
+            <tr>
+              <th scope="row">${metas_por_usuario.id}</th>
+              <td>${metas_por_usuario.ld_cantidad}</td>
+              <td>${metas_por_usuario.ld_monto}</td>
+              <td>${metas_por_usuario.tc_cantidad}</td>
+              <td>${metas_por_usuario.sede}</td>
+              <td>${mes}</td>
+              <td>${metas_por_usuario.cumplido}</td>
+              <td>
+                <a onclick="obtener_metas(${metas_por_usuario.id})">
+                  <i class="fa-solid fa-pencil me-4"></i>
+                </a>
+                <a onclick="eliminar_meta(${metas_por_usuario.id})">
+                  <i class="fa-solid fa-trash"></i>
+                </a>
+              </td>
+            </tr>`;
+        });
+      } else {
+        html = `<tr><td class='text-center' colspan='8'>No se encontraron resultados</td></tr>`;
+      }
+      $("#listar_metasfv").html(html);
+    },
+  });
+}
 
 /* ----------------------------------------------------- */
 
@@ -1300,7 +1383,8 @@ const filtro_empleados = function () {
             }
             html =
               html +
-              `<tr><th scope="row">${usuario.id}</th><td>${usuario.usuario}</td><td>${usuario.nombres}</td><td>${usuario.apellidos}</td><td>${rol}</td><td>${estado}</td><td><a onclick="obtener_usuarios(${usuario.id})"><i class="fa-solid fa-pencil me-4"></i></a>
+              `<tr>
+              <th scope="row">${usuario.id}</th><td scope="row" class="text-center"><img src="img/fotos/${usuario.foto}" alt="Foto de ${usuario.nombres}" class="img-usuario"></td><td>${usuario.usuario}</td><td>${usuario.nombres}</td><td>${usuario.apellidos}</td><td>${rol}</td><td>${estado}</td><td><a onclick="obtener_usuarios(${usuario.id})"><i class="fa-solid fa-pencil me-4"></i></a>
               <a onclick="eliminar_usuario(${usuario.id})"><i class="fa-solid fa-trash"></i></a></td></tr>`;
           });
         } else {
@@ -1336,10 +1420,13 @@ const listar_empleados = function () {
           } else if (usuario.rol === "3") {
             rol = "Asesor";
           }
+
+          console.log(usuario.foto)
           html =
             html +
             `<tr>
             <th scope="row">${usuario.id}</th>
+            <td scope="row" class="text-center"><img src="img/fotos/${usuario.foto}" alt="Foto de ${usuario.nombres}" class="img-usuario shadow"></td>
             <td scope="row">${usuario.usuario}</td>
             <td>${usuario.nombres}</td><td>${usuario.apellidos}</td>
             <td>${rol}</td><td>${estado}</td>

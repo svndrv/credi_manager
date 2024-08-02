@@ -47,6 +47,9 @@ if (!isset($_SESSION['id'])) {
                 case "ventas":
                     require './views/ventas.php';
                     break;
+                case "metasfv":
+                    require './views/metasfv.php';
+                    break;
                 default:
                     require './views/inicio.php';
                     break;

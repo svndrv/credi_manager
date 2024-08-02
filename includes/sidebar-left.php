@@ -46,19 +46,33 @@
 
             <?php } ?>
 
-            <?php if ($_SESSION['rol'] === '2') { ?>
-                <li <?php echo ($view === 'metas') ? 'class="sidebar-active-link"' : ''; ?>>
-                    <a href="dashboard.php?view=metas" class="sidebar-link">
-                        <i class="fa-solid fa-bullseye pe-2"></i>
-                        Metas
-                    </a>
-                </li>
+            <?php if ($_SESSION['rol'] === '2') { ?>               
                 <li <?php echo ($view === 'gestionar') ? 'class="sidebar-active-link"' : ''; ?>>
                     <a href="dashboard.php?view=gestionar" class="sidebar-link">
                         <i class="fa-solid fa-database pe-2"></i>
                         Base
                     </a>
                 </li>
+            <?php }  ?>
+
+            <?php if ($_SESSION['rol'] === '2' || $_SESSION['rol'] === '1') { ?>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link collapsed" data-bs-target="#posts" data-bs-toggle="collapse" aria-expanded="false"><i class="fa-solid fa-bullseye pe-2"></i>
+                        Metas
+                    </a>
+                    <ul id="posts" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <?php if ($_SESSION['rol'] === '1') { ?>
+                            <li <?php echo ($view === 'metas') ? 'class="sidebar-active-link"' : ''; ?>>
+                                <a href="dashboard.php?view=metas" class="sidebar-link">Individual</a>
+                            </li>
+                        <?php }  ?>
+                        <?php if ($_SESSION['rol'] === '2') { ?>
+                            <li <?php echo ($view === 'metasfv') ? 'class="sidebar-active-link"' : ''; ?>>
+                                <a href="dashboard.php?view=metasfv" class="sidebar-link">Fuerza de Ventas</a>
+                            </li>
+                        <?php }  ?>
+                    </ul>
+                </li>               
             <?php }  ?>
 
             <?php if ($_SESSION['rol'] === '1') { ?>
@@ -69,6 +83,8 @@
                     </a>
                 </li>
             <?php }  ?>
+
+
         </ul>
     </div>
 </aside>

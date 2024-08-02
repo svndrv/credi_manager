@@ -177,8 +177,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="formActualizarBono">
-                <input type="text" name="option" value="actualizar_bono">
-                <input type="text" name="id" id="bono-id">
+                <input type="hidden" name="option" value="actualizar_bono">
+                <input type="hidden" name="id" id="bono-id">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripción</label>

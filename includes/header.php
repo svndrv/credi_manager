@@ -17,7 +17,10 @@
 			echo "<spans class='fw-bold' style='color: #d72324;'>>> Usuarios</spans>";
 			break;
 		case "metas":
-			echo "<spans class='fw-bold' style='color: #d72324;'>>> Metas</spans>";
+			echo "<spans class='fw-bold' style='color: #d72324;'>>> Metas Individuales</spans>";
+			break;
+		case "metasfv":
+			echo "<spans class='fw-bold' style='color: #d72324;'>>> Metas Fuerza de Ventas</spans>";
 			break;
 		default:
 			echo "<h2></h2>";
