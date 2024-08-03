@@ -14,7 +14,7 @@
                                     <div class="col-lg-8">
                                         <h5 id="ldc-card-tittle" class="card-title">LD</h5>
                                         <h6 class="card-subtitle mb-2 text-body-secondary">Prestamo Personal</h6>
-                                        <div id="ld_cantidad_text">
+                                        <div id="ld_cantidad_text_id">
                                             <p class="card-text">Cant. 0</p>
                                         </div>
                                     </div>
@@ -32,7 +32,7 @@
                                     <div class="col-lg-8">
                                         <h5 id="tcc-card-tittle" class="card-title">TC</h5>
                                         <h6 class="card-subtitle mb-2 text-body-secondary">Tarjeta de crédito</h6>
-                                        <div id="tc_cantidad_text">
+                                        <div id="tc_cantidad_text_id">
                                             <p class="card-text">Cant. 0 </p>
                                         </div>
                                     </div>
@@ -50,7 +50,7 @@
                                     <div class="col-lg-8">
                                         <h5 id="ldm-card-tittle" class="card-title">Monto de LD</h5>
                                         <h6 class="card-subtitle mb-2 text-body-secondary">Total de Crédito</h6>
-                                        <div id="ld_monto_text">
+                                        <div id="ld_monto_text_id">
                                             <p class="card-text">S/. 0.0</p>
                                         </div>
                                     </div>
@@ -84,11 +84,10 @@
                                                 <th scope="col">LD Monto</th>
                                                 <th scope="col">TC Cantidad</th>
                                                 <th scope="col">Usuario</th>
-                                                <th scope="col">Mes</th>
                                                 <th scope="col">Cumplido</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="listar_metas">
+                                        <tbody id="listar_metas_venta">
                                             <tr>
                                                 <td colspan="8" class="text-center">No hay datos</td>
                                             </tr>

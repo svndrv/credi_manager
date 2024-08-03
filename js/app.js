@@ -57,6 +57,10 @@ $(function () {
     listar_bonos();
     listar_metas_inicio();
     actualizar_bono();
+    listar_metas_ventas();
+    contar_ld_por_id();
+    contar_tc_por_id();
+    contar_ld_monto_por_id();
   } else {
   }
 });
@@ -172,7 +176,32 @@ const listar_metas_inicio = function () {
 };
 
 /* -------------------   VENTASMETAS   ---------------------- */
-
+const listar_metas_ventas = function () {
+  $.ajax({
+    url: "controller/metaventa.php",
+    success: function (response) {
+      //alert(response)
+      const data = JSON.parse(response);
+      let html = ``;
+      if (data.length > 0) {
+        data.map((metas_venta) => {
+          html += `
+            <tr>
+           <th scope="row">${metas_venta.id}</th>
+              <td>${metas_venta.LDCantidad}</td>
+              <td>${metas_venta.LDMonto}</td>
+              <td>${metas_venta.TCCantidad}</td>
+              <td>${metas_venta.Usuario}</td>
+              <td>${metas_venta.cumplido}</td>
+            </tr>`;
+        });
+      } else {
+        html = `<tr><td class='text-center' colspan='6'>No se encontraron resultados</td></tr>`;
+      }
+      $("#listar_metas_venta").html(html);
+    },
+  });
+};
 /* -------------------   PERFIL   ---------------------- */
 
 const cargar_perfil = () => {
@@ -1115,6 +1144,79 @@ var contar_ld_monto = function () {
     },
   });
 };
+const contar_ld_por_id = function (id_usuario) {
+  $.ajax({
+    url: "controller/ventas.php",
+    type: "POST",
+    data: {
+      option: "contar_filas_ld_por_id",
+      id_usuario: id_usuario, 
+    },
+    success: function (response) {
+      const data = JSON.parse(response);
+      console.log(data);
+      let html = ``;
+      if (data.length > 0) {
+        data.map((x) => {
+          const { cantidad_ld } = x;
+          html = html + `<p class="card-text">Cant. ${cantidad_ld}</p>`;
+        });
+      } else {
+        html = html + `<p class="card-text">Cant. 0</p>`;
+      }
+      $("#ld_cantidad_text_id").html(html);
+    },
+  });
+};
+
+var contar_tc_por_id = function (id_usuario) {
+  $.ajax({
+    url: "controller/ventas.php",
+    type: "POST",
+    data: {
+      option: "contar_filas_tc_por_id",
+      id_usuario: id_usuario,
+    },
+    success: function (response) {
+      const data = JSON.parse(response);
+      let html = ``;
+      if (data.length > 0) {
+        data.map((x) => {
+          const { cantidad_tc } = x;
+          html = html + `<p class="card-text">Cant. ${cantidad_tc}</p>`;
+        });
+      } else {
+        html = html + `<p class="card-text">Cant. 0</p>`;
+      }
+      $("#tc_cantidad_text_id").html(html);
+    },
+  });
+};
+
+var contar_ld_monto_por_id = function (id_usuario) {
+  $.ajax({
+    url: "controller/ventas.php",
+    type: "POST",
+    data: {
+      option: "ld_monto_por_id",
+      id_usuario: id_usuario,
+    },
+    success: function (response) {
+      const data = JSON.parse(response);
+      let html = ``;
+      if (data.length > 0) {
+        data.map((x) => {
+          const { ld_monto } = x;
+          html = html + `<p class="card-text">S/. ${ld_monto}</p>`;
+        });
+      } else {
+        html = html + `<p class="card-text">S/. 0.0</p>`;
+      }
+      $("#ld_monto_text_id").html(html);
+    },
+  });
+};
+
 const obtener_ventas = function (id) {
   $("#obtener-ventas").modal("show");
   $.ajax({

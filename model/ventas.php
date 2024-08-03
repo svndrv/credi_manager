@@ -203,6 +203,30 @@ ON
         }   
    
     }
+    public function contar_ld_por_id($id_usuario){
+        $sql = "SELECT COUNT(*) AS cantidad_ld FROM ventas WHERE tipo_producto IN ('LD', 'LD/TC') AND estado = 'Desembolsado' AND id_usuario = ? LIMIT 1";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(1,$id_usuario);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function contar_tc_por_id($id_usuario){
+        $sql = "SELECT COUNT(*) AS cantidad_tc FROM ventas WHERE tipo_producto IN ('TC', 'LD/TC') AND estado = 'Desembolsado' AND id_usuario = ? LIMIT 1";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(1,$id_usuario);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function contar_ld_monto_por_id($id_usuario){
+        $sql = "SELECT SUM(credito) AS ld_monto FROM ventas WHERE estado = 'Desembolsado' AND id_usuario = ? LIMIT 1 ";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(1,$id_usuario, PDO::PARAM_INT);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
 
 }
 

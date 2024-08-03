@@ -1,4 +1,5 @@
 <?php 
+session_start();
 
 require "../config/conexion.php";
 require "../model/ventas.php";
@@ -59,9 +60,33 @@ switch ($option) {
         $id = $_POST['id'];
         echo json_encode($ventas->eliminar_venta($id));
     break;
+    case 'contar_filas_ld_por_id':
+        if (isset($_SESSION['id'])) {
+            echo json_encode($ventas->contar_ld_por_id($_SESSION['id']));
+        } else {
+            echo json_encode(['error' => 'ID de sesión no disponible']);
+        }
+        break;
+    
+    case 'contar_filas_tc_por_id':
+        if (isset($_SESSION['id'])) {
+            echo json_encode($ventas->contar_tc_por_id($_SESSION['id']));
+        } else {
+            echo json_encode(['error' => 'ID de sesión no disponible']);
+        }
+        break;
+    
+    case 'ld_monto_por_id':
+        if (isset($_SESSION['id'])) {
+            echo json_encode($ventas->contar_ld_monto_por_id($_SESSION['id']));
+        } else {
+            echo json_encode(['error' => 'ID de sesión no disponible']);
+        }
+        break;
     default:
         echo json_encode($ventas->obtener_ventas_inner());  
     break;
+    
 }
 
 
