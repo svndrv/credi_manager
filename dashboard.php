@@ -44,6 +44,9 @@ if (!isset($_SESSION['id'])) {
                 case "metas":
                     require './views/metas.php';
                     break;
+                case "cartera":
+                    require './views/cartera.php';
+                    break;
                 case "ventas":
                     require './views/ventas.php';
                     break;

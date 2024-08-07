@@ -53,6 +53,13 @@ $(function () {
   if (params.get("view") === "metasfv") {
     listar_metasfv();
   }
+
+  if (params.get("view") === "cartera") {
+    listar_cartera();
+    crear_cartera();
+    actualizar_cartera();
+  }
+
   if (params.get("view") === "inicio") {
     listar_bonos();
     listar_metas_inicio();
@@ -175,24 +182,194 @@ const listar_metas_inicio = function () {
   });
 };
 
+/* -------------------   CARTERA   ---------------------- */
+
+const listar_cartera = function () {
+  $.ajax({
+    url: "controller/cartera.php",
+    success: function (response){
+      const data = JSON.parse(response);
+      let html = ``;
+      if(data.length > 0){
+        data.map((x) => {
+          const {
+            id,
+            nombres,
+            dni,
+            celular,
+            created_at
+          } = x;
+          html =
+            html +
+            `<tr>
+              <td>${id}</td>
+              <td>${nombres}</td>
+              <td>${dni}</td>
+              <td>${celular}</td>
+              <td>${created_at}</td>
+              <td class="text-center">
+                <a onclick="obtener_cartera(${id})"><i class="fa-regular fa-pen-to-square me-2" style="color: #001b2b"></i></a>
+                <a onclick="eliminar_cartera(${id})"><i class="fa-solid fa-circle-plus me-2" style="color: #001b2b"></i>
+                <a onclick="eliminar_cartera(${id})"><i class="fa-solid fa-trash" style="color: #001b2b"></i></a>
+              </td>
+            </tr>`;
+        });
+      }else {
+        html =
+          html +
+          `<tr><td class='text-center' colspan='11'>No se encontraron resultados.</td>`;
+      }
+      $("#listar_cartera").html(html);
+    }
+  })
+}
+
+const obtener_cartera = function (id) {
+  $("#editar-cartera").modal("show");
+  $.ajax({
+    url: "controller/cartera.php",
+    method: "POST",
+    data: {
+      id: id,
+      option: "obtener_x_id",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+      $.each(data, function (i, e) {
+        $("#id_car").val(data[i]["id"]);
+        $("#nombres_car").val(data[i]["nombres"]);
+        $("#dni_car").val(data[i]["dni"]);
+        $("#celular_car").val(data[i]["celular"]);
+        $("#descripcion_car").val(data[i]["descripcion"]);
+        $("#campana_car").val(data[i]["campana"]);
+      });
+    },
+  });
+};
+
+const crear_cartera = function () {
+  $("#formAgregarCartera").submit(function (e) {
+    e.preventDefault();
+    const data = new FormData($("#formAgregarCartera")[0]);
+
+    $.ajax({
+      url: "controller/cartera.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function (data) {
+        const response = JSON.parse(data);
+        console.log(response);
+        if (response.status == "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Lo sentimos",
+            text: response.message,
+          });
+        } else {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            },
+          });
+          Toast.fire({
+            icon: "success",
+            title: response.message,
+          });
+          listar_cartera();
+          $("#agregar-cartera").modal("hide");
+          $("#formAgregarCartera").trigger("reset");
+        }
+      },
+    });
+  });
+};
+
+const eliminar_cartera = function (id) {
+  Swal.fire({
+    title: "¿Estas seguro?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "controller/cartera.php",
+        method: "POST",
+        data: {
+          id: id,
+          option: "eliminar_cartera",
+        },
+        success: function (data) {
+          alert(data)
+          const response = JSON.parse(data);
+          if (response.status === "success") {
+            Swal.fire({
+              title: "Felicidades",
+              text: response.message,
+              icon: "success",
+            });
+            listar_cartera();
+          } else {
+            alert("algo salio mal" + data);
+          }
+        },
+      });
+    }
+  });
+};
+
+const actualizar_cartera = function () {
+  $("#formActualizarCartera").submit(function (e) {
+    e.preventDefault();
+    var data = $(this).serialize();
+    $.ajax({
+      url: "controller/cartera.php",
+      method: "POST",
+      data: data,
+      success: function (data) {
+        const response = JSON.parse(data);
+        console.log(response.status);
+        if (response.status == "success") {
+          listar_cartera();
+          $("#editar-cartera").modal("hide");
+          $("#formActualizarCartera").trigger("reset");
+        } else {
+          alert("Algo salió mal.");
+        }
+      },
+    });
+  });
+};
+
 /* -------------------   VENTASMETAS   ---------------------- */
 const listar_metas_ventas = function () {
   $.ajax({
     url: "controller/metaventa.php",
     success: function (response) {
-      //alert(response)
       const data = JSON.parse(response);
       let html = ``;
       if (data.length > 0) {
         data.map((metas_venta) => {
           html += `
             <tr>
-           <th scope="row">${metas_venta.id}</th>
-              <td>${metas_venta.LDCantidad}</td>
-              <td>${metas_venta.LDMonto}</td>
-              <td>${metas_venta.TCCantidad}</td>
-              <td>${metas_venta.Usuario}</td>
-              <td>${metas_venta.cumplido}</td>
+           <th scope="row" class="text-center">${metas_venta.id}</th>
+              <td class="text-center">${metas_venta.LDCantidad}</td>
+              <td class="text-center">${metas_venta.LDMonto}</td>
+              <td class="text-center">${metas_venta.TCCantidad}</td>
+              <td class="text-center">${metas_venta.Usuario}</td>
+              <td class="text-center">${metas_venta.cumplido}</td>
             </tr>`;
         });
       } else {
@@ -1022,7 +1199,7 @@ const listar_ventas = function () {
               <td>${nombre_completo}</td>
               <td>${tipo_producto}</td>
               <td>${estado}</td>
-              <td>
+              <td class="text-center">
                 <a onclick="obtener_ventas(${id})"><i class="fa-regular fa-pen-to-square me-4" style="color: #001b2b"></i></a>
                 <a onclick="eliminar_venta(${id})"><i class="fa-solid fa-trash"></i></a>
               </td>

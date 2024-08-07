@@ -77,7 +77,7 @@
 
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover table-striped">
-                                        <thead>
+                                        <thead class="text-center">
                                             <tr>
                                                 <th scope="col">#</th>
                                                 <th scope="col">LD Cantidad</th>

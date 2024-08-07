@@ -1,8 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['id'])) {
-    header("Location:dashboard.php?view=inicio");
-};
+
 ?>
 
 <!doctype html>
@@ -110,7 +108,7 @@ if (isset($_SESSION['id'])) {
                 <div class="col-lg-8">
                     <form id="form_consulta" class="row g-3 p-lg-5 p-4 bg-white theme-shadow">
                     <input type="hidden" name="option" value="crear_consulta">
-                    <input type="hidden" id="campana"  name="campana">
+                    <input type="text" id="campana"  name="campana">
                         <div class="form-group col-lg-6">
                             <div class="input-group">
                                 <input type="text" id="dni" name="dni" class="form-control form-control-lg bg-light fs-6" placeholder="Ingresar DNI">

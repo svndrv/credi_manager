@@ -22,6 +22,9 @@
 		case "metasfv":
 			echo "<spans class='fw-bold' style='color: #d72324;'>>> Metas Fuerza de Ventas</spans>";
 			break;
+		case "cartera":
+			echo "<spans class='fw-bold' style='color: #d72324;'>>> Cartera de Clientes</spans>";
+			break;
 		default:
 			echo "<h2></h2>";
 			break;

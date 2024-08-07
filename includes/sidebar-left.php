@@ -43,14 +43,29 @@
                         Ventas
                     </a>
                 </li>
+                <li <?php echo ($view === 'cartera') ? 'class="sidebar-active-link"' : ''; ?>>
+                    <a href="dashboard.php?view=cartera" class="sidebar-link">
+                        <i class="fa-solid fa-wallet pe-2"></i>
+                        Cartera
+                    </a>
+                </li>
 
             <?php } ?>
 
-            <?php if ($_SESSION['rol'] === '2') { ?>               
+            <?php if ($_SESSION['rol'] === '2') { ?>
                 <li <?php echo ($view === 'gestionar') ? 'class="sidebar-active-link"' : ''; ?>>
                     <a href="dashboard.php?view=gestionar" class="sidebar-link">
                         <i class="fa-solid fa-database pe-2"></i>
                         Base
+                    </a>
+                </li>
+            <?php }  ?>
+
+            <?php if ($_SESSION['rol'] === '1') { ?>
+                <li <?php echo ($view === 'usuarios') ? 'class="sidebar-active-link"' : ''; ?>>
+                    <a href="dashboard.php?view=usuarios" class="sidebar-link">
+                        <i class="fa-solid fa-users pe-2"></i>
+                        Usuarios
                     </a>
                 </li>
             <?php }  ?>
@@ -72,17 +87,10 @@
                             </li>
                         <?php }  ?>
                     </ul>
-                </li>               
-            <?php }  ?>
-
-            <?php if ($_SESSION['rol'] === '1') { ?>
-                <li <?php echo ($view === 'usuarios') ? 'class="sidebar-active-link"' : ''; ?>>
-                    <a href="dashboard.php?view=usuarios" class="sidebar-link">
-                        <i class="fa-solid fa-users pe-2"></i>
-                        Usuarios
-                    </a>
                 </li>
             <?php }  ?>
+
+
 
 
         </ul>

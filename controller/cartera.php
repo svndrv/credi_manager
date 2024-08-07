@@ -1,0 +1,41 @@
+<?php 
+
+require "../config/conexion.php";
+require "../model/cartera.php";
+
+$cartera = new Cartera();
+
+$option = '';
+$id = '';
+$nombres = '';
+$dni = '';
+$celular = '';
+
+if(isset($_POST['option'])){ $option = $_POST['option']; }else{ $option = "";};
+if(isset($_POST['id'])){ $id = $_POST['id']; }else{ $id = "";};
+if(isset($_POST['nombres'])){ $nombres = $_POST['nombres']; }else{ $nombres = "";};
+if(isset($_POST['dni'])){ $dni = $_POST['dni']; }else{ $dni = "";};
+if(isset($_POST['celular'])){ $celular = $_POST['celular']; }else{ $celular = "";};
+
+switch($option){
+    case "obtener_x_id":
+        echo json_encode($cartera->obtener_cartera_x_id($id));
+        break;
+    case "actualizar_cartera":
+        echo json_encode($cartera->actualizar_cartera($id, $nombres, $dni, $celular));
+        break;
+    case "agregar_cartera":
+        echo json_encode($cartera->agregar_cartera($nombres, $dni, $celular));
+        break;
+    case "eliminar_cartera":
+        echo json_encode($cartera->eliminar_cartera($id));
+        break;
+    default:
+        echo json_encode($cartera->obtener_cartera());
+    break;
+}
+
+
+   
+
+?>
