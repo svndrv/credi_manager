@@ -79,69 +79,15 @@ class Cartera extends Conectar {
         ];
     }
 
-    public function actualizar_usuario($id, $usuario, $contrasena, $nombres, $apellidos, $rol, $estado, $foto, $archivoFoto)
-    {
-
-        if (empty($usuario) ||empty($nombres) || empty($apellidos) || empty($rol) || empty($estado))
-            return [
-                "status" => "error",
-                "message" => "Verfifique los campos vacios."
-            ];
-
-        if (empty($contrasena)) {
-            $sql = "UPDATE usuario SET usuario = ?, nombres = ?, apellidos = ?, rol = ?, estado = ?, foto = ?, updated_at = now() WHERE id = ?";
-            $sql = $this->db->prepare($sql);
-
-            if (empty($foto)) {
-                $nombreFoto = $archivoFoto;
-            } else {
-                $nombreFoto = uniqid() . "-" . $_FILES["foto"]['name'];
-                $ruta = "../img/fotos/" . $nombreFoto;
-                move_uploaded_file($_FILES["foto"]['tmp_name'], $ruta);
-            }
-
-            $sql->bindValue(1, $usuario);
-            $sql->bindValue(2, $nombres);
-            $sql->bindValue(3, $apellidos);
-            $sql->bindValue(4, $rol);
-            $sql->bindValue(5, $estado);
-            $sql->bindValue(6, $nombreFoto);
-            $sql->bindValue(7, $id);
-            $sql->execute();
-
-            return [
-                "status" => "success",
-                "message" => "Usuario editado correctamente."
-            ];
-        } else {
-            $sql = "UPDATE usuario SET usuario = ?, contrasena = ?, nombres = ?, apellidos = ?, rol = ?, estado = ?, foto = ?, updated_at = now() WHERE id = ?";
-            $sql = $this->db->prepare($sql);
-            $contrasenaEncriptada = password_hash($contrasena, PASSWORD_DEFAULT);
-
-            if (empty($foto)) {
-                $nombreFoto = $archivoFoto;
-            } else {
-                $nombreFoto = uniqid() . "-" . $_FILES["foto"]['name'];
-                $ruta = "../img/fotos/" . $nombreFoto;
-                move_uploaded_file($_FILES["foto"]['tmp_name'], $ruta);
-            }
-
-            $sql->bindValue(1, $usuario);
-            $sql->bindValue(2, $contrasenaEncriptada);
-            $sql->bindValue(3, $nombres);
-            $sql->bindValue(4, $apellidos);
-            $sql->bindValue(5, $rol);
-            $sql->bindValue(6, $estado);
-            $sql->bindValue(7, $nombreFoto);
-            $sql->bindValue(8, $id);
-            $sql->execute();
-            
-            return [
-                "status" => "success",
-                "message" => "Usuario editado correctamente."
-            ];
-        }
+    public function obtener_cartera_x_dni($dni){
+        $sql = "SELECT * FROM cartera WHERE dni = ?";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(1, $dni);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    
 
 }
 ?>

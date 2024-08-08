@@ -30,6 +30,9 @@ switch($option){
     case "eliminar_cartera":
         echo json_encode($cartera->eliminar_cartera($id));
         break;
+    case "cartera_x_dni":
+        echo json_encode($cartera->obtener_cartera_x_dni($dni));
+        break;
     default:
         echo json_encode($cartera->obtener_cartera());
     break;

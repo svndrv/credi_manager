@@ -58,6 +58,8 @@ $(function () {
     listar_cartera();
     crear_cartera();
     actualizar_cartera();
+    crear_ventas();
+    cartera_x_dni();
   }
 
   if (params.get("view") === "inicio") {
@@ -209,7 +211,7 @@ const listar_cartera = function () {
               <td>${created_at}</td>
               <td class="text-center">
                 <a onclick="obtener_cartera(${id})"><i class="fa-regular fa-pen-to-square me-2" style="color: #001b2b"></i></a>
-                <a onclick="eliminar_cartera(${id})"><i class="fa-solid fa-circle-plus me-2" style="color: #001b2b"></i>
+                <a onclick="trasladar_venta(${id})"><i class="fa-solid fa-circle-plus me-2" style="color: #001b2b"></i>
                 <a onclick="eliminar_cartera(${id})"><i class="fa-solid fa-trash" style="color: #001b2b"></i></a>
               </td>
             </tr>`;
@@ -223,7 +225,6 @@ const listar_cartera = function () {
     }
   })
 }
-
 const obtener_cartera = function (id) {
   $("#editar-cartera").modal("show");
   $.ajax({
@@ -240,13 +241,30 @@ const obtener_cartera = function (id) {
         $("#nombres_car").val(data[i]["nombres"]);
         $("#dni_car").val(data[i]["dni"]);
         $("#celular_car").val(data[i]["celular"]);
-        $("#descripcion_car").val(data[i]["descripcion"]);
-        $("#campana_car").val(data[i]["campana"]);
       });
     },
   });
 };
-
+const trasladar_venta = function (id) {
+  $("#obtener_cartera").modal("show");
+  $.ajax({
+    url: "controller/cartera.php",
+    method: "POST",
+    data: {
+      id: id,
+      option: "obtener_x_id",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+      $.each(data, function (i, e) {
+        $("#car_id").val(data[i]["id"]);
+        $("#car_nombres").val(data[i]["nombres"]);
+        $("#car_dni").val(data[i]["dni"]);
+        $("#car_celular").val(data[i]["celular"]);
+      });
+    },
+  });
+};
 const crear_cartera = function () {
   $("#formAgregarCartera").submit(function (e) {
     e.preventDefault();
@@ -292,7 +310,6 @@ const crear_cartera = function () {
     });
   });
 };
-
 const eliminar_cartera = function (id) {
   Swal.fire({
     title: "¿Estas seguro?",
@@ -329,7 +346,6 @@ const eliminar_cartera = function (id) {
     }
   });
 };
-
 const actualizar_cartera = function () {
   $("#formActualizarCartera").submit(function (e) {
     e.preventDefault();
@@ -348,6 +364,59 @@ const actualizar_cartera = function () {
         } else {
           alert("Algo salió mal.");
         }
+      },
+    });
+  });
+};
+
+const cartera_x_dni = function () {
+  $("#form_filtro_cartera").submit(function (e) {
+    e.preventDefault();
+    var dni = document.getElementById("c-dni").value.trim();
+    $.ajax({
+      url: "controller/cartera.php",
+      method: "POST",
+      data: {
+        dni: dni,
+        option: "cartera_x_dni",
+      },
+      success: function (response) {
+        const data = JSON.parse(response);
+        let html = ``;
+        if (data.length > 0) {
+          data.map((x) => {
+            const {
+              id,
+              dni,
+              nombres,
+              celular,
+              created_at
+              
+            } = x;
+              html =
+              html +
+              `<tr>
+              <td>${id}</td>
+              <td>${nombres}</td>
+              <td>${dni}</td>
+              <td>${celular}</td>
+              <td>${created_at}</td>
+              <td class="text-center">
+                <a onclick="obtener_cartera(${id})"><i class="fa-regular fa-pen-to-square me-2" style="color: #001b2b"></i></a>
+                <a onclick="trasladar_venta(${id})"><i class="fa-solid fa-circle-plus me-2" style="color: #001b2b"></i>
+                <a onclick="eliminar_cartera(${id})"><i class="fa-solid fa-trash" style="color: #001b2b"></i></a>
+              </td>
+            </tr>`;
+      
+          });
+        } else {
+          Swal.fire({
+            title: "No se encontraron campañas.",
+            padding: "2em",
+          });
+          listar_cartera();
+        }
+        $("#listar_cartera").html(html);
       },
     });
   });
@@ -1249,6 +1318,7 @@ const crear_ventas = function () {
           });
           $("#obtener-base").modal("hide");
           $("#editar-consulta").modal("hide");
+          $("#obtener_cartera").modal("hide");
           $("#formObtenerBase").trigger("reset");
         }
       },
