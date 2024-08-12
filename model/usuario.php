@@ -36,7 +36,6 @@ class Usuario extends Conectar
         $_SESSION['apellidos'] = $data['apellidos'];
         $_SESSION['estado'] = $data['estado'];
 
-
         return [
             "status" => "success",
             "url" => "dashboard.php?view=inicio"
@@ -181,7 +180,8 @@ class Usuario extends Conectar
 
     public function agregar_usuario($usuario, $contrasena, $nombres, $apellidos, $rol, $estado, $foto)
     {
-        if (empty($usuario) || empty($contrasena) || empty($nombres) || empty($apellidos) || empty($rol) || empty($estado))
+        if (empty($usuario) || empty($contrasena) || empty($nombres) || 
+        empty($apellidos) || empty($rol) || empty($estado))
             return [
                 "status" => "error",
                 "message" => "Verificar los campos vacios."
@@ -194,7 +194,8 @@ class Usuario extends Conectar
             return ["status" => "error", "message" => "El usuario ya existe."];
         if (empty($foto))
             $foto = 'user.jpg';
-        $sql = "INSERT INTO usuario (usuario, contrasena, nombres, apellidos, rol, estado, foto,created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, now(), now())";
+        $sql = "INSERT INTO usuario (usuario, contrasena, nombres, apellidos, rol, 
+        estado, foto,created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, now(), now())";
         $sql = $this->db->prepare($sql);
         $contrasenaEncriptada = password_hash($contrasena, PASSWORD_DEFAULT);
         $nombreFoto = uniqid() . "-" . $_FILES["foto"]['name'];

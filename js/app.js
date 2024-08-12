@@ -11,6 +11,7 @@ $(function () {
     borrar_base();
     importar();
     crear_ventas();
+    agregar_base_cartera();
   }
 
   if (params.get("view") === "consultas") {
@@ -18,6 +19,7 @@ $(function () {
     filtro_consultas();
     actualizar_consulta();
     crear_ventas();
+    agregar_consulta_cartera();
   } else {
     crear_consultas();
     rellenar_consulta();
@@ -368,7 +370,6 @@ const actualizar_cartera = function () {
     });
   });
 };
-
 const cartera_x_dni = function () {
   $("#form_filtro_cartera").submit(function (e) {
     e.preventDefault();
@@ -516,7 +517,6 @@ const obtener_bono = function (id) {
     },
   });
 }
-
 const listar_bonos = function () {
   $.ajax({
     url: "controller/bono.php",
@@ -582,7 +582,6 @@ const listar_bonos = function () {
     },
   });
 };
-
 const actualizar_bono = function (id) {
   $("#formActualizarBono").off('submit').on('submit', function (e) {
     e.preventDefault();
@@ -718,7 +717,6 @@ const listar_metas = function () {
     },
   });
 };
-
 const eliminar_meta = function (id) {
   $.ajax({
     url: "controller/meta.php",
@@ -771,7 +769,6 @@ const obtener_metas = function (id) {
     },
   });
 };
-
 const actualizar_meta = function () {
   $("#formActualizarMeta").submit(function (e) {
     e.preventDefault();
@@ -1095,6 +1092,7 @@ const listarRegistros = function (pagina) {
             html +
             `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td>
                 <a onclick="obtener_base(${id})"><i class="fa-solid fa-plus me-4"></i></a>
+                <a onclick="trasladar_base(${id})"><i class="fa-solid fa-wallet me-4"></i>
               </td></tr>`;
           }else{
             html =
@@ -1155,7 +1153,7 @@ function construirPaginacion(pagina_actual) {
       $("#paginacion").html(html);
     },
   });
-}
+};
 const obtener_base = function (id) {
   $("#obtener-base").modal("show");
   $.ajax({
@@ -1185,7 +1183,6 @@ const obtener_base = function (id) {
     },
   });
 };
-
 const borrar_base = function () {
   $("#btn-borrar-base").click(function (e) {
     e.preventDefault();
@@ -1228,6 +1225,77 @@ const borrar_base = function () {
     });
   });
 };
+
+const trasladar_base = function (id){
+  $("#obtener-cartera_base").modal("show");
+  $.ajax({
+    url: "controller/base.php",
+    method: "POST",
+    data: {
+      id: id,
+      option: "base_x_id",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+      $.each(data, function (i, e) {
+        $("#tras_id").val(data[i]["id"]);
+        $("#tras_nombres").val(data[i]["nombres"]);
+        $("#tras_dni").val(data[i]["dni"]);
+        $("#tras_celular").val(data[i]["celular_1"]);   
+      });
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al obtener la meta: ", error);
+      alert("Hubo un error al obtener la meta.");
+    },
+  });
+}
+
+const agregar_base_cartera = function (){
+  $("#formAgregarCartera").submit(function (e) {
+    e.preventDefault();
+    const data = new FormData($("#formAgregarCartera")[0]);
+
+    $.ajax({
+      url: "controller/cartera.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function (data) {
+        const response = JSON.parse(data);
+        console.log(response);
+        if (response.status == "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Lo sentimos",
+            text: response.message,
+          });
+        } else {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            },
+          });
+          Toast.fire({
+            icon: "success",
+            title: response.message,
+          });
+          listar_cartera();
+          $("#obtener-cartera_base").modal("hide");
+          $("#formAgregarCartera").trigger("reset");
+        }
+      },
+    });
+  });
+}
 
 /* ----------------------------------------------------- */
 
@@ -1415,7 +1483,6 @@ const contar_ld_por_id = function (id_usuario) {
     },
   });
 };
-
 var contar_tc_por_id = function (id_usuario) {
   $.ajax({
     url: "controller/ventas.php",
@@ -1439,7 +1506,6 @@ var contar_tc_por_id = function (id_usuario) {
     },
   });
 };
-
 var contar_ld_monto_por_id = function (id_usuario) {
   $.ajax({
     url: "controller/ventas.php",
@@ -1463,7 +1529,6 @@ var contar_ld_monto_por_id = function (id_usuario) {
     },
   });
 };
-
 const obtener_ventas = function (id) {
   $("#obtener-ventas").modal("show");
   $.ajax({
@@ -1733,7 +1798,11 @@ const filtro_empleados = function () {
             html =
               html +
               `<tr>
-              <th scope="row">${usuario.id}</th><td scope="row" class="text-center"><img src="img/fotos/${usuario.foto}" alt="Foto de ${usuario.nombres}" class="img-usuario"></td><td>${usuario.usuario}</td><td>${usuario.nombres}</td><td>${usuario.apellidos}</td><td>${rol}</td><td>${estado}</td><td><a onclick="obtener_usuarios(${usuario.id})"><i class="fa-solid fa-pencil me-4"></i></a>
+              <th scope="row">${usuario.id}</th>
+              <td scope="row" class="text-center">
+              <img src="img/fotos/${usuario.foto}" alt="Foto de ${usuario.nombres}" class="img-usuario">
+              </td><td>${usuario.usuario}</td><td>${usuario.nombres}</td><td>${usuario.apellidos}</td><td>${rol}</td>
+              <td>${estado}</td><td><a onclick="obtener_usuarios(${usuario.id})"><i class="fa-solid fa-pencil me-4"></i></a>
               <a onclick="eliminar_usuario(${usuario.id})"><i class="fa-solid fa-trash"></i></a></td></tr>`;
           });
         } else {
@@ -1806,7 +1875,6 @@ const obtener_usuarios = function (id) {
       $.each(data, function (i, e) {
         $("#id").val(data[i]["id"]);
         $("#usuario").val(data[i]["usuario"]);
-        //$("#contrasena").val(data[i]["contrasena"]);
         $("#nombres").val(data[i]["nombres"]);
         $("#apellidos").val(data[i]["apellidos"]);
         $("#estado2").val(data[i]["estado"]);
@@ -1950,9 +2018,10 @@ const listar_consultas = function () {
               <td>${celular}</td>
               <td>${descripcion}</td>
               <td>${campana}</td>
-              <td>
-                <a onclick="obtener_consultas(${id})"><i class="fa-solid fa-plus me-4"></i></a>
-                <a onclick="eliminar_consulta(${id})"><i class="fa-solid fa-trash"></i></a>
+              <td class="text-center">
+                <a onclick="obtener_consultas(${id})"><i class="fa-solid fa-plus me-3"></i></a>
+                <a onclick="obtener_consulta_cartera(${id})"><i class="fa-solid fa-wallet me-4"></i>
+                <a onclick="eliminar_consulta(${id})"><i class="fa-solid fa-trash me-3"></i></a>
               </td>
             </tr>`;
         });
@@ -1965,6 +2034,70 @@ const listar_consultas = function () {
     },
   });
 };
+const obtener_consulta_cartera = function(id){
+  $("#agregar-consulta-cartera").modal("show");
+  $.ajax({
+    url: "controller/consultas.php",
+    method: "POST",
+    data: {
+      id: id,
+      option: "obtener_x_id",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+      $.each(data, function (i, e) {
+        $("#con_id").val(data[i]["id"]);
+        $("#con_dni").val(data[i]["dni"]);
+        $("#con_celular").val(data[i]["celular"]);
+      });
+    },
+  });
+}
+const agregar_consulta_cartera = function (){
+  $("#formAgregarCartera").submit(function (e) {
+    e.preventDefault();
+    const data = new FormData($("#formAgregarCartera")[0]);
+
+    $.ajax({
+      url: "controller/cartera.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function (data) {
+        const response = JSON.parse(data);
+        console.log(response);
+        if (response.status == "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Lo sentimos",
+            text: response.message,
+          });
+        } else {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            },
+          });
+          Toast.fire({
+            icon: "success",
+            title: response.message,
+          });
+          listar_consultas();
+          $("#agregar-consulta-cartera").modal("hide");
+          $("#formAgregarCartera").trigger("reset");
+        }
+      },
+    });
+  });
+}
 const rellenar_consulta = function () {
   $("#dni").on("input", function () {
     var dni = document.getElementById("dni").value.trim();
@@ -2022,7 +2155,6 @@ const verificar_dni_base = function () {
     });
   });
 };
-
 const crear_consultas = function () {
   $("#form_consulta").submit(function (e) {
     e.preventDefault();
@@ -2158,8 +2290,6 @@ const obtener_consultas = function (id) {
         $("#id2").val(data[i]["id"]);
         $("#dni2").val(data[i]["dni"]);
         $("#celular2").val(data[i]["celular"]);
-        $("#descripcion").val(data[i]["descripcion"]);
-        $("#campana2").val(data[i]["campana"]);
       });
     },
   });
@@ -2328,41 +2458,3 @@ function sendMail() {
       });
     });
 }
-// BASE
-
-// const listar_base = function () {
-//   $.ajax({
-//     url: "controller/base.php",
-//     success: function (response) {
-//       const data = JSON.parse(response);
-//       let html = ``;
-//       if (data.length > 0) {
-//         data.map((x) => {
-//           const {
-//             id,
-//             nombres,
-//             tipo_cliente,
-//             direccion,
-//             distrito,
-//             credito_max,
-//             plazo_max,
-//             tem,
-//             celular_1,
-//             celular_2,
-//             celular_3,
-//             tipo_producto,
-//             combo,
-//           } = x;
-//           html =
-//             html +
-//             `<tr><td>${id}</td><td>${nombres}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>${credito_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td></tr>`;
-//         });
-//       } else {
-//         html =
-//           html +
-//           `<tr><td class='text-center' colspan='13'>No se encontraron resultados</td>`;
-//       }
-//       $("#listar_base").html(html);
-//     },
-//   });
-// };

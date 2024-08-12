@@ -7,9 +7,10 @@ class Cartera extends Conectar {
         $this->db = Conectar::conexion();
         $this->cartera = array();
     }
-    public function obtener_cartera(){
-        $sql = "SELECT * FROM cartera";
+    public function obtener_cartera($id){
+        $sql = "SELECT * FROM cartera WHERE id_usuario = ?";
         $sql = $this->db->prepare($sql);
+        $sql->bindValue(1, $id);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -20,7 +21,7 @@ class Cartera extends Conectar {
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function agregar_cartera($nombres, $dni, $celular){
+    public function agregar_cartera($nombres, $dni, $celular, $id_usuario){
 
         if(empty($nombres) || empty($dni) || empty($celular)){
             return [
@@ -29,11 +30,12 @@ class Cartera extends Conectar {
             ];
         }
         
-        $sql = "INSERT INTO cartera (nombres, dni, celular, created_at ,updated_at) VALUES(?, ?, ?, now(), now())";
+        $sql = "INSERT INTO cartera (nombres, dni, celular, id_usuario, created_at , updated_at) VALUES(?, ?, ?, ?, now(), now())";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(1, $nombres);
         $sql->bindValue(2, $dni);
         $sql->bindValue(3, $celular);
+        $sql->bindValue(4, $id_usuario);
         $sql->execute();
 
         $response = [

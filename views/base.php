@@ -33,7 +33,7 @@
                             </form>
 
                         </div>
-                        
+
 
                     <?php }  ?>
 
@@ -75,7 +75,7 @@
 
                     <?php if ($_SESSION['rol'] === '2' || $_SESSION['rol'] === '1') { ?>
 
-                    <div class="col-lg-12 mb-3 d-flex justify-content-start mt-4">
+                        <div class="col-lg-12 mb-3 d-flex justify-content-start mt-4">
                             <button type="button" id="btn-borrar-base" class="btn btn-danger"><i class="fa-solid fa-trash me-2"></i>Borrar base</button>
                         </div>
 
@@ -152,15 +152,47 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="submit" class="btn btn-primary">Transladar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="obtener-cartera_base" tabindex="-1" aria-labelledby="obtener-carteraModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="obtener-carteraModalLabel">Trasladar Cartera</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formAgregarCartera">
+                    <input type="text" name="option" value="agregar_cartera">
+                    <input type="text" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label for="nombres" class="form-label">Nombres:</label>
+                                <input type="text" class="form-control" id="tras_nombres" name="nombres">
+                            </div>
+                            <div class="mb-3">
+                                <label for="dni" class="form-label">DNI:</label>
+                                <input type="text" class="form-control" id="tras_dni" name="dni">
+                            </div>
+                            <div class="mb-3">
+                                <label for="celular" class="form-label">Celular:</label>
+                                <input type="text" class="form-control" id="tras_celular" name="celular">
+                            </div>                          
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Trasladar</button>
             </div>
             </form>
         </div>

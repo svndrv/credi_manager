@@ -75,19 +75,19 @@
                         <div class="col-lg-6">
                             <div class="mb-3">
                                 <label for="nombres" class="form-label">Nombres:</label>
-                                <input type="text" class="form-control" id="nombres" name="nombres" aria-describedby="emailHelp">
+                                <input type="text" class="form-control" id="edinombres" name="nombres">
                             </div>
                             <div class="mb-3">
                                 <label for="dni" class="form-label">DNI:</label>
-                                <input type="text" class="form-control" id="dni2" name="dni" aria-describedby="emailHelp">
+                                <input type="text" class="form-control" id="dni2" name="dni">
                             </div>
                             <div class="mb-3">
                                 <label for="celular" class="form-label">Celular:</label>
-                                <input type="text" class="form-control" id="celular2" name="celular" aria-describedby="emailHelp">
+                                <input type="text" class="form-control" id="celular2" name="celular">
                             </div>
                             <div class="mb-3">
                                 <label for="tem" class="form-label">TEM:</label>
-                                <input type="text" class="form-control" id="tem" name="tem" aria-describedby="emailHelp" value="0.00">
+                                <input type="text" class="form-control" id="tem" name="tem" value="0.00">
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -124,6 +124,45 @@
                     </div>
 
 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="agregar-consulta-cartera" tabindex="-1" aria-labelledby="agregar-consulta-carteraModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="agregar-consulta-carteraModalLabel">Transladar a Ventas</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formAgregarCartera">
+                    <input type="text" name="option" value="agregar_cartera">
+                    <input type="text" id="con_id" name="id">
+                    <input type="text" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label for="nombres" class="form-label">Nombres:</label>
+                                <input type="text" class="form-control" id="con_nombres" name="nombres" aria-describedby="emailHelp">
+                            </div>
+                            <div class="mb-3">
+                                <label for="dni" class="form-label">DNI:</label>
+                                <input type="text" class="form-control" id="con_dni" name="dni" aria-describedby="emailHelp">
+                            </div>
+                            <div class="mb-3">
+                                <label for="celular" class="form-label">Celular:</label>
+                                <input type="text" class="form-control" id="con_celular" name="celular" aria-describedby="emailHelp">
+                            </div>
+                        </div>
+                    </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

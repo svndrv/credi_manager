@@ -100,6 +100,7 @@
             <div class="modal-body">
                 <form id="formAgregarCartera">
                     <input type="text" name="option" value="agregar_cartera">
+                    <input type="text" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="mb-3">
