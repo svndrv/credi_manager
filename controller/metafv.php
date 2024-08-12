@@ -24,6 +24,21 @@ if(isset($_POST['mes'])){ $mes = $_POST['mes']; }else{ $mes = "";};
 if(isset($_POST['cumplido'])){ $cumplido = $_POST['cumplido']; }else{ $cumplido = "";};
 
 switch($option){
+    case "eliminar_metafv":
+        echo json_encode($metasfv->eliminar_metafv($id));
+    break;
+    case "actualizar_metafv":
+        echo json_encode($metasfv->actualizar_metafv($id, $ld_cantidad, $tc_cantidad, $ld_monto, $sede,$mes, $cumplido));
+    break;
+    case "obtener_x_id":
+        echo json_encode($metasfv->obtener_meta_x_id($id));
+    break;
+    case 'filtro_metasfv':
+        echo json_encode($metasfv->obtener_metas_por_mes_y_cumplido($mes, $cumplido));
+    break;
+    case 'agregar_metafv':
+        echo json_encode($metasfv->agregar_metafv($ld_cantidad, $ld_monto, $tc_cantidad, $sede, $mes, $cumplido));
+    break;
     default:
         echo json_encode($metasfv->obtener_metasfv());
     break;

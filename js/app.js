@@ -54,6 +54,9 @@ $(function () {
 
   if (params.get("view") === "metasfv") {
     listar_metasfv();
+    crear_metasfv();
+    actualizar_metasfv();
+    filtro_metasfv();
   }
 
   if (params.get("view") === "cartera") {
@@ -993,6 +996,231 @@ const listar_metasfv = function () {
     },
   });
 }
+const crear_metasfv = function () {
+  $("#formAgregarMeta").submit(function (e) {
+    e.preventDefault();
+    const data = new FormData($("#formAgregarMeta")[0]);
+
+    $.ajax({
+      url: "controller/metafv.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function (data) {
+        const response = JSON.parse(data);
+        if (response.status == "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Lo sentimos",
+            text: response.message,
+          });
+        } else {
+          Swal.fire({
+            title: "Felicidades",
+            text: response.message,
+            icon: "success",
+          });
+          listar_metasfv();
+          $("#agregar-meta").modal("hide");
+          $("#formAgregarMeta").trigger("reset");
+        }
+      },
+    });
+  });
+};
+const obtener_metasfv = function (id) {
+  $("#editar-metas").modal("show");
+  $.ajax({
+    url: "controller/metafv.php",
+    method: "POST",
+    data: {
+      id: id,
+      option: "obtener_x_id",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+      $.each(data, function (i, e) {
+        $("#id").val(data[i]["id"]);
+        $("#modal_ld_cantidad").val(data[i]["ld_cantidad"]);
+        $("#modal_tc_cantidad").val(data[i]["tc_cantidad"]);
+        $("#modal_ld_monto").val(data[i]["ld_monto"]);
+        $("#modal_sede").val(data[i]["sede"]);
+        $("#modal_mes").val(data[i]["mes"]);
+        $("#modal_cumplido").val(data[i]["cumplido"]);
+
+      });
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al obtener la meta: ", error);
+      alert("Hubo un error al obtener la meta.");
+    },
+  });
+};
+const actualizar_metasfv = function (id) {
+  $("#formActualizarMeta").submit(function (e) {
+    e.preventDefault();
+    const data = new FormData($("#formActualizarMeta")[0]);
+    $.ajax({
+      url: "controller/metafv.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function (data) {
+        //alert(data)
+        const response = JSON.parse(data);
+
+        if (response.status === "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Lo sentimos",
+            text: response.message,
+          });
+        } else {
+          Swal.fire({
+            title: "Felicidades",
+            text: response.message,
+            icon: "success",
+          });
+          listar_metasfv();
+          $("#editar-metas").modal("hide");
+          $("#formActualizarMeta").trigger("reset");
+        }
+      },
+    });
+  });
+};
+
+const eliminar_metafv = function (id) {
+  Swal.fire({
+    title: "¿Estás seguro?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "controller/metafv.php",
+        method: "POST",
+        data: {
+          id: id,
+          option: "eliminar_metafv",
+        },
+
+        success: function (data){
+          
+          const response = JSON.parse(data);
+          if (response.status === "success") {
+            console.log(response);
+            Swal.fire({
+              title: "Felicidades",
+              text: response.message,
+              icon: "success",
+            });
+            listar_metasfv();
+            $("#editar-metas").modal("hide");
+            $("#formActualizarMeta").trigger("reset");
+          } else {
+            alert("Algo salió mal: " + data);
+          }
+        },
+      });
+    }
+  });
+};
+const filtro_metasfv = function () {
+  $("#form_filtro_meta").submit(function (e) {
+    e.preventDefault();
+    var mes = document.getElementById("mes_f").value.trim();
+    var cumplido = document.getElementById("cumplido_f").value.trim();
+    $.ajax({
+      url: "controller/metafv.php",
+      method: "POST",
+      data: {
+        mes: mes,
+        cumplido: cumplido,
+        option: "filtro_metasfv",
+      },
+      success: function (response) {
+        const data = JSON.parse(response);
+        let html = ``;
+      if (data.length > 0) {
+        data.map((metas_por_usuario) => {
+          let mes = null;
+          switch (metas_por_usuario.mes) {
+            case "1":
+              mes = "Enero";
+              break;
+            case "2":
+              mes = "Febrero";
+              break;
+            case "3":
+              mes = "Marzo";
+              break;
+            case "4":
+              mes = "Abril";
+              break;
+            case "5":
+              mes = "Mayo";
+              break;
+            case "6":
+              mes = "Junio";
+              break;
+            case "7":
+              mes = "Julio";
+              break;
+            case "8":
+              mes = "Agosto";
+              break;
+            case "9":
+              mes = "Septiembre";
+              break;
+            case "10":
+              mes = "Octubre";
+              break;
+            case "11":
+              mes = "Noviembre";
+              break;
+            case "12":
+              mes = "Diciembre";
+              break;
+            default:
+              mes = "Mes desconocido";
+          }
+
+          html += `
+            <tr>
+              <th scope="row">${metas_por_usuario.id}</th>
+              <td>${metas_por_usuario.ld_cantidad}</td>
+              <td>${metas_por_usuario.ld_monto}</td>
+              <td>${metas_por_usuario.tc_cantidad}</td>
+              <td>${metas_por_usuario.sede}</td>
+              <td>${mes}</td>
+              <td>${metas_por_usuario.cumplido}</td>
+              <td>
+                <a onclick="obtener_metasfv(${metas_por_usuario.id})">
+                  <i class="fa-solid fa-pencil me-4"></i>
+                </a>
+                <a onclick="eliminar_metafv(${metas_por_usuario.id})">
+                  <i class="fa-solid fa-trash"></i>
+                </a>
+              </td>
+            </tr>`;
+        });
+      } else {
+        html = `<tr><td class='text-center' colspan='8'>No se encontraron resultados</td></tr>`;
+      }
+      $("#listar_metasfv").html(html);
+      },
+    });
+  });
+};
 
 /* ----------------------------------------------------- */
 
