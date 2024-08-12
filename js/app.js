@@ -980,10 +980,10 @@ const listar_metasfv = function () {
               <td>${mes}</td>
               <td>${metas_por_usuario.cumplido}</td>
               <td>
-                <a onclick="obtener_metas(${metas_por_usuario.id})">
+               <a onclick="obtener_metasfv(${metas_por_usuario.id})">
                   <i class="fa-solid fa-pencil me-4"></i>
                 </a>
-                <a onclick="eliminar_meta(${metas_por_usuario.id})">
+                <a onclick="eliminar_metafv(${metas_por_usuario.id})">
                   <i class="fa-solid fa-trash"></i>
                 </a>
               </td>
