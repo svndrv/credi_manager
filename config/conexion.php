@@ -19,4 +19,9 @@ class Conectar
             
         }
     }
+
+    public function setDb($dbh)
+    {
+        $this->dbh = $dbh;
+    }
 }

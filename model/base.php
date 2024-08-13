@@ -9,6 +9,11 @@ class Base extends Conectar{
         $this->base = array();
     }
 
+    public function setDb($pdo)
+    {
+        $this->db = $pdo;
+    }
+
     public function verificar_dni_base($dni){
         $sql = "SELECT * FROM base WHERE dni = ?";
         $sql = $this->db->prepare($sql);
@@ -21,13 +26,6 @@ class Base extends Conectar{
             echo "2";
         }
     }
-
-    // public function obtener_base(){
-    //     $sql = "SELECT * FROM base";
-    //     $sql = $this->db->prepare($sql);
-    //     $sql->execute();
-    //     return $sql->fetchAll(PDO::FETCH_ASSOC);
-    // }
 
     public function eliminar_base($id){
         $sql = "DELETE FROM base WHERE id = ?";

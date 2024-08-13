@@ -7,6 +7,11 @@ class Bono extends Conectar {
         $this->db = Conectar::conexion();
         $this->bono = array();
     }
+
+    public function setDb($dbh)
+    {
+        $this->dbh = $dbh;
+    }
     public function obtener_bono(){
         $sql = "SELECT * FROM bono";
         $sql = $this->db->prepare($sql);
