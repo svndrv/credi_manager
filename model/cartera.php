@@ -7,6 +7,11 @@ class Cartera extends Conectar {
         $this->db = Conectar::conexion();
         $this->cartera = array();
     }
+
+    public function setDb($pdo)
+    {
+        $this->db = $pdo;
+    }
     public function obtener_cartera($id){
         $sql = "SELECT * FROM cartera WHERE id_usuario = ?";
         $sql = $this->db->prepare($sql);

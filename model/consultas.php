@@ -7,6 +7,11 @@ class Consultas extends Conectar {
         $this->db = Conectar::conexion();
         $this->consultas = array();
     }
+
+    public function setDb($db) {
+        $this->db = $db;
+    }
+
     public function obtener_consultas(){
         $sql = "SELECT * FROM consultas";
         $sql = $this->db->prepare($sql);

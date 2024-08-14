@@ -111,6 +111,7 @@ public function metas_x_usuario_mes_cumplido($id_usuario, $mes, $cumplido) {
         m.ld_cantidad,
         m.tc_cantidad,
         m.ld_monto,
+        m.id_usuario,
         CONCAT(u.nombres, ' ', u.apellidos) AS nombre_completo,
         m.mes,
         m.cumplido
