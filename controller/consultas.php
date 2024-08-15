@@ -29,7 +29,7 @@ switch($option){
         $base->verificar_dni_base($dni);
     break;
     case "eliminar_consulta":
-        $consultas->eliminar_consulta($id);
+        echo json_encode($consultas->eliminar_consulta($id));
     break;
     case "filtro_consultas":
         echo json_encode($consultas->obtener_x_dni_campana($dni,$campana));

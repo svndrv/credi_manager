@@ -194,18 +194,12 @@ const listar_metas_inicio = function () {
 const listar_cartera = function () {
   $.ajax({
     url: "controller/cartera.php",
-    success: function (response){
+    success: function (response) {
       const data = JSON.parse(response);
       let html = ``;
-      if(data.length > 0){
+      if (data.length > 0) {
         data.map((x) => {
-          const {
-            id,
-            nombres,
-            dni,
-            celular,
-            created_at
-          } = x;
+          const { id, nombres, dni, celular, created_at } = x;
           html =
             html +
             `<tr>
@@ -221,15 +215,15 @@ const listar_cartera = function () {
               </td>
             </tr>`;
         });
-      }else {
+      } else {
         html =
           html +
           `<tr><td class='text-center' colspan='11'>No se encontraron resultados.</td>`;
       }
       $("#listar_cartera").html(html);
-    }
-  })
-}
+    },
+  });
+};
 const obtener_cartera = function (id) {
   $("#editar-cartera").modal("show");
   $.ajax({
@@ -334,7 +328,7 @@ const eliminar_cartera = function (id) {
           option: "eliminar_cartera",
         },
         success: function (data) {
-          alert(data)
+          alert(data);
           const response = JSON.parse(data);
           if (response.status === "success") {
             Swal.fire({
@@ -389,15 +383,8 @@ const cartera_x_dni = function () {
         let html = ``;
         if (data.length > 0) {
           data.map((x) => {
-            const {
-              id,
-              dni,
-              nombres,
-              celular,
-              created_at
-              
-            } = x;
-              html =
+            const { id, dni, nombres, celular, created_at } = x;
+            html =
               html +
               `<tr>
               <td>${id}</td>
@@ -411,7 +398,6 @@ const cartera_x_dni = function () {
                 <a onclick="eliminar_cartera(${id})"><i class="fa-solid fa-trash" style="color: #001b2b"></i></a>
               </td>
             </tr>`;
-      
           });
         } else {
           Swal.fire({
@@ -515,11 +501,10 @@ const obtener_bono = function (id) {
         } else if (data[i]["estado"] === "Finalizado") {
           $("#bono-estado-2").prop("checked", true);
         }
-
       });
     },
   });
-}
+};
 const listar_bonos = function () {
   $.ajax({
     url: "controller/bono.php",
@@ -529,12 +514,12 @@ const listar_bonos = function () {
       let html_estado = ``;
       let estado = response.estado;
       if (data.length > 0) {
-        const rol = localStorage.getItem('rol');
-        console.log(rol)
-        data.map((x) => {      
+        const rol = localStorage.getItem("rol");
+        console.log(rol);
+        data.map((x) => {
           const { id, descripcion, estado } = x;
           html_descripcion = html_descripcion + `<span>${descripcion}</span> `;
-          if(rol !== "3"){
+          if (rol !== "3") {
             if (estado == "Disponible") {
               html_estado =
                 html_estado +
@@ -556,7 +541,7 @@ const listar_bonos = function () {
                 <button onclick="obtener_bono(${id})" type="button" class="btn btn-success btn-sm">Gestionar bonos</button>
               </div>`;
             }
-          }else{
+          } else {
             if (estado == "Disponible") {
               html_estado =
                 html_estado +
@@ -564,7 +549,6 @@ const listar_bonos = function () {
                     <i class="fa-regular fa-circle-check me-2" style="color: #39c988"></i>
                     ${estado}
               </span>`;
-              
             } else {
               html_estado =
                 html_estado +
@@ -586,60 +570,62 @@ const listar_bonos = function () {
   });
 };
 const actualizar_bono = function (id) {
-  $("#formActualizarBono").off('submit').on('submit', function (e) {
-    e.preventDefault();
-    var data2 = $(this).serialize();
-    console.log(data2);
-    const formData = new FormData(this); // Usar el propio formulario para crear FormData
+  $("#formActualizarBono")
+    .off("submit")
+    .on("submit", function (e) {
+      e.preventDefault();
+      var data2 = $(this).serialize();
+      console.log(data2);
+      const formData = new FormData(this); // Usar el propio formulario para crear FormData
 
-    $.ajax({
-      url: "controller/bono.php",
-      method: "POST",
-      data: formData,
-      contentType: false,
-      cache: false,
-      processData: false,
-      success: function (data) {
-        console.log(data);
-        const response = JSON.parse(data);
+      $.ajax({
+        url: "controller/bono.php",
+        method: "POST",
+        data: formData,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+          console.log(data);
+          const response = JSON.parse(data);
 
-        if (response.status === "error") {
+          if (response.status === "error") {
+            Swal.fire({
+              icon: "error",
+              title: "Lo sentimos",
+              text: response.message,
+            });
+          } else {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              },
+            });
+            Toast.fire({
+              icon: "success",
+              title: response.message,
+            });
+            listar_bonos();
+            $("#gestion-bono").modal("hide");
+            $("#formActualizarBono").trigger("reset");
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error en la solicitud:", status, error);
           Swal.fire({
             icon: "error",
-            title: "Lo sentimos",
-            text: response.message,
+            title: "Error",
+            text: "Ha ocurrido un error al intentar actualizar el bono. Por favor, inténtelo de nuevo.",
           });
-        } else {
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.onmouseenter = Swal.stopTimer;
-              toast.onmouseleave = Swal.resumeTimer;
-            },
-          });
-          Toast.fire({
-            icon: "success",
-            title: response.message,
-          });
-          listar_bonos();
-          $("#gestion-bono").modal("hide");
-          $("#formActualizarBono").trigger("reset");
-        }
-      },
-      error: function (xhr, status, error) {
-        console.error("Error en la solicitud:", status, error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Ha ocurrido un error al intentar actualizar el bono. Por favor, inténtelo de nuevo.",
-        });
-      }
+        },
+      });
     });
-  });
 };
 
 /* -------------------   METAS INDIVIDUALES  ---------------------- */
@@ -995,7 +981,7 @@ const listar_metasfv = function () {
       $("#listar_metasfv").html(html);
     },
   });
-}
+};
 const crear_metasfv = function () {
   $("#formAgregarMeta").submit(function (e) {
     e.preventDefault();
@@ -1049,7 +1035,6 @@ const obtener_metasfv = function (id) {
         $("#modal_sede").val(data[i]["sede"]);
         $("#modal_mes").val(data[i]["mes"]);
         $("#modal_cumplido").val(data[i]["cumplido"]);
-
       });
     },
     error: function (xhr, status, error) {
@@ -1113,8 +1098,7 @@ const eliminar_metafv = function (id) {
           option: "eliminar_metafv",
         },
 
-        success: function (data){
-          
+        success: function (data) {
           const response = JSON.parse(data);
           if (response.status === "success") {
             console.log(response);
@@ -1150,51 +1134,51 @@ const filtro_metasfv = function () {
       success: function (response) {
         const data = JSON.parse(response);
         let html = ``;
-      if (data.length > 0) {
-        data.map((metas_por_usuario) => {
-          let mes = null;
-          switch (metas_por_usuario.mes) {
-            case "1":
-              mes = "Enero";
-              break;
-            case "2":
-              mes = "Febrero";
-              break;
-            case "3":
-              mes = "Marzo";
-              break;
-            case "4":
-              mes = "Abril";
-              break;
-            case "5":
-              mes = "Mayo";
-              break;
-            case "6":
-              mes = "Junio";
-              break;
-            case "7":
-              mes = "Julio";
-              break;
-            case "8":
-              mes = "Agosto";
-              break;
-            case "9":
-              mes = "Septiembre";
-              break;
-            case "10":
-              mes = "Octubre";
-              break;
-            case "11":
-              mes = "Noviembre";
-              break;
-            case "12":
-              mes = "Diciembre";
-              break;
-            default:
-              mes = "Mes desconocido";
-          }
+        if (data.length > 0) {
+          data.map((metas_por_usuario) => {
+            let mes = null;
+            switch (metas_por_usuario.mes) {
+              case "1":
+                mes = "Enero";
+                break;
+              case "2":
+                mes = "Febrero";
+                break;
+              case "3":
+                mes = "Marzo";
+                break;
+              case "4":
+                mes = "Abril";
+                break;
+              case "5":
+                mes = "Mayo";
+                break;
+              case "6":
+                mes = "Junio";
+                break;
+              case "7":
+                mes = "Julio";
+                break;
+              case "8":
+                mes = "Agosto";
+                break;
+              case "9":
+                mes = "Septiembre";
+                break;
+              case "10":
+                mes = "Octubre";
+                break;
+              case "11":
+                mes = "Noviembre";
+                break;
+              case "12":
+                mes = "Diciembre";
+                break;
+              default:
+                mes = "Mes desconocido";
+            }
 
-          html += `
+            html += `
             <tr>
               <th scope="row">${metas_por_usuario.id}</th>
               <td>${metas_por_usuario.ld_cantidad}</td>
@@ -1212,11 +1196,11 @@ const filtro_metasfv = function () {
                 </a>
               </td>
             </tr>`;
-        });
-      } else {
-        html = `<tr><td class='text-center' colspan='8'>No se encontraron resultados</td></tr>`;
-      }
-      $("#listar_metasfv").html(html);
+          });
+        } else {
+          html = `<tr><td class='text-center' colspan='8'>No se encontraron resultados</td></tr>`;
+        }
+        $("#listar_metasfv").html(html);
       },
     });
   });
@@ -1241,7 +1225,7 @@ const base_x_dni = function () {
         const data = JSON.parse(response);
         let html = ``;
         if (data.length > 0) {
-          const rol = localStorage.getItem('rol');
+          const rol = localStorage.getItem("rol");
           data.map((x) => {
             const {
               id,
@@ -1260,16 +1244,16 @@ const base_x_dni = function () {
               tipo_producto,
               combo,
             } = x;
-            if(rol !== "2"){
+            if (rol !== "2") {
               html =
-              html +
-              `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td>
+                html +
+                `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td>
                   <a onclick="obtener_base(${id})"><i class="fa-solid fa-plus me-4"></i></a>
                 </td></tr>`;
-            }else{
+            } else {
               html =
-              html +
-              `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td class="text-center">
+                html +
+                `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td class="text-center">
                   ...
                 </td></tr>`;
             }
@@ -1293,7 +1277,7 @@ const listarRegistros = function (pagina) {
     data: { option: "listar", pagina: pagina },
     dataType: "json",
     success: function (response) {
-      const rol = localStorage.getItem('rol');
+      const rol = localStorage.getItem("rol");
       let html = "";
       if (response.length > 0) {
         response.map((x) => {
@@ -1315,22 +1299,20 @@ const listarRegistros = function (pagina) {
             combo,
           } = x;
 
-          if(rol !== "2"){
+          if (rol !== "2") {
             html =
-            html +
-            `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td>
+              html +
+              `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td>
                 <a onclick="obtener_base(${id})"><i class="fa-solid fa-plus me-4"></i></a>
                 <a onclick="trasladar_base(${id})"><i class="fa-solid fa-wallet me-4"></i>
               </td></tr>`;
-          }else{
+          } else {
             html =
-            html +
-            `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td class="text-center">
+              html +
+              `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td class="text-center">
                 ...
               </td></tr>`;
           }
-
-          
         });
       } else {
         html = `<tr><td class='text-center' colspan='14'>No hay datos registrados</td></tr>`;
@@ -1381,7 +1363,7 @@ function construirPaginacion(pagina_actual) {
       $("#paginacion").html(html);
     },
   });
-};
+}
 const obtener_base = function (id) {
   $("#obtener-base").modal("show");
   $.ajax({
@@ -1454,7 +1436,7 @@ const borrar_base = function () {
   });
 };
 
-const trasladar_base = function (id){
+const trasladar_base = function (id) {
   $("#obtener-cartera_base").modal("show");
   $.ajax({
     url: "controller/base.php",
@@ -1469,7 +1451,7 @@ const trasladar_base = function (id){
         $("#tras_id").val(data[i]["id"]);
         $("#tras_nombres").val(data[i]["nombres"]);
         $("#tras_dni").val(data[i]["dni"]);
-        $("#tras_celular").val(data[i]["celular_1"]);   
+        $("#tras_celular").val(data[i]["celular_1"]);
       });
     },
     error: function (xhr, status, error) {
@@ -1477,9 +1459,9 @@ const trasladar_base = function (id){
       alert("Hubo un error al obtener la meta.");
     },
   });
-}
+};
 
-const agregar_base_cartera = function (){
+const agregar_base_cartera = function () {
   $("#formAgregarCartera").submit(function (e) {
     e.preventDefault();
     const data = new FormData($("#formAgregarCartera")[0]);
@@ -1523,7 +1505,7 @@ const agregar_base_cartera = function (){
       },
     });
   });
-}
+};
 
 /* ----------------------------------------------------- */
 
@@ -1693,7 +1675,7 @@ const contar_ld_por_id = function (id_usuario) {
     type: "POST",
     data: {
       option: "contar_filas_ld_por_id",
-      id_usuario: id_usuario, 
+      id_usuario: id_usuario,
     },
     success: function (response) {
       const data = JSON.parse(response);
@@ -2067,7 +2049,7 @@ const listar_empleados = function () {
             rol = "Asesor";
           }
 
-          console.log(usuario.foto)
+          console.log(usuario.foto);
           html =
             html +
             `<tr>
@@ -2262,7 +2244,7 @@ const listar_consultas = function () {
     },
   });
 };
-const obtener_consulta_cartera = function(id){
+const obtener_consulta_cartera = function (id) {
   $("#agregar-consulta-cartera").modal("show");
   $.ajax({
     url: "controller/consultas.php",
@@ -2280,8 +2262,8 @@ const obtener_consulta_cartera = function(id){
       });
     },
   });
-}
-const agregar_consulta_cartera = function (){
+};
+const agregar_consulta_cartera = function () {
   $("#formAgregarCartera").submit(function (e) {
     e.preventDefault();
     const data = new FormData($("#formAgregarCartera")[0]);
@@ -2325,7 +2307,7 @@ const agregar_consulta_cartera = function (){
       },
     });
   });
-}
+};
 const rellenar_consulta = function () {
   $("#dni").on("input", function () {
     var dni = document.getElementById("dni").value.trim();
@@ -2395,9 +2377,11 @@ const crear_consultas = function () {
       html =
         html +
         `<div class="alert alert-danger" role="alert">
-            Verifique los campos vacios.
+            <i class="fa-solid fa-triangle-exclamation me-2"></i>
+            Hubo un error. Vuelva a ingresar los datos requeridos.
             </div>`;
     } else {
+      
       $.ajax({
         url: "controller/consultas.php",
         method: "POST",
@@ -2429,7 +2413,7 @@ const crear_consultas = function () {
               icon: "success",
               confirmButtonColor: "rgb(0, 60, 94)",
             });
-            document.getElementById("form_consulta").value = "";
+            limpiar_form_consulta();
           } else {
             Swal.fire({
               icon: "error",
@@ -2437,6 +2421,7 @@ const crear_consultas = function () {
               text: "Usted no cuenta con una campaña este mes, intentelo el siguiente.",
               confirmButtonColor: "rgb(0, 60, 94)",
             });
+            limpiar_form_consulta();
           }
         },
       });
@@ -2445,19 +2430,44 @@ const crear_consultas = function () {
     $("#alerta").html(html);
   });
 };
+const limpiar_form_consulta = function(){
+  document.getElementById("celular").value = "";
+  document.getElementById("dni").value = "";
+  document.getElementById("descripcion").value = "";
+}
 const eliminar_consulta = function (id) {
-  $.ajax({
-    url: "controller/consultas.php",
-    method: "POST",
-    data: {
-      id: id,
-      option: "eliminar_consulta",
-    },
-    success: function (data) {
-      if (data == "ok") {
-        listar_consultas();
-      }
-    },
+  Swal.fire({
+    title: "¿Estas seguro?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "controller/consultas.php",
+        method: "POST",
+        data: {
+          id: id,
+          option: "eliminar_consulta",
+        },
+        success: function (data) {
+          const response = JSON.parse(data);
+          if (response.status === "success") {
+            Swal.fire({
+              title: "Felicidades",
+              text: response.message,
+              icon: "success",
+            });
+            listar_consultas();
+          } else {
+            alert("algo salio mal" + data);
+          }
+        },
+      });
+    }
   });
 };
 const filtro_consultas = function () {
@@ -2474,7 +2484,6 @@ const filtro_consultas = function () {
         option: "filtro_consultas",
       },
       success: function (response) {
-        console.log(response);
         const data = JSON.parse(response);
         let html = ``;
         if (data.length > 0) {
@@ -2488,9 +2497,10 @@ const filtro_consultas = function () {
                 <td>${celular}</td>
                 <td>${descripcion}</td>
                 <td>${campana}</td>
-                <td>
-                  <a onclick="obtener_consultas(${id})"><i class="fa-solid fa-pencil me-4"></i></a>
-                  <a onclick="eliminar_consulta(${id})"><i class="fa-solid fa-trash"></i></a></td>
+                <td class="text-center">
+                  <a onclick="obtener_consultas(${id})"><i class="fa-solid fa-plus me-3"></i></a>
+                  <a onclick="obtener_consulta_cartera(${id})"><i class="fa-solid fa-wallet me-4"></i>
+                  <a onclick="eliminar_consulta(${id})"><i class="fa-solid fa-trash me-3"></i></a>
                 </tr>`;
           });
         } else {

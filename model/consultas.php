@@ -33,7 +33,12 @@ class Consultas extends Conectar {
         $sql = $this->db->prepare($sql);
         $sql->bindValue(1,$id);
         $sql->execute();
-        echo 'ok';
+
+        $response = [
+            "status" => "success",
+            "message" => "Consulta eliminado exitosamente."
+        ];
+        return $response;
     }
     public function obtener_x_dni_campana($dni, $campana){
         $sql = "SELECT * FROM consultas WHERE 1=1";
