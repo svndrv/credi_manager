@@ -13,14 +13,8 @@ class metaventaTest extends TestCase {
 
     public function testListarMetas_Venta() {
         $result = $this->metaventa->listarMetas_Venta();
-        
-        // Verificar que el resultado sea un array
         $this->assertIsArray($result);
-        
-        // Verificar que no esté vacío
         $this->assertNotEmpty($result);
-        
-        // Verificar que cada elemento del resultado contenga las claves esperadas
         foreach ($result as $meta) {
             $this->assertArrayHasKey('id', $meta);
             $this->assertArrayHasKey('LDCantidad', $meta);

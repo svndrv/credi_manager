@@ -59,10 +59,10 @@
             </div>
             <div class="modal-body">
                 <form id="formActualizarCartera">
-                    <input type="text" name="option" value="actualizar_cartera">
-                    <input type="text" name="id" id="id_car">
-                    <input type="text" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
-                    <input type="text" id="estado" name="estado" value="Pendiente">
+                    <input type="hidden" name="option" value="actualizar_cartera">
+                    <input type="hidden" name="id" id="id_car">
+                    <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
+                    <input type="hidden" id="estado" name="estado" value="Pendiente">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="mb-3">
@@ -99,8 +99,8 @@
             </div>
             <div class="modal-body">
                 <form id="formAgregarCartera">
-                    <input type="text" name="option" value="agregar_cartera">
-                    <input type="text" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
+                    <input type="hidden" name="option" value="agregar_cartera">
+                    <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="mb-3">

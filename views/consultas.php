@@ -24,11 +24,6 @@
                         <button type="submit" class="btn btn-dark w-25"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </form>
                     </div>
-                    <!-- <div class="col-lg-12 d-flex justify-content-end mb-3">
-                        <button type="button" class="btn btn-warning px-5 text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Agregar
-                        </button>
-                    </div> -->
                     <div class="col-lg-12">
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover table-striped">
@@ -144,9 +139,9 @@
             </div>
             <div class="modal-body">
                 <form id="formAgregarCartera">
-                    <input type="text" name="option" value="agregar_cartera">
-                    <input type="text" id="con_id" name="id">
-                    <input type="text" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
+                    <input type="hidden" name="option" value="agregar_cartera">
+                    <input type="hidden" id="con_id" name="id">
+                    <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="mb-3">

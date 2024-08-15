@@ -23,14 +23,16 @@ class VentasTest extends TestCase {
     }
 
     public function testAgregarVentas() {
-        $response = $this->ventas->agregar_ventas('Juan Pérez', '12345678', '987654321', 1500.00, 'Linea1', '12', 'Tem1', 1, 'LD', 'Desembolsado');
+        $response = $this->ventas->agregar_ventas('Juan Pérez', '12345678', 
+        '987654321', 1500.00, 'Linea1', '12', 'Tem1', 1, 'LD', 'Desembolsado');
         $this->assertEquals('success', $response['status']);
         $this->assertEquals('Se translado la venta con éxito.', $response['message']);
     }
 
     public function testActualizarVenta() {
         // Asumir que el ID 1 existe en la base de datos
-        $response = $this->ventas->actualizar_venta(1, 'Juan Pérez', '12345678', '987654321', 2000.00, 'Linea2', '24', 'Tem2', 'TC', 'Desembolsado');
+        $response = $this->ventas->actualizar_venta(1, 'Juan Pérez', '12345678', 
+        '987654321', 2000.00, 'Linea2', '24', 'Tem2', 'TC', 'Desembolsado');
         $this->assertEquals('success', $response['status']);
         $this->assertEquals('Venta editada correctamente.', $response['message']);
     }
@@ -78,7 +80,8 @@ class VentasTest extends TestCase {
     }
 
     public function testVentaXdniEstadoProducto() {
-        $result = $this->ventas->venta_x_dni_estado_producto('12345678', 'Desembolsado', 'LD');
+        $result = $this->ventas->venta_x_dni_estado_producto('12345678', 
+        'Desembolsado', 'LD');
         $this->assertIsArray($result);
     }
 }
