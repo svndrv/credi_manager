@@ -111,7 +111,11 @@ class Usuario extends Conectar
         $sql = $this->db->prepare($sql);
         $sql->bindValue(1, $id);
         $sql->execute();
-        echo 'ok';
+        $response = [
+            "status" => "success",
+            "message" => "Eliminación exitosa."
+        ];
+        return $response;
     }
 
     public function actualizar_usuario($id, $usuario, $contrasena, $nombres, $apellidos, $rol, $estado, $foto, $archivoFoto)

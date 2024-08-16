@@ -47,7 +47,7 @@ ON
     }
     public function agregar_ventas($nombres, $dni, $celular, $credito, $linea, $plazo, $tem, $id_usuario, $tipo_producto, $estado){
 
-        if(empty($nombres) || empty($dni) || empty($celular) || empty($credito) || empty($plazo) || empty($tem) || empty($id_usuario) || empty($tipo_producto) || empty($estado))
+        if(empty($nombres) || empty($dni) || empty($celular) || empty($credito) || empty($tem) || empty($id_usuario) || empty($tipo_producto) || empty($estado))
             return [
                 "status" => "error",
                 "message" => "Verifique los espacios vacios."
@@ -174,7 +174,7 @@ ON
     }
 
     public function actualizar_venta($id, $nombres, $dni, $celular, $credito, $linea, $plazo, $tem, $tipo_producto, $estado){
-        if (empty($nombres) || empty($dni) || empty($celular) || empty($credito) || empty($linea) || empty($plazo) || empty($tem) || empty($tipo_producto) || empty($estado)){
+        if (empty($nombres) || empty($dni) || empty($celular) || empty($credito) || empty($linea) || empty($tem) || empty($tipo_producto) || empty($estado)){
              return [
                 "status" => "error",
                 "message" => "Verfifique los campos vacios."

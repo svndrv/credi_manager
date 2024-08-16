@@ -27,7 +27,7 @@
                             <!-- A (Email) -->
                             <input type="hidden" name="to" id="to" value="burogroup.cs@gmail.com">
                             <div class="input-group mb-2">
-                                <input type="text" name="sendername" id="sendername" class="form-control form-control-lg bg-light fs-6" placeholder="Nombre del remitente">
+                                <input type="text" name="sendername" id="sendername" class="form-control form-control-lg bg-light fs-6" placeholder="Ingrese su nombre">
                                 <span class="input-group-text">
                                     <i class="fa-solid fa-user" style="color: #474747;"></i>
                                 </span>
@@ -45,7 +45,7 @@
                             <!-- Responder a (Email) -->
                             <input type="hidden" name="replyto" id="replyto" value="noreply@gmail.com">
                             <div class="input-group mb-2">
-                                <textarea class="form-control" name="message" id="message" rows="3" placeholder="Ingresar mensaje"></textarea>
+                                <textarea class="form-control" name="message" id="message" rows="3" placeholder="Ingrese la forma de contactarse con usted y su consulta."></textarea>
                             </div>
                             <div id="message-alert"></div>
                         </div>

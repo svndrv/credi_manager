@@ -45,7 +45,7 @@ class Cartera extends Conectar {
 
         $response = [
             "status" => "success",
-            "message" => "Acción realizada satisfactoriamente."
+            "message" => "Se agrego correctamente."
         ];
         return $response;
 
@@ -58,7 +58,7 @@ class Cartera extends Conectar {
 
         $response = [
             "status" => "success",
-            "message" => "Acción realizada satisfactoriamente."
+            "message" => "Se elimino correctamente."
         ];
         return $response;
     }
@@ -82,7 +82,7 @@ class Cartera extends Conectar {
 
        return [
         "status" => "success",
-        "message" => "Cliente editado correctamente."
+        "message" => "Se edito correctamente."
         ];
     }
 

@@ -28,10 +28,10 @@ switch($option){
         echo json_encode($metas->obtener_metas_por_usuario($id_usuario, $mes, $cumplido));
     break;
     case "eliminar_meta":
-        $metas->eliminar_meta($id);
+        echo json_encode($metas->eliminar_meta($id));
     break;
     case "actualizar_meta":
-        $metas->actualizar_meta($id, $ld_cantidad, $ld_monto, $tc_cantidad, $id_usuario, $mes, $cumplido);
+        echo json_encode($metas->actualizar_meta($id, $ld_cantidad, $ld_monto, $tc_cantidad, $id_usuario, $mes, $cumplido));
     break;
     case "obtener_x_id":
         echo json_encode($metas->obtener_meta_x_id($id));

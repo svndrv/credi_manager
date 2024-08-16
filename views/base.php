@@ -56,7 +56,8 @@
                                         <th scope="col">Celular 3</th>
                                         <th scope="col">Producto</th>
                                         <th scope="col">Combo</th>
-                                        <th scope="col">Acción</th>
+                                        <?php if ($_SESSION['rol'] != 2) { ?><th scope="col">Acción</th><?php }?>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody id="listar_base">
@@ -133,7 +134,7 @@
                                 <label for="plazo_max" class="form-label">Plazo:</label>
                                 <select class="form-select" name="plazo" id="plazo_max">
                                     <option selected>Plazo</option>
-                                    <option value="00">0</option>
+                                    <option value="0">0</option>
                                     <option value="12">12</option>
                                     <option value="24">24</option>
                                     <option value="36">36</option>
@@ -171,8 +172,8 @@
             </div>
             <div class="modal-body">
                 <form id="formAgregarCartera">
-                    <input type="text" name="option" value="agregar_cartera">
-                    <input type="text" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
+                    <input type="hidden" name="option" value="agregar_cartera">
+                    <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id'] ?>">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="mb-3">

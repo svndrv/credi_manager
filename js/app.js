@@ -75,6 +75,7 @@ $(function () {
     contar_ld_por_id();
     contar_tc_por_id();
     contar_ld_monto_por_id();
+    rellenar_ultima_meta();
   } else {
   }
 });
@@ -311,13 +312,13 @@ const crear_cartera = function () {
 };
 const eliminar_cartera = function (id) {
   Swal.fire({
-    title: "¿Estas seguro?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Si",
-    cancelButtonText: "Cancelar",
+    title: "¿Estás seguro?",
+      text: "El cliente será eliminada.",
+      showCancelButton: true,
+      confirmButtonColor: "rgb(33,219,130)",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si",
+      cancelButtonText: "Cancelar",
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajax({
@@ -328,13 +329,22 @@ const eliminar_cartera = function (id) {
           option: "eliminar_cartera",
         },
         success: function (data) {
-          alert(data);
           const response = JSON.parse(data);
           if (response.status === "success") {
-            Swal.fire({
-              title: "Felicidades",
-              text: response.message,
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              },
+            });
+            Toast.fire({
               icon: "success",
+              title: response.message,
             });
             listar_cartera();
           } else {
@@ -357,6 +367,21 @@ const actualizar_cartera = function () {
         const response = JSON.parse(data);
         console.log(response.status);
         if (response.status == "success") {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            },
+          });
+          Toast.fire({
+            icon: "success",
+            title: response.message,
+          });
           listar_cartera();
           $("#editar-cartera").modal("hide");
           $("#formActualizarCartera").trigger("reset");
@@ -689,9 +714,9 @@ const listar_metas = function () {
               <td>${metas_por_usuario.usuario_nombre}</td>
               <td>${mes}</td>
               <td>${metas_por_usuario.cumplido}</td>
-              <td>
+              <td class="text-center">
                 <a onclick="obtener_metas(${metas_por_usuario.id})">
-                  <i class="fa-solid fa-pencil me-4"></i>
+                  <i class="fa-regular fa-pen-to-square me-2"></i>
                 </a>
                 <a onclick="eliminar_meta(${metas_por_usuario.id})">
                   <i class="fa-solid fa-trash"></i>
@@ -707,20 +732,52 @@ const listar_metas = function () {
   });
 };
 const eliminar_meta = function (id) {
-  $.ajax({
-    url: "controller/meta.php",
-    method: "POST",
-    data: {
-      id: id,
-      option: "eliminar_meta",
-    },
-    success: function (data) {
-      if (data == "ok") {
-        listar_metas();
-      }
-    },
+  Swal.fire({
+    title: "¿Estas seguro?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "controller/meta.php",
+        method: "POST",
+        data: {
+          id: id,
+          option: "eliminar_meta",
+        },
+        success: function (data) {
+          const response = JSON.parse(data);
+          console.log(response.status);
+          if (response.status === "success") {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              },
+            });
+            Toast.fire({
+              icon: "success",
+              title: response.message,
+            });
+            listar_metas();
+          } else {
+            alert("algo salio mal" + data);
+          }
+        },
+      });
+    }
   });
 };
+
 const obtener_metas = function (id) {
   $("#editar-metas").modal("show");
   $.ajax({
@@ -766,9 +823,24 @@ const actualizar_meta = function () {
       url: "controller/meta.php",
       method: "POST",
       data: data,
-      success: function (response) {
-        alert(response);
-        if (response == "ok") {
+      success: function (data) {
+        const response = JSON.parse(data);
+        if (response.status === "success") {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            },
+          });
+          Toast.fire({
+            icon: "success",
+            title: response.message,
+          });
           listar_metas();
           $("#editar-metas").modal("hide");
           $("#formActualizarMeta").trigger("reset");
@@ -779,6 +851,7 @@ const actualizar_meta = function () {
     });
   });
 };
+
 const crear_metas = function () {
   $("#formAgregarMeta").submit(function (e) {
     e.preventDefault();
@@ -792,7 +865,6 @@ const crear_metas = function () {
       cache: false,
       processData: false,
       success: function (data) {
-        alert(data);
         const response = JSON.parse(data);
         if (response.status == "error") {
           Swal.fire({
@@ -885,10 +957,10 @@ const filtro_metas = function () {
                 <td>${metas_por_usuario.nombre_completo}</td>
                 <td>${mes}</td>
                 <td>${metas_por_usuario.cumplido}</td>
-                <td>
+                <td class="text-center">
                   <a onclick="obtener_metas(${metas_por_usuario.id})">
-                    <i class="fa-solid fa-pencil me-4"></i>
-                  </a>
+                  <i class="fa-regular fa-pen-to-square me-2"></i>
+                </a>
                   <a onclick="eliminar_meta(${metas_por_usuario.id})">
                     <i class="fa-solid fa-trash"></i>
                   </a>
@@ -965,9 +1037,9 @@ const listar_metasfv = function () {
               <td>${metas_por_usuario.sede}</td>
               <td>${mes}</td>
               <td>${metas_por_usuario.cumplido}</td>
-              <td>
+              <td class="text-center">
                <a onclick="obtener_metasfv(${metas_por_usuario.id})">
-                  <i class="fa-solid fa-pencil me-4"></i>
+                  <i class="fa-regular fa-pen-to-square me-2"></i>
                 </a>
                 <a onclick="eliminar_metafv(${metas_por_usuario.id})">
                   <i class="fa-solid fa-trash"></i>
@@ -1065,10 +1137,20 @@ const actualizar_metasfv = function (id) {
             text: response.message,
           });
         } else {
-          Swal.fire({
-            title: "Felicidades",
-            text: response.message,
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            },
+          });
+          Toast.fire({
             icon: "success",
+            title: response.message,
           });
           listar_metasfv();
           $("#editar-metas").modal("hide");
@@ -1101,11 +1183,20 @@ const eliminar_metafv = function (id) {
         success: function (data) {
           const response = JSON.parse(data);
           if (response.status === "success") {
-            console.log(response);
-            Swal.fire({
-              title: "Felicidades",
-              text: response.message,
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              },
+            });
+            Toast.fire({
               icon: "success",
+              title: response.message,
             });
             listar_metasfv();
             $("#editar-metas").modal("hide");
@@ -1187,9 +1278,9 @@ const filtro_metasfv = function () {
               <td>${metas_por_usuario.sede}</td>
               <td>${mes}</td>
               <td>${metas_por_usuario.cumplido}</td>
-              <td>
-                <a onclick="obtener_metasfv(${metas_por_usuario.id})">
-                  <i class="fa-solid fa-pencil me-4"></i>
+              <td class="text-center">
+               <a onclick="obtener_metasfv(${metas_por_usuario.id})">
+                  <i class="fa-regular fa-pen-to-square me-2"></i>
                 </a>
                 <a onclick="eliminar_metafv(${metas_por_usuario.id})">
                   <i class="fa-solid fa-trash"></i>
@@ -1205,6 +1296,37 @@ const filtro_metasfv = function () {
     });
   });
 };
+
+const rellenar_ultima_meta = function () {
+  $.ajax({
+    url: "controller/metafv.php",
+    type: "POST",
+    data: {
+      option: "ultima_meta",
+    },
+    success: function (response) {
+      const data = JSON.parse(response);
+      let html_ld = ``;
+      let html_monto = ``;
+      let html_tc = ``;
+      if (data.length > 0) {
+        data.map((x) => {
+          const { ld_cantidad, tc_cantidad, ld_monto } = x;
+          html_ld = html_ld + `<span>${ld_cantidad} préstamos</span>`;
+          html_tc = html_tc + `<span>${tc_cantidad} tarjetas</span>`;
+          html_monto = html_monto + `<span>S/. ${ld_monto}</span>`;
+        });
+      } else {
+        html_ld = html_ld + `<span>No hay meta.</span>`;
+        html_tc = html_tc + `<span>No hay meta.</span>`;
+        html_monto = html_monto + `<span>No hay meta.</span>`;
+      }
+      $("#ld_meta").html(html_ld);
+      $("#tc_meta").html(html_tc);
+      $("#monto_meta").html(html_monto);
+    },
+  });
+}
 
 /* ----------------------------------------------------- */
 
@@ -1309,13 +1431,11 @@ const listarRegistros = function (pagina) {
           } else {
             html =
               html +
-              `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td class="text-center">
-                ...
-              </td></tr>`;
+              `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td></tr>`;
           }
         });
       } else {
-        html = `<tr><td class='text-center' colspan='14'>No hay datos registrados</td></tr>`;
+        html = `<tr><td class='text-center' colspan='15'>No hay datos registrados</td></tr>`;
       }
       $("#listar_base").html(html);
 
@@ -1419,6 +1539,7 @@ const borrar_base = function () {
                 title: "Ejecución Exitosa.",
                 text: response.message,
                 icon: "success",
+                confirmButtonColor: "rgb(33,219,130)",
                 backdrop: `
               rgba(33,219,130,0.2)
               left top
@@ -1547,7 +1668,7 @@ const listar_ventas = function () {
               <td>${tipo_producto}</td>
               <td>${estado}</td>
               <td class="text-center">
-                <a onclick="obtener_ventas(${id})"><i class="fa-regular fa-pen-to-square me-4" style="color: #001b2b"></i></a>
+                <a onclick="obtener_ventas(${id})"><i class="fa-regular fa-pen-to-square me-3" style="color: #001b2b"></i></a>
                 <a onclick="eliminar_venta(${id})"><i class="fa-solid fa-trash"></i></a>
               </td>
             </tr>`;
@@ -1555,7 +1676,7 @@ const listar_ventas = function () {
       } else {
         html =
           html +
-          `<tr><td class='text-center' colspan='11'>No se encontraron resultados.</td>`;
+          `<tr><td class='text-center' colspan='12'>No se encontraron resultados.</td>`;
       }
       $("#listar_ventas").html(html);
     },
@@ -1588,6 +1709,7 @@ const crear_ventas = function () {
             title: "Felicidades",
             text: response.message,
             icon: "success",
+            confirmButtonColor: "rgb(33,219,130)",
             backdrop: `
           rgba(33,219,130,0.2)
           left top
@@ -1598,6 +1720,7 @@ const crear_ventas = function () {
           $("#editar-consulta").modal("hide");
           $("#obtener_cartera").modal("hide");
           $("#formObtenerBase").trigger("reset");
+
         }
       },
     });
@@ -1856,10 +1979,20 @@ const actualizar_ventas = function (id) {
             text: response.message,
           });
         } else {
-          Swal.fire({
-            title: "Felicidades",
-            text: response.message,
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            },
+          });
+          Toast.fire({
             icon: "success",
+            title: response.message,
           });
           listar_ventas();
           contar_ld();
@@ -1874,13 +2007,13 @@ const actualizar_ventas = function (id) {
 };
 const eliminar_venta = function (id) {
   Swal.fire({
-    title: "¿Estas seguro?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Si",
-    cancelButtonText: "Cancelar",
+    title: "¿Estás seguro?",
+      text: "La venta será eliminada.",
+      showCancelButton: true,
+      confirmButtonColor: "rgb(33,219,130)",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si",
+      cancelButtonText: "Cancelar",
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajax({
@@ -1893,10 +2026,20 @@ const eliminar_venta = function (id) {
         success: function (data) {
           const response = JSON.parse(data);
           if (response.status === "success") {
-            Swal.fire({
-              title: "Felicidades",
-              text: response.message,
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              },
+            });
+            Toast.fire({
               icon: "success",
+              title: response.message,
             });
             listar_ventas();
             contar_ld();
@@ -2059,7 +2202,7 @@ const listar_empleados = function () {
             <td>${usuario.nombres}</td><td>${usuario.apellidos}</td>
             <td>${rol}</td><td>${estado}</td>
             <td class="text-center">
-              <a onclick="obtener_usuarios(${usuario.id})"><i class="fa-regular fa-pen-to-square me-4" style="color: #001b2b"></i></a>
+              <a onclick="obtener_usuarios(${usuario.id})"><i class="fa-regular fa-pen-to-square me-3" style="color: #001b2b"></i></a>
               <a onclick="eliminar_usuario(${usuario.id})"><i class="fa-solid fa-trash" style="color: #001b2b"></i></a></td></tr>`;
         });
       } else {
@@ -2101,20 +2244,51 @@ const obtener_usuarios = function (id) {
   });
 };
 const eliminar_usuario = function (id) {
-  $.ajax({
-    url: "controller/usuario.php",
-    method: "POST",
-    data: {
-      id: id,
-      opcion: "eliminar_usuario",
-    },
-    success: function (data) {
-      if (data == "ok") {
-        listar_empleados();
-      }
-    },
+  Swal.fire({
+    title: "¿Estas seguro?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "controller/usuario.php",
+        method: "POST",
+        data: {
+          id: id,
+          opcion: "eliminar_usuario",
+        },
+        success: function (data) {
+          const response = JSON.parse(data);
+          if (response.status === "success") {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              },
+            });
+            Toast.fire({
+              icon: "success",
+              title: response.message,
+            });
+            listar_empleados();
+          } else {
+            alert("algo salio mal" + data);
+          }
+        },
+      });
+    }
   });
 };
+
 const actualizar_usuarios = function (id) {
   $("#formActualizarEmpleado").submit(function (e) {
     e.preventDefault();
@@ -2229,8 +2403,8 @@ const listar_consultas = function () {
               <td>${descripcion}</td>
               <td>${campana}</td>
               <td class="text-center">
-                <a onclick="obtener_consultas(${id})"><i class="fa-solid fa-plus me-3"></i></a>
-                <a onclick="obtener_consulta_cartera(${id})"><i class="fa-solid fa-wallet me-4"></i>
+                <a onclick="obtener_consultas(${id})"><i class="fa-solid fa-circle-plus me-3"></i></a>
+                <a onclick="obtener_consulta_cartera(${id})"><i class="fa-solid fa-wallet me-3"></i>
                 <a onclick="eliminar_consulta(${id})"><i class="fa-solid fa-trash me-3"></i></a>
               </td>
             </tr>`;
@@ -2381,7 +2555,6 @@ const crear_consultas = function () {
             Hubo un error. Vuelva a ingresar los datos requeridos.
             </div>`;
     } else {
-      
       $.ajax({
         url: "controller/consultas.php",
         method: "POST",
@@ -2430,20 +2603,20 @@ const crear_consultas = function () {
     $("#alerta").html(html);
   });
 };
-const limpiar_form_consulta = function(){
+const limpiar_form_consulta = function () {
   document.getElementById("celular").value = "";
   document.getElementById("dni").value = "";
   document.getElementById("descripcion").value = "";
-}
+};
 const eliminar_consulta = function (id) {
   Swal.fire({
-    title: "¿Estas seguro?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Si",
-    cancelButtonText: "Cancelar",
+    title: "¿Estás seguro?",
+      text: "La consulta será eliminada.",
+      showCancelButton: true,
+      confirmButtonColor: "rgb(33,219,130)",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si",
+      cancelButtonText: "Cancelar",
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajax({
@@ -2460,6 +2633,7 @@ const eliminar_consulta = function (id) {
               title: "Felicidades",
               text: response.message,
               icon: "success",
+              confirmButtonColor: "rgb(33,219,130)",
             });
             listar_consultas();
           } else {
@@ -2498,8 +2672,8 @@ const filtro_consultas = function () {
                 <td>${descripcion}</td>
                 <td>${campana}</td>
                 <td class="text-center">
-                  <a onclick="obtener_consultas(${id})"><i class="fa-solid fa-plus me-3"></i></a>
-                  <a onclick="obtener_consulta_cartera(${id})"><i class="fa-solid fa-wallet me-4"></i>
+                  <a onclick="obtener_consultas(${id})"><i class="fa-solid fa-circle-plus me-3"></i></a>
+                  <a onclick="obtener_consulta_cartera(${id})"><i class="fa-solid fa-wallet me-3"></i>
                   <a onclick="eliminar_consulta(${id})"><i class="fa-solid fa-trash me-3"></i></a>
                 </tr>`;
           });
@@ -2573,6 +2747,7 @@ const importar = function () {
             title: "Felicidades",
             text: "La base se registro correctamente.",
             icon: "success",
+            confirmButtonColor: "rgb(33,219,130)",
             backdrop: `
               rgba(33,219,130,0.2)
               left top
@@ -2583,9 +2758,10 @@ const importar = function () {
           $("#file").val("");
         } else {
           Swal.fire({
-            title: "Error",
-            text: "Seleccione un documento.",
+            title: "Hubo un error",
+            text: "No selecciono un documento. Por favor, seleccione uno.",
             icon: "error",
+            confirmButtonColor: "#d33",
             backdrop: `
               rgba(242, 116, 116,0.2)
               left top
@@ -2618,7 +2794,8 @@ function sendMail() {
     document.getElementById(
       "sendername-alert"
     ).innerHTML = `<div class="alert alert-danger" role="alert">
-        Por favor, ingresa tu nombre.
+        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+        Error,  ingresa tu nombre.
         </div>`;
     hasError = true;
   }
@@ -2627,7 +2804,8 @@ function sendMail() {
     document.getElementById(
       "subject-alert"
     ).innerHTML = `<div class="alert alert-danger" role="alert">
-        Por favor, ingresa un destinatario.
+        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+        Error,  ingresa un destinatario.
         </div>`;
     hasError = true;
   }
@@ -2636,7 +2814,8 @@ function sendMail() {
     document.getElementById(
       "subject-alert"
     ).innerHTML = `<div class="alert alert-danger" role="alert">
-        Por favor, ingresa un asunto.
+        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+        Error,  ingresa un asunto.
         </div>`;
     hasError = true;
   }
@@ -2645,7 +2824,8 @@ function sendMail() {
     document.getElementById(
       "subject-alert"
     ).innerHTML = `<div class="alert alert-danger" role="alert">
-        Por favor, ingresa un correo de respuesta.
+        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+        Error,  ingresa un correo.
         </div>`;
     hasError = true;
   }
@@ -2654,7 +2834,8 @@ function sendMail() {
     document.getElementById(
       "message-alert"
     ).innerHTML = `<div class="alert alert-danger" role="alert">
-        Por favor, ingresa un mensaje.
+        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+        Error,  ingresa un mensaje.
         </div>`;
     hasError = true;
   }
@@ -2687,6 +2868,10 @@ function sendMail() {
         text: "El correo se envió correctamente.",
         icon: "success",
       });
+      document.getElementById("sendername").value = "";
+      document.getElementById("subject").value = "";
+      document.getElementById("message").value = "";
+      $("#contactanos").modal("hide");
     })
     .catch((error) => {
       Swal.fire({
@@ -2694,5 +2879,6 @@ function sendMail() {
         text: "Hubo un problema al enviar el correo. Por favor, intenta nuevamente.",
         icon: "error",
       });
+      $("#contactanos").modal("hide");
     });
 }

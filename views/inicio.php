@@ -132,7 +132,7 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <h6 id="ldc-card-tittle" class="card-title d-inline me-3 bg-white rounded-circle p-1">LD</h6><span>50 préstamos</span>
+                                                        <h6 id="ldc-card-tittle" class="card-title d-inline me-3 bg-white rounded-circle p-1">LD</h6><div class="d-inline" id="ld_meta"><span>50 préstamos</span></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -141,7 +141,7 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <h6 id="tcc-card-tittle" class="card-title d-inline me-3 bg-white rounded-circle p-1">TC</h6><span>20 tarjetas</span>
+                                                        <h6 id="tcc-card-tittle" class="card-title d-inline me-3 bg-white rounded-circle p-1">TC</h6><div class="d-inline" id="tc_meta"><span>50 préstamos</span></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -150,7 +150,7 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <h6 id="ldm-card-tittle" class="card-title d-inline me-3 bg-white rounded-circle p-1">MT</h6><span>S/. 300.000</span>
+                                                        <h6 id="ldm-card-tittle" class="card-title d-inline me-3 bg-white rounded-circle p-1">MT</h6><div class="d-inline" id="monto_meta"><span>50 préstamos</span></div>
                                                     </div>
                                                 </div>
                                             </div>

@@ -52,7 +52,7 @@ switch ($opcion) {
         echo json_encode($usuarios->obtener_perfil($_SESSION['id']));
         break;
     case 'eliminar_usuario':
-        $usuarios->eliminar_usuario($id);
+        echo json_encode($usuarios->eliminar_usuario($id));
     break;
     case 'obtener_x_id_usuario':
         echo json_encode($usuarios->obtener_usuario_x_id($id));

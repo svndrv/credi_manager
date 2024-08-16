@@ -70,10 +70,11 @@ class Metasfv extends Conectar {
         $sql->bindValue(1,$id);
         $sql->execute();
         
-        return [
+        $response = [
             "status" => "success",
-            "message" => "Se ha eliminado con exito."
+            "message" => "Eliminada exitosamente."
         ];
+        return $response;
     }
     public function obtener_metas_por_mes_y_cumplido($mes, $cumplido) {
         $sql = "SELECT * FROM metasfv WHERE 1=1";
@@ -110,6 +111,13 @@ class Metasfv extends Conectar {
                 WHERE id = ?";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(1, $id);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function obtener_ultimo_registro(){
+        $sql = "SELECT * FROM metasfv ORDER BY created_at DESC LIMIT 1";
+        $sql = $this->db->prepare($sql);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }

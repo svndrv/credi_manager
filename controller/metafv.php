@@ -39,6 +39,9 @@ switch($option){
     case 'agregar_metafv':
         echo json_encode($metasfv->agregar_metafv($ld_cantidad, $ld_monto, $tc_cantidad, $sede, $mes, $cumplido));
     break;
+    case 'ultima_meta':
+        echo json_encode($metasfv->obtener_ultimo_registro());
+    break;
     default:
         echo json_encode($metasfv->obtener_metasfv());
     break;

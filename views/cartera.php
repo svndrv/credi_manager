@@ -31,7 +31,7 @@
                                         <th scope="col">Nombres</th>
                                         <th scope="col">Dni</th>
                                         <th scope="col">Celular</th>
-                                        <th scope="col">Fecha de Consulta</th>
+                                        <th scope="col">Fecha</th>
                                         <th scope="col">Acción</th>
                                     </tr>
                                 </thead>
@@ -54,7 +54,7 @@
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="editar-carteraModalLabel">Trasladar a Ventas</h1>
+                <h1 class="modal-title fs-5" id="editar-carteraModalLabel">Editar Cliente</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -171,8 +171,7 @@
                             <div class="mb-3">
                                 <label for="plazo_max" class="form-label">Plazo:</label>
                                 <select class="form-select" name="plazo" id="car_plazo">
-                                    <option selected>Plazo</option>
-                                    <option value="00">0</option>
+                                    <option selected value="0">Plazo</option>
                                     <option value="12">12</option>
                                     <option value="24">24</option>
                                     <option value="36">36</option>

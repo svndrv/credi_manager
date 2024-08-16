@@ -113,7 +113,7 @@
                                 </thead>
                                 <tbody id="listar_ventas">
                                     <tr>
-                                        <td colspan="11" class="text-center">No hay datos...</td>
+                                        <td colspan="12" class="text-center">No hay datos...</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -173,7 +173,7 @@
                                 <label for="plazo_max" class="form-label">Plazo:</label>
                                 <select class="form-select" name="plazo" id="plazo2">
                                     <option selected>Plazo</option>
-                                    <option value="00">0</option>
+                                    <option value="0">0</option>
                                     <option value="12">12</option>
                                     <option value="24">24</option>
                                     <option value="36">36</option>
