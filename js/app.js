@@ -1369,8 +1369,10 @@ const base_x_dni = function () {
             if (rol !== "2") {
               html =
                 html +
-                `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td><td>
+                `<tr><td>${nombres}</td><td>${dni}</td><td>${tipo_cliente}</td><td>${direccion}</td><td>${distrito}</td><td>S/.${credito_max}</td><td>S/.${linea_max}</td><td>${plazo_max}</td><td>${tem}%</td><td>${celular_1}</td><td>${celular_2}</td><td>${celular_3}</td><td>${tipo_producto}</td><td>${combo}</td>
+                <td>
                   <a onclick="obtener_base(${id})"><i class="fa-solid fa-plus me-4"></i></a>
+                  <a onclick="trasladar_base(${id})"><i class="fa-solid fa-wallet me-4"></i>
                 </td></tr>`;
             } else {
               html =
@@ -2155,8 +2157,11 @@ const filtro_empleados = function () {
               <td scope="row" class="text-center">
               <img src="img/fotos/${usuario.foto}" alt="Foto de ${usuario.nombres}" class="img-usuario">
               </td><td>${usuario.usuario}</td><td>${usuario.nombres}</td><td>${usuario.apellidos}</td><td>${rol}</td>
-              <td>${estado}</td><td><a onclick="obtener_usuarios(${usuario.id})"><i class="fa-solid fa-pencil me-4"></i></a>
-              <a onclick="eliminar_usuario(${usuario.id})"><i class="fa-solid fa-trash"></i></a></td></tr>`;
+              <td>${estado}</td>
+              <td>
+                <a onclick="obtener_usuarios(${usuario.id})"><i class="fa-regular fa-pen-to-square me-3" style="color: #001b2b"></i></a>
+                <a onclick="eliminar_usuario(${usuario.id})"><i class="fa-solid fa-trash" style="color: #001b2b"></i></a>
+              </td></tr>`;
           });
         } else {
           html =
@@ -2203,7 +2208,8 @@ const listar_empleados = function () {
             <td>${rol}</td><td>${estado}</td>
             <td class="text-center">
               <a onclick="obtener_usuarios(${usuario.id})"><i class="fa-regular fa-pen-to-square me-3" style="color: #001b2b"></i></a>
-              <a onclick="eliminar_usuario(${usuario.id})"><i class="fa-solid fa-trash" style="color: #001b2b"></i></a></td></tr>`;
+              <a onclick="eliminar_usuario(${usuario.id})"><i class="fa-solid fa-trash" style="color: #001b2b"></i></a>
+              </td></tr>`;
         });
       } else {
         html =
